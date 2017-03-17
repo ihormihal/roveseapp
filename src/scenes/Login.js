@@ -9,6 +9,7 @@ import {
 	Alert,
 	Image,
 	StatusBar,
+	Animated,
 	TouchableHighlight
 } from 'react-native';
 //import { StyleProvider, Toast, Container, Content, Item, Input, Button, Text, Right, Icon } from 'native-base';
@@ -26,7 +27,7 @@ export default class Login extends Component {
 	constructor() {
 		super();
 		this.state = {
-
+			anim: new Animated.Value(0)
 		};
 	};
 
@@ -105,6 +106,12 @@ export default class Login extends Component {
 				style={styles.container}
 				source={require('./../images/bg-login.jpg')}>
 				<StatusBar backgroundColor={variables.colorPrimary} />
+				<View style={styles.section}>
+					<Animated.Image
+						style={this.fadeIn(0)}
+						source={require('./../images/logo-splash.png')}
+					/>
+				</View>
 			</Image>
 		);
 	}
