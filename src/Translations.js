@@ -2,13 +2,13 @@ import LocalizedStrings from 'react-native-localization';
 
 export default new LocalizedStrings({
 	en:{
-		login: 'Login',
-		registration: 'Registration',
-		forgotPassword: 'Forgot your password?',
+		login: 'login',
+		registration: 'registration',
+		forgotPassword: 'forgot your password?',
 		personalArea: 'Personal area',
 		phoneNumber: 'Phone number',
-		email: 'Email',
-		emailOrPhone: 'Email or phone',
+		email: 'E-mail',
+		emailOrPhone: 'E-mail or phone',
 		password: 'Password',
 		passwordConfirm: 'Confirm the password',
 		name: 'Name',
@@ -18,12 +18,12 @@ export default new LocalizedStrings({
 		position: 'Position'
 	},
 	ru: {
-		login: 'Войти',
-		registration: 'Зарегистрироваться',
-		forgotPassword: 'Забыли пароль?',
+		login: 'войти',
+		registration: 'зарегистрироваться',
+		forgotPassword: 'забыли пароль?',
 		personalArea: 'личный кабинет',
-		emailOrPhone: 'Email или телефон',
-		email: 'Email',
+		emailOrPhone: 'E-mail или телефон',
+		email: 'E-mail',
 		phoneNumber: 'Номер телефона',
 		password: 'Пароль',
 		passwordConfirm: 'Подтвердите пароль',
