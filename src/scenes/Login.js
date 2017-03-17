@@ -82,6 +82,7 @@ export default class Login extends Component {
 
 	componentDidMount() {
 		//this.loadPosts();
+		 Animated.timing(this.state.anim, {toValue: 3000, duration: 3000}).start();
 
 		BackAndroid.addEventListener('hardwareBackPress', () => {
 			if (this.props.navigator.getCurrentRoutes().length > 1) {
@@ -108,7 +109,7 @@ export default class Login extends Component {
 				<StatusBar backgroundColor={variables.colorPrimary} />
 				<View style={styles.section}>
 					<Animated.Image
-						style={this.fadeIn(0)}
+						style={[this.fadeIn(0), styles.logo]}
 						source={require('./../images/logo-splash.png')}
 					/>
 				</View>
@@ -117,15 +118,15 @@ export default class Login extends Component {
 	}
 
 	fadeIn(delay, from = 0) {
-		const { anim } = this.state;
+		//const { anim } = this.state;
 		return {
-			opacity: anim.interpolate({
+			opacity: this.state.anim.interpolate({
 				inputRange: [delay, Math.min(delay + 500, 3000)],
 				outputRange: [0, 1],
 				extrapolate: 'clamp',
 			}),
 			transform: [{
-				translateY: anim.interpolate({
+				translateY: this.state.anim.interpolate({
 					inputRange: [delay, Math.min(delay + 500, 3000)],
 					outputRange: [from, 0],
 					extrapolate: 'clamp',

@@ -12,5 +12,9 @@ export default StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  logo: {
+  	width: 200,
+  	height: 120
   }
 });
