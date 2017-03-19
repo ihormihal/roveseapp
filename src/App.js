@@ -3,8 +3,16 @@ import { AppRegistry, AsyncStorage, View, Navigator, Text } from 'react-native';
 import { connect } from 'react-redux';
 
 import Login from './scenes/Login';
-//import Register from './scenes/Register';
-//import Root from './scenes/Root';
+import PasswordReset from './scenes/PasswordReset';
+import Registration from './scenes/Registration';
+import Rules from './scenes/Rules';
+
+import Root from './scenes/Root';
+import Presentation from './scenes/Presentation';
+import SellerRegistration from './scenes/SellerRegistration';
+import Statistics from './scenes/Statistics';
+import Support from './scenes/Support';
+import SupportOffer from './scenes/SupportOffer';
 
 
 const styles = {
@@ -26,14 +34,35 @@ export default class App extends Component {
 	};
 
 	navScene(route, navigator) {
-		if(route.name == 'root'){
-			//return (<Root navigator={navigator} />);
-		}
 		if(route.name == 'login'){
 			return (<Login navigator={navigator} />);
 		}
-		if(route.name == 'register'){
-			//return (<Register navigator={navigator} data={route.data} />);
+		if(route.name == 'password-reset'){
+			return (<PasswordReset navigator={navigator} data={route.data} />);
+		}
+		if(route.name == 'registration'){
+			return (<Registration navigator={navigator} data={route.data} />);
+		}
+		if(route.name == 'rules'){
+			return (<Rules navigator={navigator} data={route.data} />);
+		}
+		if(route.name == 'root'){
+			return (<Root navigator={navigator} />);
+		}
+		if(route.name == 'presentation'){
+			return (<Presentation navigator={navigator} data={route.data} />);
+		}
+		if(route.name == 'seller-registration'){
+			return (<SellerRegistration navigator={navigator} data={route.data} />);
+		}
+		if(route.name == 'statistics'){
+			return (<Statistics navigator={navigator} data={route.data} />);
+		}
+		if(route.name == 'support'){
+			return (<Support navigator={navigator} data={route.data} />);
+		}
+		if(route.name == 'support-offer'){
+			return (<SupportOffer navigator={navigator} data={route.data} />);
 		}
 	}
 
@@ -55,8 +84,17 @@ export default class App extends Component {
 		})
 	}
 
+	navigatorConfig(route) {
+		switch (route.name){
+			case 'root':
+				return Navigator.SceneConfigs.FloatFromBottom;
+			default:
+				return Navigator.SceneConfigs.PushFromRight;
+		}
+	}
+
 	render() {
-		if (this.state.isLoading) {
+		if(this.state.isLoading) {
 			return <View><Text>Loading...</Text></View>;
 		}
 		if(this.state.token === null){
@@ -68,6 +106,7 @@ export default class App extends Component {
 				<Navigator
 					initialRoute={initialRoute}
 					renderScene={this.navScene}
+					configureScene={this.navigatorConfig}
 				/>
 			</View>
 		);

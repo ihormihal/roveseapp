@@ -10,6 +10,7 @@
     "react": "15.4.2",
     "react-native": "0.42.0",
     "react-native-localization": "^0.1.29",
+    "react-native-vector-icons": "^4.0.0",
     "react-redux": "^5.0.3",
     "redux": "^3.6.0"
   },

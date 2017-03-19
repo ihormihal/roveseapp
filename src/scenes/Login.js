@@ -1,26 +1,23 @@
 import React, { Component } from 'react';
 import {
-  Platform,
-  BackAndroid,
-  Linking,
-  Dimensions,
-  AsyncStorage,
-  View,
-  Text,
-  Alert,
-  Image,
-  StatusBar,
-  Animated,
-  TextInput,
-  TouchableHighlight,
-  TouchableOpacity,
+	Platform,
+	BackAndroid,
+	Linking,
+	Dimensions,
+	AsyncStorage,
+	View,
+	Text,
+	Alert,
+	Image,
+	StatusBar,
+	Animated,
+	TextInput,
+	TouchableHighlight,
+	TouchableOpacity,
 } from 'react-native'
-//import { StyleProvider, Toast, Container, Content, Item, Input, Button, Text, Right, Icon } from 'native-base';
 
 import variables from './../theme/variables.js';
 import styles from './../theme/styles.js';
-//import getTheme from './../theme/components';
-//import rovese from './../theme/variables/rovese';
 import t from './../Translations';
 
 var STORAGE_KEY = 'id_token';
@@ -87,7 +84,7 @@ export default class Login extends Component {
 
 	componentDidMount() {
 		//this.loadPosts();
-		 Animated.timing(this.state.anim, {toValue: 3000, duration: 3000}).start();
+		Animated.timing(this.state.anim, {toValue: 3000, duration: 3000}).start();
 
 		BackAndroid.addEventListener('hardwareBackPress', () => {
 			if (this.props.navigator.getCurrentRoutes().length > 1) {
@@ -109,25 +106,25 @@ export default class Login extends Component {
 	render() {
 		return (
 			<Image
-				style={styles.container}
+				style={[styles.scene, styles.background, styles.container]}
 				source={require('./../images/bg-login.jpg')}>
 
 				<StatusBar backgroundColor={variables.colorPrimary} />
 
-				<View style={styles.section}>
+				<View style={[styles.section, styles.middle, styles.center]}>
 
 					<Animated.Image
 						style={[this.fadeIn(0), styles.logo]}
 						source={require('./../images/logo-splash.png')}
 					/>
 
-					<Animated.View style={[styles.full, styles.center, this.fadeIn(500, 20)]}>
+					<Animated.View style={[styles.sectionLogin, this.fadeIn(500, 20)]}>
 
-						<Text style={[styles.white, styles.h1]}>{t.login.toUpperCase()}</Text>
+						<Text style={[styles.white, styles.h1, styles.textCenter]}>{t.login.toUpperCase()}</Text>
 
-						<View style={[styles.textInput, styles.inputUnderline, styles.inputWhite]}>
+						<View style={[styles.textInput, styles.inputUnderline, styles.inputWhite, styles.mt1]}>
 							<TextInput
-								style={[ styles.textInputInput, styles.white ]}
+								style={[ styles.textInputInput, styles.textCenter, styles.white ]}
 								underlineColorAndroid='transparent'
 								placeholderTextColor="#ffffff"
 								placeholder={t.email}
@@ -136,9 +133,9 @@ export default class Login extends Component {
 							/>
 						</View>
 
-						<View style={[styles.textInput, styles.inputUnderline, styles.inputWhite]}>
+						<View style={[styles.textInput, styles.inputUnderline, styles.inputWhite, styles.mt1]}>
 							<TextInput
-								style={[ styles.textInputInput, styles.white ]}
+								style={[ styles.textInputInput, styles.textCenter, styles.white ]}
 								underlineColorAndroid='transparent'
 								placeholder={t.password}
 								placeholderTextColor="#ffffff"
@@ -149,19 +146,33 @@ export default class Login extends Component {
 						</View>
 
 						<TouchableOpacity
-							onPress={() => this.navigate('forgotPassword')}
+							onPress={() => this.navigate('password-reset')}
 							activeOpacity={75 / 50}>
-							<Text style={[ styles.linkWhite ]}>{t.forgotPassword}</Text>
+							<Text style={[ styles.linkWhite, styles.textCenter ]}>{t.forgotPassword}</Text>
 						</TouchableOpacity>
 
 					</Animated.View>
 
-					<Animated.View style={[styles.center, styles.mt2, this.fadeIn(1500, 20)]}>
+					<Animated.View style={[styles.center, styles.mt1, this.fadeIn(1500, 20)]}>
+						<View style={[styles.cols, styles.lngButtons]}>
+							<TouchableOpacity
+								onPress={() => {}}
+								activeOpacity={75 / 100}
+								style={[]}>
+								<Text style={styles.white}>RU</Text>
+							</TouchableOpacity>
+							<TouchableOpacity
+								onPress={() => {}}
+								activeOpacity={75 / 100}
+								style={[]}>
+								<Text style={styles.white}>UA</Text>
+							</TouchableOpacity>
+						</View>
 						<TouchableOpacity
-							onPress={() => {}}
+							onPress={() => this.navigate('root')}
 							activeOpacity={75 / 100}
-							style={[styles.buttonCircle]}>
-							<Image 
+							style={[styles.buttonCircle, styles.mt1]}>
+							<Image
 								style={styles.buttonCircleImg}
 								resizeMode={"contain"}
 								source={require('./../images/btn-circle-arrow-right.png')}
@@ -171,9 +182,9 @@ export default class Login extends Component {
 
 					<Animated.View style={[styles.section, styles.last, this.fadeIn(2500, 20)]}>
 						<TouchableOpacity
-							onPress={() => {}}
+							onPress={() => this.navigate('registration')}
 							activeOpacity={75 / 100}
-							style={[styles.btnTransparent]}>
+							style={[styles.btn, styles.btnDefault, styles.btnTransparent]}>
 							<Text style={styles.white}>{t.registration}</Text>
 						</TouchableOpacity>
 					</Animated.View>
