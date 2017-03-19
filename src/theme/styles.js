@@ -68,7 +68,7 @@ const elements = {
 		padding: 0,
 		textAlign: 'center',
 		fontSize: 18,
-		textCursorDrawable: null
+		//textCursorDrawable: null
 		//textAlignVertical: 'bottom'
 	},
 	white: {
