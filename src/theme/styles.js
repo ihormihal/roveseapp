@@ -122,6 +122,7 @@ const elements = {
 		padding: variables.gap*2,
 	},
 	header: {
+		width: '100%',
 		flexDirection: 'row',
 		justifyContent: 'center',
 		paddingHorizontal: 10,

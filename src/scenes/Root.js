@@ -60,7 +60,8 @@ export default class PasswordReset extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-      		pagOffset: 0
+      		pagOffset: 0,
+      		pagWidth: variables.pagSize
 		};
 	};
 
@@ -92,7 +93,17 @@ export default class PasswordReset extends Component {
 
 	onPageScroll = (e) => {
 		var offset = parseInt((variables.pagStep+variables.pagSize)*(e.nativeEvent.position + e.nativeEvent.offset));
-		this.setState({pagOffset: offset});
+		this.setState({pagOffset: parseInt(offset)});
+		// var delta_w = variables.pagStep + variables.pagSize;
+		// var offset = (variables.pagStep+variables.pagSize)*e.nativeEvent.position;
+		// var width = this.state.pagWidth;
+		// if(e.nativeEvent.offset <= 0.5){
+		// 	width = variables.pagSize + delta_w * e.nativeEvent.offset * 2;
+		// }else{
+		// 	offset = offset + delta_w * e.nativeEvent.offset;
+		// 	width = variables.pagSize + delta_w * (1 - e.nativeEvent.offset );
+		// }
+		// this.setState({pagOffset: parseInt(offset), pagWidth: parseInt(width)});
 	};
 
 	render() {
@@ -142,6 +153,7 @@ export default class PasswordReset extends Component {
 		);
 
 		var pagination_transform = {
+			//width: this.state.pagWidth,
 			transform: [
 				{translateX: this.state.pagOffset}
 			]
