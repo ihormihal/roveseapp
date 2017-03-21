@@ -37,7 +37,15 @@ const dimentions = {
 	section: {
 		flex: 1,
 		flexDirection: 'column',
-		//alignItems: 'stretch'
+	},
+	container: {
+		flex: 1,
+		flexDirection: 'column',
+		padding: variables.gap*2,
+	},
+	box: {
+		flexDirection: 'column',
+		padding: variables.gap*2,
 	},
 	row: {
 		flex: 1,
@@ -82,6 +90,12 @@ const dimentions = {
 	h2: {
 		fontSize: 20
 	},
+	small: {
+		fontSize: 12
+	},
+	italic: {
+		fontStyle: 'italic',
+	}
 };
 
 const colors = {
@@ -116,11 +130,7 @@ const elements = {
 		backgroundColor: 'transparent',
 		padding: 0,
 	},
-	container: {
-		flex: 1,
-		flexDirection: 'column',
-		padding: variables.gap*2,
-	},
+
 	header: {
 		width: '100%',
 		flexDirection: 'row',
@@ -128,11 +138,16 @@ const elements = {
 		paddingHorizontal: 10,
 		height: 56,
 		backgroundColor: '#ffffff',
+	},
+	shadow: {
 		shadowColor: '#000',
 		elevation: 3,
 	},
-	headerRoot: {
+	opacityLight: {
 		backgroundColor: 'rgba(0,0,0,0.1)',
+	},
+	opacityDark: {
+		backgroundColor: 'rgba(0,0,0,0.5)',
 	},
 	headerLeft: {
 		flex: 0.25,
@@ -190,6 +205,9 @@ const elements = {
 		padding: 0,
 		fontSize: 18,
 		//textAlignVertical: 'bottom'
+	},
+	textAreaInput: {
+		textAlignVertical: 'top',
 	},
 
 	linkWhite: {
@@ -340,9 +358,22 @@ const elements = {
 		borderColor: '#fff'
 	},
 	//presentation
+	presentationsHeader: {
+		position: 'absolute',
+		top: 0,
+		height: 56*2,
+		zIndex: 2
+	},
+	presentations: {
+		position: 'absolute',
+		top: 0,
+		left: 0,
+		right: 0,
+		bottom: 0,
+		zIndex: 1
+	},
 	presentation: {
-		flexDirection: 'column',
-		justifyContent: 'space-between',
+		flexDirection: 'column'
 	},
 	presentationTop: {
 		flex: 1,

@@ -21,7 +21,7 @@ import variables from './../theme/variables.js';
 import styles from './../theme/styles.js';
 import t from './../Translations';
 
-export default class SupportOffer extends Component {
+export default class SupportError extends Component {
 
 	constructor(props) {
 		super(props);
@@ -63,7 +63,7 @@ export default class SupportOffer extends Component {
 					</View>
 				</View>
 				<View style={styles.pageHeader}>
-					<Text style={styles.white}>Отправить отзыв или предложение</Text>
+					<Text style={styles.white}>Сообщить об ошибке</Text>
 				</View>
 				<View style={[styles.container, styles.whiteBg]}>
 
@@ -71,7 +71,7 @@ export default class SupportOffer extends Component {
 						<TextInput
 							style={[ styles.textInputInput ]}
 							underlineColorAndroid='transparent'
-							placeholder="Тема"
+							placeholder="Тема письма"
 							onChangeText={(phone) => this.setState({phone: phone})}
 							value={(this.state && this.state.phone) || ''}
 						/>
@@ -83,11 +83,12 @@ export default class SupportOffer extends Component {
 							multiline = {true}
 							numberOfLines = {4}
 							underlineColorAndroid='transparent'
-							placeholder="Комментарий"
+							placeholder="Сообщение"
 							onChangeText={(phone) => this.setState({phone: phone})}
 							value={(this.state && this.state.phone) || ''}
 						/>
 					</View>
+					<Text style={[styles.italic]}>*Максимально подробно опишите возникшую проблему</Text>
 
 					<View style={[styles.center, styles.mt2]}>
 						<TouchableOpacity

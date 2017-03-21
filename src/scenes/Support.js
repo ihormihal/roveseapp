@@ -40,8 +40,10 @@ export default class Support extends Component {
 
 	render() {
 		return (
-			<View style={styles.scene}>
-				<View style={styles.header}>
+			<Image
+				style={[styles.scene, styles.background]}
+				source={require('./../images/bg-service.jpg')}>
+				<View style={[styles.header, styles.shadow]}>
 					<View style={styles.headerLeft}>
 						<TouchableOpacity
 							style={styles.btn}
@@ -60,13 +62,26 @@ export default class Support extends Component {
 					<View style={styles.headerRight}>
 					</View>
 				</View>
-				<Image source={require('./../images/bg-service.jpg')} style={styles.pageHeader}>
-					<Text style={styles.white}>Отправить отзыв или предложение</Text>
-				</Image>
-				<View style={styles.container}>
-
+				<View style={styles.pageHeader}>
+					<Text style={[styles.white, styles.textCenter, styles.h2]}>{t.tech_support.toUpperCase()}</Text>
 				</View>
-			</View>
+				<View style={[styles.box, styles.whiteBg]}>
+					<TouchableOpacity
+						onPress={() => this.navigate('support-error')}
+						style={[styles.btn, styles.btnDefault, styles.btnPrimary]}>
+						<Text style={styles.white}>Сообщить об ошибке</Text>
+					</TouchableOpacity>
+					<TouchableOpacity
+						onPress={() => this.navigate('about')}
+						style={[styles.btn, styles.btnDefault, styles.btnPrimary]}>
+						<Text style={styles.white}>О приложении</Text>
+					</TouchableOpacity>
+				</View>
+				<View style={[styles.box, styles.center, styles.last]}>
+					<Text style={styles.mt1}>Помогите нам улучшить приложение,</Text>
+					<Text onPress={() => this.navigate('support-offer')} style={styles.primary}>отправляйте отзывы или предложения</Text>
+				</View>
+			</Image>
 		);
 	}
 

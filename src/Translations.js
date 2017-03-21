@@ -24,6 +24,8 @@ export default new LocalizedStrings({
 		change: 'Change',
 		submit: 'Submit',
 		region: 'Region',
+		tech_support: 'Техническая поддержка',
+		save: 'Save',
 	},
 	ru: {
 		login: 'войти',
@@ -48,5 +50,7 @@ export default new LocalizedStrings({
 		change: 'Изменить',
 		submit: 'Отправить',
 		region: 'Регион',
+		tech_support: 'Техническая поддержка',
+		save: 'Сохранить',
 	}
 });

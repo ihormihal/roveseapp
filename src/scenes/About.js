@@ -21,7 +21,7 @@ import variables from './../theme/variables.js';
 import styles from './../theme/styles.js';
 import t from './../Translations';
 
-export default class SupportOffer extends Component {
+export default class About extends Component {
 
 	constructor(props) {
 		super(props);
@@ -63,39 +63,13 @@ export default class SupportOffer extends Component {
 					</View>
 				</View>
 				<View style={styles.pageHeader}>
-					<Text style={styles.white}>Отправить отзыв или предложение</Text>
+					<Text style={styles.white}>О приложении</Text>
 				</View>
-				<View style={[styles.container, styles.whiteBg]}>
-
-					<View style={[styles.textInput, styles.inputDefault]}>
-						<TextInput
-							style={[ styles.textInputInput ]}
-							underlineColorAndroid='transparent'
-							placeholder="Тема"
-							onChangeText={(phone) => this.setState({phone: phone})}
-							value={(this.state && this.state.phone) || ''}
-						/>
-					</View>
-
-					<View style={[styles.textInput, styles.inputDefault, styles.mt1]}>
-						<TextInput
-							style={[ styles.textAreaInput ]}
-							multiline = {true}
-							numberOfLines = {4}
-							underlineColorAndroid='transparent'
-							placeholder="Комментарий"
-							onChangeText={(phone) => this.setState({phone: phone})}
-							value={(this.state && this.state.phone) || ''}
-						/>
-					</View>
-
-					<View style={[styles.center, styles.mt2]}>
-						<TouchableOpacity
-							style={[styles.btn, styles.btnDefault, styles.btnPrimary]}>
-							<Text style={styles.white}>{t.submit}</Text>
-						</TouchableOpacity>
-					</View>
-
+				<View style={[styles.container, styles.center, styles.whiteBg]}>
+					<Text style={[styles.h2, styles.mb1]}>ROVESE RETAIL CLUB</Text>
+					<Text style={styles.small}>Version: 1.0.0</Text>
+					<View style={styles.hr} />
+					<Text><Icon name="copyright" /> 2017 JayaDigital. All rights reserved.</Text>
 				</View>
 			</Image>
 		);

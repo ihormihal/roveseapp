@@ -103,6 +103,10 @@ export default class Login extends Component {
 		});
 	}
 
+	navigateRoot() {
+		this.props.navigator.replace({name: 'root'});
+	}
+
 	render() {
 		return (
 			<Image

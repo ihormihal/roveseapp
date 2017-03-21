@@ -60,8 +60,8 @@ export default class PasswordReset extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-      		pagOffset: 0,
-      		pagWidth: variables.pagSize
+			pagOffset: 0,
+			pagWidth: variables.pagSize
 		};
 	};
 
@@ -126,7 +126,7 @@ export default class PasswordReset extends Component {
 					</TouchableOpacity>
 					<TouchableOpacity
 						style={[styles.menuItem]}
-						onPress={() => this.navigate('statistics')}>
+						onPress={() => this.navigate('seller-registration')}>
 						<Text style={[styles.white, styles.h2]}>Анкета продавца</Text>
 					</TouchableOpacity>
 					<TouchableOpacity
@@ -170,12 +170,11 @@ export default class PasswordReset extends Component {
 				<Image
 					style={[styles.scene, styles.background]}
 					source={require('./../images/bg-root.jpg')}>
-					<View style={[styles.header, styles.headerRoot]}>
+					<View style={[styles.header, styles.opacityLight]}>
 						<View style={styles.headerLeft}>
 							<TouchableOpacity
 								style={styles.btn}
-								onPress={() => this.openDrawer()}
-								activeOpacity={75 / 50}>
+								onPress={() => this.openDrawer()}>
 								<Icon style={[styles.btnIcon, styles.white]} size={20} name="menu"/>
 							</TouchableOpacity>
 						</View>

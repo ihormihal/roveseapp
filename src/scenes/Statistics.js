@@ -41,7 +41,7 @@ export default class Statistics extends Component {
 	render() {
 		return (
 			<View style={styles.scene}>
-				<View style={styles.header}>
+				<View style={[styles.header, styles.shadow]}>
 					<View style={styles.headerLeft}>
 						<TouchableOpacity
 							style={styles.btn}

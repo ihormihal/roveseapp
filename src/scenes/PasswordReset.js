@@ -41,7 +41,7 @@ export default class PasswordReset extends Component {
 	render() {
 		return (
 			<View style={styles.scene}>
-				<View style={styles.header}>
+				<View style={[styles.header, styles.shadow]}>
 					<View style={styles.headerLeft}>
 						<TouchableOpacity
 							style={styles.btn}
@@ -93,7 +93,11 @@ export default class PasswordReset extends Component {
 
 					<View style={[styles.center, styles.mt2]}>
 						<TouchableOpacity
-							activeOpacity={75 / 100}
+							onPress={() => Alert.alert(
+								'',
+								'На Ваш почтовый ящик отправлено письмо с новым паролем!',
+								[{text: 'OK', onPress: () => this.props.navigator.pop() }]
+							)}
 							style={[styles.btn, styles.btnDefault, styles.btnPrimary]}>
 							<Text style={styles.white}>{t.change}</Text>
 						</TouchableOpacity>

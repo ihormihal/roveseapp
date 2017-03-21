@@ -13,6 +13,9 @@ import SellerRegistration from './scenes/SellerRegistration';
 import Statistics from './scenes/Statistics';
 import Support from './scenes/Support';
 import SupportOffer from './scenes/SupportOffer';
+import SupportError from './scenes/SupportError';
+import About from './scenes/About';
+import Settings from './scenes/Settings';
 
 
 const styles = {
@@ -64,6 +67,15 @@ export default class App extends Component {
 		if(route.name == 'support-offer'){
 			return (<SupportOffer navigator={navigator} data={route.data} />);
 		}
+		if(route.name == 'support-error'){
+			return (<SupportError navigator={navigator} data={route.data} />);
+		}
+		if(route.name == 'about'){
+			return (<About navigator={navigator} data={route.data} />);
+		}
+		if(route.name == 'settings'){
+			return (<Settings navigator={navigator} data={route.data} />);
+		}
 	}
 
 	async getToken() {
@@ -87,7 +99,10 @@ export default class App extends Component {
 	navigatorConfig(route) {
 		switch (route.name){
 			case 'root':
-				return Navigator.SceneConfigs.FloatFromBottom;
+				return {
+					...Navigator.SceneConfigs.FloatFromBottom,
+					gestures: false
+				}
 			default:
 				return Navigator.SceneConfigs.PushFromRight;
 		}
