@@ -21,6 +21,8 @@ import variables from './../theme/variables.js';
 import styles from './../theme/styles.js';
 import t from './../Translations';
 
+var backgroundImage = require('./../images/bg/service.jpg');
+
 export default class Support extends Component {
 
 	constructor(props) {
@@ -42,7 +44,7 @@ export default class Support extends Component {
 		return (
 			<Image
 				style={[styles.scene, styles.background]}
-				source={require('./../images/bg-service.jpg')}>
+				source={backgroundImage}>
 				<View style={[styles.header, styles.shadow]}>
 					<View style={styles.headerLeft}>
 						<TouchableOpacity

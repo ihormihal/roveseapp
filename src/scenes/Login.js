@@ -22,6 +22,8 @@ import t from './../Translations';
 
 var STORAGE_KEY = 'id_token';
 
+var backgroundImage = require('./../images/bg/login.jpg');
+
 export default class Login extends Component {
 
 	constructor() {
@@ -111,7 +113,7 @@ export default class Login extends Component {
 		return (
 			<Image
 				style={[styles.scene, styles.background, styles.container]}
-				source={require('./../images/bg-login.jpg')}>
+				source={backgroundImage}>
 
 				<StatusBar backgroundColor={variables.colorPrimary} />
 

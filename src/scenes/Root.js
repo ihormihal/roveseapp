@@ -29,31 +29,32 @@ import t from './../Translations';
 
 var slides = [
 	{
-		image: require('./../images/slide-presentation.jpg'),
+		image: require('./../images/slides/presentation.jpg'),
 		title: 'Презентация программы мотивации',
 		description: 'В данном разделе региональный представитель может кратко презентовать условия программы новому участнику',
 		route: 'presentation'
 	},
 	{
-		image: require('./../images/slide-registration.jpg'),
+		image: require('./../images/slides/registration.jpg'),
 		title: 'Регистрация продавца',
 		description: 'В данном разделе региональный представитель может зарегистрировать нового участника программы Retail Club',
 		route: 'seller-registration'
 	},
 	{
-		image:  require('./../images/slide-statistics.jpg'),
+		image:  require('./../images/slides/statistics.jpg'),
 		title: 'Статистика',
 		description: 'В данном разделесодержится детальная информация о всех зарегистрированных участниках программы Retail Club',
 		route: 'statistics'
 	},
 	{
-		image: require('./../images/slide-support.jpg'),
+		image: require('./../images/slides/support.jpg'),
 		title: 'Техническая поддержка',
 		description: '',
 		route: 'support'
 	}
 ];
 
+var backgroundImage = require('./../images/bg/root.jpg');
 
 export default class PasswordReset extends Component {
 
@@ -169,7 +170,7 @@ export default class PasswordReset extends Component {
 
 				<Image
 					style={[styles.scene, styles.background]}
-					source={require('./../images/bg-root.jpg')}>
+					source={backgroundImage}>
 					<View style={[styles.header, styles.opacityLight]}>
 						<View style={styles.headerLeft}>
 							<TouchableOpacity

@@ -26,20 +26,20 @@ import t from './../Translations';
 
 var slides = [
 	{
-		image: require('./../images/presentation-1.jpg'),
-		imageBg: require('./../images/bg-presentation-1.jpg'),
+		image: require('./../images/presentation/image_1.jpg'),
+		imageBg: require('./../images/presentation/bg_1.jpg'),
 		title: 'Продажа',
 		description: 'За каждую проданную единицу со специальным кодом продавец получает бонусное вознаграждение',
 	},
 	{
-		image: require('./../images/presentation-2.jpg'),
-		imageBg: require('./../images/bg-presentation-2.jpg'),
+		image: require('./../images/presentation/image_2.jpg'),
+		imageBg: require('./../images/presentation/bg_2.jpg'),
 		title: 'Отправка SMS',
 		description: 'Продавец осуществляет продажи и отправляет SMS c индивидуальным кодом упаковки на специальный номер Rovese',
 	},
 	{
-		image: require('./../images/presentation-3.jpg'),
-		imageBg: require('./../images/bg-presentation-3.jpg'),
+		image: require('./../images/presentation/image_3.jpg'),
+		imageBg: require('./../images/presentation/bg_3.jpg'),
 		title: 'Бонусы',
 		description: 'Все бонусы суммируются на протяжении установленного периода и в конце каждый продавец получает сертификат на сумму бонусов',
 	},

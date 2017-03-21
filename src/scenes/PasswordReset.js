@@ -21,6 +21,8 @@ import variables from './../theme/variables.js';
 import styles from './../theme/styles.js';
 import t from './../Translations';
 
+import { InputText } from './../components/Form';
+
 export default class PasswordReset extends Component {
 
 	constructor(props) {
@@ -66,30 +68,22 @@ export default class PasswordReset extends Component {
 						<View style={styles.hr} />
 					</View>
 
-					<Text style={[styles.inputLabel]}>{t.enterEmail}</Text>
-					<View style={[styles.textInput, styles.inputDefault]}>
-						<TextInput
-							style={[ styles.textInputInput ]}
-							underlineColorAndroid='transparent'
-							placeholder={t.email}
-							onChangeText={(email) => this.setState({email: email})}
-							value={(this.state && this.state.email) || ''}
-						/>
-					</View>
+					<InputText
+						label={t.enterEmail}
+						placeholder={t.email}
+						value=""
+						onInputChange={(value) => this.setState({email: value})}
+					/>
 
 
 					<Text style={[styles.inputLabel, styles.textCenter, styles.mt1, styles.mb1, styles.primary]}>{t.or}</Text>
 
-					<Text style={[styles.inputLabel]}>{t.phoneNumber}</Text>
-					<View style={[styles.textInput, styles.inputDefault]}>
-						<TextInput
-							style={[ styles.textInputInput ]}
-							underlineColorAndroid='transparent'
-							placeholder={t.phone}
-							onChangeText={(phone) => this.setState({phone: phone})}
-							value={(this.state && this.state.phone) || ''}
-						/>
-					</View>
+					<InputText
+						label={t.phoneNumber}
+						placeholder={t.phone}
+						value=""
+						onInputChange={(value) => this.setState({phone: value})}
+					/>
 
 					<View style={[styles.center, styles.mt2]}>
 						<TouchableOpacity
