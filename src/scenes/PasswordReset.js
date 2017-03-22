@@ -75,8 +75,7 @@ export default class PasswordReset extends Component {
 						onInputChange={(value) => this.setState({email: value})}
 					/>
 
-
-					<Text style={[styles.inputLabel, styles.textCenter, styles.mt1, styles.mb1, styles.primary]}>{t.or}</Text>
+					<Text style={[styles.inputLabel, styles.textCenter, styles.textDivider, styles.primary]}>{t.or}</Text>
 
 					<InputText
 						label={t.phoneNumber}

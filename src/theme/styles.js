@@ -1,5 +1,10 @@
-import { StyleSheet, Dimensions } from 'react-native';
+import { StyleSheet, Dimensions, PixelRatio } from 'react-native';
+
 import variables from './variables.js';
+import buttonStyle from './components/button.js';
+import formStyle from './components/form.js';
+
+var ratio = PixelRatio.get();
 
 const screen = {
 	w: Dimensions.get('window').width,
@@ -41,7 +46,8 @@ const dimentions = {
 	container: {
 		flex: 1,
 		flexDirection: 'column',
-		padding: variables.gap*2,
+		paddingHorizontal: variables.gap*2,
+		paddingVertical: variables.gap*2,
 	},
 	box: {
 		flexDirection: 'column',
@@ -77,6 +83,9 @@ const dimentions = {
 	// 	alignSelf: 'center',
 	// 	alignItems: 'flex-start',
 	// },
+	textDivider: {
+		marginVertical: variables.gap/2.
+	},
 	last: {
 		flex: 1,
 		justifyContent: 'flex-end',
@@ -164,9 +173,7 @@ const elements = {
 		alignSelf: 'center',
 		alignItems: 'center',
 	},
-	body: {
-		marginTop: 56
-	},
+
 	logo: {
 		width: 204,
 		height: 90,
@@ -178,78 +185,13 @@ const elements = {
 	},
 	sectionLogin: {
 		width: '100%',
-		maxWidth: 200
+		maxWidth: 320
 	},
-	btnIcon: {
-		marginRight: 5,
-		//marginTop: 3
-	},
-	inputLabel: {
-		marginBottom: variables.gap/2,
-	},
-	textInput: {
-		alignSelf: 'stretch',
-	},
-	inputUnderline: {
-
-	},
-	inputDefault: {
-		borderWidth: 1,
-		borderColor: '#ccc',
-		borderRadius: 2,
-		paddingHorizontal: 5,
-	},
-	textInputInput: {
-		alignSelf: 'stretch',
-		height: variables.inputHeight,
-		padding: 0,
-		fontSize: 18,
-		//textAlignVertical: 'bottom'
-	},
-	textAreaInput: {
-		textAlignVertical: 'top',
-	},
-
 	linkWhite: {
 		color: 'rgba(255,255,255,0.5)'
 	},
-	inputWhite: {
-		borderBottomWidth: 1,
-		borderColor: '#ffffff'
-	},
 	lngButtons: {
 		width: 100
-	},
-	buttonCircle: {
-		alignItems: 'center',
-		justifyContent: 'center',
-		height: 70,
-		width: 70,
-		borderRadius: 70,
-		backgroundColor: variables.colorPrimaryDark
-	},
-	buttonCircleImg: {
-		height: 30,
-		width: 30,
-	},
-	btn: {
-		flexDirection: 'row',
-		justifyContent: 'space-between',
-		alignItems: 'center',
-	},
-	btnDefault: {
-		paddingVertical: 8,
-		paddingHorizontal: 20,
-		borderRadius: 2,
-		elevation: 1,
-		shadowColor: '#000',
-		marginBottom: 4
-	},
-	btnPrimary: {
-		backgroundColor: variables.colorPrimary,
-	},
-	btnTransparent: {
-		backgroundColor: 'transparent'
 	},
 	hr: {
 		alignSelf: 'center',
@@ -278,24 +220,6 @@ const elements = {
 		color: variables.colorPrimary,
 		fontSize: 14,
 		lineHeight: 14
-	},
-	legend: {
-		marginTop: variables.gap,
-		marginBottom: variables.gap,
-		flexDirection: 'row',
-		alignItems: 'center',
-		alignSelf: 'center'
-	},
-	ltext: {
-		color: variables.colorPrimary,
-		fontSize: 12,
-		marginLeft: 8,
-		marginRight: 8
-	},
-	lline: {
-		height: 1,
-		width: 32,
-		backgroundColor: variables.colorPrimary,
 	},
 	drawer: {
 		flex: 1,
@@ -332,10 +256,6 @@ const elements = {
 		borderColor: variables.colorPrimary,
 	},
 
-
-	picker: {
-		height: variables.inputHeight,
-	},
 	//tabs
 	tabs: {
 		flexDirection: 'row',
@@ -408,25 +328,25 @@ const slider = {
 	slider: {
 		flex: 1,
 		alignItems: 'center',
-		marginVertical: variables.gap,
+		marginTop: variables.gap*2,
 	},
 	slide: {
 		flex: 1,
 		alignItems: 'center',
 		backgroundColor: 'transparent',
-		padding: variables.gap,
 	},
 	slidePage: {
 		flex: 1,
-		width: 245,
+		width: '60%',
 		backgroundColor: '#fff',
 		shadowColor: '#000',
 		elevation: 5,
 		borderRadius: 4,
 	},
 	slideImage: {
-		width: 245,
-		height: 250,
+		width: '100%',
+		//height: 250,
+		//flex: 1,
 		borderTopLeftRadius: 4,
 		borderTopRightRadius: 4,
 	},
@@ -455,7 +375,7 @@ const slider = {
 		flexDirection: 'row',
 		justifyContent: 'center',
 		alignSelf: 'center',
-		marginVertical: 10,
+		marginVertical: variables.gap,
 		position: 'relative',
 	},
 	pagDot: {
@@ -476,4 +396,4 @@ const slider = {
 };
 
 
-export default StyleSheet.create(Object.assign(dimentions, colors, elements, slider));
+export default StyleSheet.create(Object.assign(dimentions, colors,  buttonStyle, formStyle, elements, slider));

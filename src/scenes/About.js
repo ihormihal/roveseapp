@@ -21,7 +21,7 @@ import variables from './../theme/variables.js';
 import styles from './../theme/styles.js';
 import t from './../Translations';
 
-var backgroundImage = require('./../images/bg/login.jpg');
+var backgroundImage = require('./../images/bg/service.jpg');
 
 export default class About extends Component {
 
@@ -45,12 +45,25 @@ export default class About extends Component {
 			<Image
 				style={[styles.scene, styles.background]}
 				source={backgroundImage}>
-				<Header
-					buttonText={t.back}
-					buttonIcon="arrow-back"
-					shadow="true"
-					onButtonPress={() => this.props.navigator.pop()}>
-				</Header>
+				<View style={[styles.header, styles.shadow]}>
+					<View style={styles.headerLeft}>
+						<TouchableOpacity
+							style={styles.btn}
+							onPress={() => this.props.navigator.pop()}
+							activeOpacity={75 / 50}>
+							<Icon style={[styles.btnIcon, styles.primary]} size={20} name="arrow-back"/>
+							<Text style={[styles.btnText, styles.primary]}>{t.back}</Text>
+						</TouchableOpacity>
+					</View>
+					<View style={styles.headerCenter}>
+						<Image
+							style={[ styles.logoHeader ]}
+							source={require('./../images/logo-header.png')}
+						/>
+					</View>
+					<View style={styles.headerRight}>
+					</View>
+				</View>
 				<View style={styles.pageHeader}>
 					<Text style={styles.white}>О приложении</Text>
 				</View>

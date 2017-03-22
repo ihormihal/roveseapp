@@ -112,48 +112,47 @@ export default class Login extends Component {
 	render() {
 		return (
 			<Image
-				style={[styles.scene, styles.background, styles.container]}
+				style={[styles.scene, styles.background, styles.container, styles.center]}
 				source={backgroundImage}>
-
 				<StatusBar backgroundColor={variables.colorPrimary} />
 
-				<View style={[styles.section, styles.middle, styles.center]}>
-
+				<View style={styles.section}>
 					<Animated.Image
 						style={[this.fadeIn(0), styles.logo]}
 						source={require('./../images/logo-splash.png')}
 					/>
+				</View>
 
+				<View style={[styles.section, styles.middle]}>
 					<Animated.View style={[styles.sectionLogin, this.fadeIn(500, 20)]}>
 
 						<Text style={[styles.white, styles.h1, styles.textCenter]}>{t.login.toUpperCase()}</Text>
 
-						<View style={[styles.textInput, styles.inputUnderline, styles.inputWhite, styles.mt1]}>
+						<View style={[styles.textInput, styles.inputWhite, styles.mt1]}>
 							<TextInput
 								style={[ styles.textInputInput, styles.textCenter, styles.white ]}
 								underlineColorAndroid='transparent'
 								placeholderTextColor="#ffffff"
 								placeholder={t.email}
-								onChangeText={(email) => this.setState({email: email})}
-								value={(this.state && this.state.email) || ''}
+								onChangeText={(value) => this.setState({email: value})}
+								value={this.state.email}
 							/>
 						</View>
 
-						<View style={[styles.textInput, styles.inputUnderline, styles.inputWhite, styles.mt1]}>
+						<View style={[styles.textInput, styles.inputWhite, styles.mt1]}>
 							<TextInput
 								style={[ styles.textInputInput, styles.textCenter, styles.white ]}
 								underlineColorAndroid='transparent'
 								placeholder={t.password}
 								placeholderTextColor="#ffffff"
-								onChangeText={(password) => {this.setState({password: password})}}
+								onChangeText={(value) => {this.setState({password: value})}}
 								onSubmitEditing={() => {this.setState({email: ''})}}
-								value={(this.state && this.state.password) || ''}
+								value={this.state.password}
 							/>
 						</View>
 
 						<TouchableOpacity
-							onPress={() => this.navigate('password-reset')}
-							activeOpacity={75 / 50}>
+							onPress={() => this.navigate('password-reset')}>
 							<Text style={[ styles.linkWhite, styles.textCenter ]}>{t.forgotPassword}</Text>
 						</TouchableOpacity>
 
@@ -185,17 +184,18 @@ export default class Login extends Component {
 							/>
 						</TouchableOpacity>
 					</Animated.View>
+				</View>
 
-					<Animated.View style={[styles.section, styles.last, this.fadeIn(2500, 20)]}>
+				<View style={styles.section}>
+					<Animated.View style={[styles.last, this.fadeIn(2500, 20)]}>
 						<TouchableOpacity
 							onPress={() => this.navigate('registration')}
-							activeOpacity={75 / 100}
 							style={[styles.btn, styles.btnDefault, styles.btnTransparent]}>
 							<Text style={styles.white}>{t.registration}</Text>
 						</TouchableOpacity>
 					</Animated.View>
-
 				</View>
+
 			</Image>
 		);
 	}
