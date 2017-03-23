@@ -68,8 +68,8 @@ export default class SellerEdit extends Component {
 						<TouchableOpacity
 							style={styles.btn}
 							onPress={() => this.props.navigator.pop()}>
-							<Icon style={[styles.btnIcon, styles.primary]} size={20} name="arrow-back"/>
-							<Text style={[styles.btnText, styles.primary]}>{t.back}</Text>
+							<Icon style={[styles.btnIcon, styles.textSM, styles.primary]} size={20} name="arrow-back"/>
+							<Text style={[styles.textSM, styles.primary]}>{t.back}</Text>
 						</TouchableOpacity>
 					</View>
 					<View style={styles.headerCenter} />

@@ -78,8 +78,8 @@ export default class Registration extends Component {
 						<TouchableOpacity
 							style={styles.btn}
 							onPress={() => this.props.navigator.pop()}>
-							<Icon style={[styles.btnIcon, styles.primary]} size={20} name="arrow-back"/>
-							<Text style={[styles.btnText, styles.primary]}>{t.back}</Text>
+							<Icon style={[styles.btnIcon, styles.textSM, styles.primary]} size={20} name="arrow-back"/>
+							<Text style={[styles.textSM, styles.primary]}>{t.back}</Text>
 						</TouchableOpacity>
 					</View>
 					<View style={styles.headerCenter} />
@@ -212,7 +212,7 @@ export default class Registration extends Component {
 							<TouchableOpacity
 								onPress={() => this._signUp()}
 								style={[styles.btn, styles.btnDefault, styles.btnPrimary]}>
-								<Text style={[styles.white, styles.btnText]}>{t.submit}</Text>
+								<Text style={[styles.white, styles.textMD]}>{t.submit}</Text>
 							</TouchableOpacity>
 
 							<Text style={[styles.mt1, styles.textSM]}>{t.regRulesAgreement_1}</Text>

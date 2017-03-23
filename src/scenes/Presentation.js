@@ -106,8 +106,8 @@ export default class Presentation extends Component {
 							<TouchableOpacity
 								style={styles.btn}
 								onPress={() => this.props.navigator.pop()}>
-								<Icon style={[styles.btnIcon, styles.white]} size={20} name="arrow-back"/>
-								<Text style={[styles.btnText, styles.white]}>{t.back}</Text>
+								<Icon style={[styles.btnIcon, styles.textSM, styles.white]} size={20} name="arrow-back"/>
+								<Text style={[styles.textSM, styles.white]}>{t.back}</Text>
 							</TouchableOpacity>
 						</View>
 						<View style={styles.headerCenter}>

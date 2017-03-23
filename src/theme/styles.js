@@ -47,12 +47,12 @@ const dimentions = {
 	container: {
 		flex: 1,
 		flexDirection: 'column',
-		paddingHorizontal: variables.gap*2,
-		paddingVertical: variables.gap*2,
+		paddingHorizontal: variables.CONTAINER,
+		paddingVertical: variables.UNIT,
 	},
 	box: {
 		flexDirection: 'column',
-		padding: variables.gap*2,
+		padding: variables.CONTAINER,
 	},
 	row: {
 		flex: 1,
@@ -164,6 +164,16 @@ const elements = {
 		//shadowRadius: 5,
 		elevation: 4,
 	},
+
+	sceneTitle: {
+		fontSize: variables.FONTSIZE_LG,
+		paddingHorizontal: variables.UNIT,
+		paddingBottom: 10,
+		borderBottomWidth: 1,
+		borderBottomColor: variables.colorGreyLight,
+		marginBottom: variables.UNIT,
+	},
+
 	opacityLight: {
 		backgroundColor: 'rgba(0,0,0,0.1)',
 	},
@@ -198,9 +208,6 @@ const elements = {
 	sectionLogin: {
 		width: '100%',
 		maxWidth: 320
-	},
-	linkWhite: {
-		color: 'rgba(255,255,255,0.5)'
 	},
 	lngButtons: {
 		width: 100

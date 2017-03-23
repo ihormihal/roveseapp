@@ -11,14 +11,14 @@ export default {
 	},
 	slide: {
 		flex: 1,
+		justifyContent: 'center',
 		alignItems: 'center',
 		backgroundColor: 'transparent',
 	},
 	slidePage: {
-		flex: 1,
-		alignItems: 'stretch',
+		//alignItems: 'stretch',
 		//justifyContent: 'flex-start',
-
+		width: variables.screenWidth*0.6,
 		backgroundColor: '#fff',
 		shadowColor: '#000',
 		elevation: 5,
@@ -31,10 +31,10 @@ export default {
 		borderTopRightRadius: 4,
 	},
 	slideText: {
-		padding: variables.gap,
+		padding: variables.UNIT,
 	},
 	titleDivider: {
-		width: 32,
+		width: 32*variables.PIXEL_RATIO,
 		height: 4,
 		backgroundColor: variables.colorPrimary,
 		alignSelf: 'center',
@@ -42,12 +42,12 @@ export default {
 		marginBottom: 8,
 	},
 	slideTitle: {
-		fontSize: 16,
+		fontSize: variables.FONTSIZE_MD,
 		color: variables.colorPrimary,
 		textAlign: 'center'
 	},
 	slideDescription: {
-		fontSize: 12,
+		fontSize: variables.FONTSIZE_SM,
 		color: variables.colorGrey,
 		textAlign: 'center'
 	},

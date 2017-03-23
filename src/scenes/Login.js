@@ -160,7 +160,7 @@ export default class Login extends Component {
 
 						<TouchableOpacity
 							onPress={() => this.navigate('password-reset')}>
-							<Text style={[ styles.linkWhite, styles.textCenter ]}>{t.forgotPassword}</Text>
+							<Text style={[ styles.white, styles.opacity50, styles.textSM, styles.textCenter ]}>{t.forgotPassword}</Text>
 						</TouchableOpacity>
 
 					</Animated.View>
@@ -195,7 +195,7 @@ export default class Login extends Component {
 						<TouchableOpacity
 							onPress={() => this.navigate('registration')}
 							style={[styles.btn, styles.btnDefault, styles.btnTransparent]}>
-							<Text style={[styles.btnText, styles.white]}>{t.registration}</Text>
+							<Text style={[styles.textMD, styles.white]}>{t.registration}</Text>
 						</TouchableOpacity>
 					</Animated.View>
 				</View>

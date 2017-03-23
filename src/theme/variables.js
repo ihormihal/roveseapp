@@ -21,7 +21,7 @@ export default {
 	inputHeight: 40,
 	inputGAP: 20,
 	inputPadding: 5*pixelRatio,
-	buttonPV: 8*pixelRatio,//paddingVertial
+	buttonPV: 5*pixelRatio,//paddingVertial
 	buttonPH: 20*pixelRatio,//paddingHorizontal
 	colorPrimary: '#00ade2',
 	colorPrimaryRGBA: 'rgba(0, 173, 226, 0.7)',
@@ -34,9 +34,10 @@ export default {
 
 	//SIZES
 	UNIT: base_unit*pixelRatio,
+	CONTAINER: 40*pixelRatio,
 	//FONT_SIZE
 	FONTSIZE_XG: 24*pixelRatio,
-	FONTSIZE_LG: 20*pixelRatio,
+	FONTSIZE_LG: 14*pixelRatio,
 	FONTSIZE_MD: 12*pixelRatio,
 	FONTSIZE_SM: 10*pixelRatio,
 }

@@ -4,6 +4,7 @@ export default {
 	//inputs
 	inputLabel: {
 		marginBottom: variables.gap/2,
+		fontSize: variables.FONTSIZE_SM,
 	},
 	textInput: {
 		alignSelf: 'stretch',
@@ -55,7 +56,7 @@ export default {
 	},
 	ltext: {
 		color: variables.colorPrimary,
-		fontSize: 12,
+		fontSize: variables.FONTSIZE_SM,
 		marginLeft: 8,
 		marginRight: 8
 	},

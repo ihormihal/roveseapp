@@ -36,7 +36,4 @@ export default {
 		marginRight: 5,
 		fontSize: variables.FONTSIZE_MD
 	},
-	btnText: {
-		fontSize: variables.FONTSIZE_MD
-	}
 }

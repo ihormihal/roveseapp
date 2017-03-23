@@ -67,8 +67,8 @@ export default class PasswordReset extends Component {
 						<TouchableOpacity
 							style={styles.btn}
 							onPress={() => this.props.navigator.pop()}>
-							<Icon style={[styles.btnIcon, styles.primary]} size={20} name="arrow-back"/>
-							<Text style={[styles.btnText, styles.primary]}>{t.back}</Text>
+							<Icon style={[styles.btnIcon, styles.textSM, styles.primary]} size={20} name="arrow-back"/>
+							<Text style={[styles.textSM, styles.primary]}>{t.back}</Text>
 						</TouchableOpacity>
 					</View>
 					<View style={styles.headerCenter}>
@@ -82,12 +82,11 @@ export default class PasswordReset extends Component {
 				</View>
 				<View style={styles.container}>
 					<View style={styles.center}>
-						<Text style={styles.h2}>{t.passwordRecovery.toUpperCase()}</Text>
-						<View style={styles.hr} />
+						<Text style={styles.sceneTitle}>{t.passwordRecovery.toUpperCase()}</Text>
 					</View>
 
+					<Text style={styles.inputLabel}>{t.enterEmail}</Text>
 					<View style={[styles.textInput, styles.inputDefault]}>
-						<Text style={styles.inputLabel}>{t.enterEmail}</Text>
 						<TextInput
 							style={[ styles.textInputInput ]}
 							underlineColorAndroid='transparent'
@@ -100,7 +99,7 @@ export default class PasswordReset extends Component {
 						<TouchableOpacity
 							onPress={() => this._passwordReset()}
 							style={[styles.btn, styles.btnDefault, styles.btnPrimary]}>
-							<Text style={styles.white}>{t.change}</Text>
+							<Text style={[styles.white, styles.textMD]}>{t.change}</Text>
 						</TouchableOpacity>
 					</View>
 
