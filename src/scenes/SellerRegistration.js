@@ -23,15 +23,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import variables from './../theme/variables.js';
 import styles from './../theme/styles.js';
 import t from './../Translations';
-
-
-var regions = [
-	{id: 0, title: 'Регион'},
-	{id: 1, title: 'Киев'},
-	{id: 2, title: 'Харьков'},
-	{id: 3, title: 'Днепр'},
-];
-
+import data from './../Data';
 
 export default class SellerRegistration extends Component {
 
@@ -151,7 +143,6 @@ export default class SellerRegistration extends Component {
 
 						<View style={[styles.center, styles.mt2]}>
 							<TouchableOpacity
-								activeOpacity={75 / 100}
 								style={[styles.btn, styles.btnDefault, styles.btnPrimary]}>
 								<Text style={styles.white}>{t.submit}</Text>
 							</TouchableOpacity>

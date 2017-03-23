@@ -3,6 +3,7 @@ import { StyleSheet, Dimensions, PixelRatio } from 'react-native';
 import variables from './variables.js';
 import buttonStyle from './components/button.js';
 import formStyle from './components/form.js';
+import sliderStyle from './components/slider.js';
 
 var ratio = PixelRatio.get();
 
@@ -78,16 +79,10 @@ const dimentions = {
 	full: {
 		alignSelf: 'stretch',
 	},
-	// left: {
-	// 	flex: 0.5,
-	// 	alignSelf: 'center',
-	// 	alignItems: 'flex-start',
-	// },
 	textDivider: {
 		marginVertical: variables.gap/2.
 	},
 	last: {
-		flex: 1,
 		justifyContent: 'flex-end',
 	},
 	textCenter: {
@@ -105,6 +100,7 @@ const dimentions = {
 	italic: {
 		fontStyle: 'italic',
 	}
+
 };
 
 const colors = {
@@ -150,7 +146,9 @@ const elements = {
 	},
 	shadow: {
 		shadowColor: '#000',
-		elevation: 3,
+		//shadowOpacity: 0.1,
+		//shadowRadius: 5,
+		elevation: 4,
 	},
 	opacityLight: {
 		backgroundColor: 'rgba(0,0,0,0.1)',
@@ -227,8 +225,8 @@ const elements = {
 		backgroundColor: 'rgba(0,0,0,0.5)',
 	},
 	drawerSection: {
-		flexDirection: 'column',
-		padding: variables.gap
+		paddingVertical: variables.gap,
+		flexDirection: 'column'
 	},
 	drawerSectionTop: {
 		paddingVertical: variables.gap*4,
@@ -247,8 +245,9 @@ const elements = {
 		backgroundColor: '#D9D5DC',
 	},
 	menuItem: {
-		marginTop: 8,
-		marginBottom: 8
+		alignSelf: 'stretch',
+		paddingVertical: variables.gap/2,
+		paddingHorizontal: variables.gap
 	},
 	menuItemActive: {
 		borderLeftWidth: 1,
@@ -299,11 +298,12 @@ const elements = {
 		flex: 1,
 		width: screen.w,
 		flexDirection: 'column',
+		justifyContent: 'flex-end',
 		alignItems: 'stretch',
 	},
 	presentationBottom: {
 		width: screen.w,
-		height: parseInt(screen.w*(1030/1536)),
+		height: parseInt(variables.screenWidth*(1030/1536)),
 	},
 	presentationText: {
 		padding: variables.gap,
@@ -318,82 +318,81 @@ const elements = {
 	//
 	pageHeader: {
 		width: screen.w,
-		height: 56,
+		minHeight: 56,
+		paddingVertical: variables.gap/2,
 		paddingHorizontal: variables.gap,
 		justifyContent: 'center',
-	}
-};
+	},
 
-const slider = {
-	slider: {
-		flex: 1,
-		alignItems: 'center',
-		marginTop: variables.gap*2,
-	},
-	slide: {
-		flex: 1,
-		alignItems: 'center',
-		backgroundColor: 'transparent',
-	},
-	slidePage: {
-		flex: 1,
-		width: '60%',
-		backgroundColor: '#fff',
-		shadowColor: '#000',
-		elevation: 5,
-		borderRadius: 4,
-	},
-	slideImage: {
-		width: '100%',
-		//height: 250,
-		//flex: 1,
-		borderTopLeftRadius: 4,
-		borderTopRightRadius: 4,
-	},
-	slideText: {
-		padding: variables.gap,
-	},
-	titleDivider: {
-		width: 32,
-		height: 4,
-		backgroundColor: variables.colorPrimary,
-		alignSelf: 'center',
-		marginTop: 8,
-		marginBottom: 8,
-	},
-	slideTitle: {
-		fontSize: 16,
-		color: variables.colorPrimary,
-		textAlign: 'center'
-	},
-	slideDescription: {
-		fontSize: 12,
-		color: variables.colorGrey,
-		textAlign: 'center'
-	},
-	sliderPagination: {
-		flexDirection: 'row',
-		justifyContent: 'center',
-		alignSelf: 'center',
-		marginVertical: variables.gap,
-		position: 'relative',
-	},
-	pagDot: {
-		height: variables.pagSize,
-		width: variables.pagSize,
-		marginHorizontal: variables.pagStep/2,
-		borderRadius: variables.pagSize/2,
-		backgroundColor: 'transparent',
-		borderWidth: 1,
+	sellerInfo: {
+		marginVertical: variables.gap/2,
+		paddingVertical: variables.gap/2,
+		borderTopWidth: 1,
+		borderBottomWidth: 1,
 		borderColor: '#fff',
 	},
-	pagDotActive: {
-		borderWidth: 0,
-		backgroundColor: '#fff',
+
+	chartScroll: {
+		height: 120,
+		marginBottom: variables.gap
+	},
+
+	chart: {
+		flexDirection: 'column',
+
+	},
+
+	chartArea: {
+		flexDirection: 'row',
+		position: 'relative',
+	},
+
+	chartBar: {
+		position: 'relative',
+		zIndex: 1,
+		width: 30,
+		flexDirection: 'row',
+		justifyContent: 'center',
+		alignItems: 'flex-end',
+	},
+	chartBarValue: {
+		width: 5,
+		height: 70,
+		backgroundColor: variables.colorPrimary,
+	},
+	chartBarShadow: {
+		width: 5,
+		height: 65,
+		backgroundColor: 'rgba(0,0,0,0.2)',
+	},
+	chartX: {
+		flexDirection: 'row',
+	},
+	chartXitem: {
+		width: 30,
+		textAlign: 'center',
+		fontSize: 11,
+	},
+
+	chartGridH: {
 		position: 'absolute',
+		zIndex: 0,
 		left: 0,
+		right: 0,
+		height: 1,
+		backgroundColor: '#ccc'
+	},
+
+	bonusText: {
+		color: variables.colorPrimary,
+		fontSize: 50,
+		fontWeight: "300",
+		borderBottomWidth: 1,
+		borderBottomColor: '#ccc',
+		marginTop:  variables.gap,
+		paddingVertical: variables.gap/2,
 	}
 };
 
 
-export default StyleSheet.create(Object.assign(dimentions, colors,  buttonStyle, formStyle, elements, slider));
+export default StyleSheet.create(Object.assign(dimentions, colors,  buttonStyle, formStyle, sliderStyle, elements));

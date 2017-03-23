@@ -23,15 +23,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import variables from './../theme/variables.js';
 import styles from './../theme/styles.js';
 import t from './../Translations';
-
-
-var regions = [
-	{id: 0, title: 'Регион'},
-	{id: 1, title: 'Киев'},
-	{id: 2, title: 'Харьков'},
-	{id: 3, title: 'Днепр'},
-];
-
+import data from './../Data';
 
 
 export default class Settings extends Component {
@@ -44,7 +36,9 @@ export default class Settings extends Component {
 			results: {
 				items: []
 			},
-			selectedRegion: 0
+			selectedRegion: 0,
+
+			form_language: 'en'
 		}
 	}
 
@@ -69,8 +63,7 @@ export default class Settings extends Component {
 					<View style={styles.headerLeft}>
 						<TouchableOpacity
 							style={styles.btn}
-							onPress={() => this.props.navigator.pop()}
-							activeOpacity={75 / 50}>
+							onPress={() => this.props.navigator.pop()}>
 							<Icon style={[styles.btnIcon, styles.primary]} size={20} name="arrow-back"/>
 							<Text style={[styles.btnText, styles.primary]}>{t.back}</Text>
 						</TouchableOpacity>
@@ -122,8 +115,8 @@ export default class Settings extends Component {
 								onValueChange={this.onValueChange.bind(this, 'selected2')}
 								onValueChange={(value) => { this.setState({selectedRegion: value}) }}
 								mode="dropdown">
-								{regions.map((item, index) => {
-									return (<Picker.Item key={index} label={item.title} value={item.id} />);
+								{data.regions.map((item, index) => {
+									return (<Picker.Item key={index} label={item} value={item} />);
 								}, this)}
 							</Picker>
 						</View>
@@ -153,13 +146,12 @@ export default class Settings extends Component {
 						<View style={[styles.textInput, styles.inputDefault]}>
 							<Picker
 								style={styles.picker}
-								selectedValue={this.state.selectedRegion}
-								onValueChange={this.onValueChange.bind(this, 'selected2')}
-								onValueChange={(value) => { this.setState({selectedRegion: value}) }}
+								selectedValue={this.state.form_language}
+								onValueChange={(value) => { this.setState({form_language: value}) }}
 								mode="dropdown">
-								{regions.map((item, index) => {
-									return (<Picker.Item key={index} label={item.title} value={item.id} />);
-								}, this)}
+								<Picker.Item label="English" value="en" />
+								<Picker.Item label="Русский" value="ru" />
+								<Picker.Item label="Украинский" value="uk" />
 							</Picker>
 						</View>
 

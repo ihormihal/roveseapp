@@ -14,7 +14,7 @@ import {
 	StatusBar,
 	Animated,
 	TextInput,
-	TouchableHighlight,
+	TouchableNativeFeedback,
 	TouchableOpacity,
 	DrawerLayoutAndroid,
 } from 'react-native';
@@ -26,6 +26,7 @@ import variables from './../theme/variables.js';
 import styles from './../theme/styles.js';
 import t from './../Translations';
 
+var rippleBg = TouchableNativeFeedback.Ripple(variables.colorPrimaryRGBA);
 
 var slides = [
 	{
@@ -50,6 +51,29 @@ var slides = [
 		image: require('./../images/slides/support.jpg'),
 		title: 'Техническая поддержка',
 		description: '',
+		route: 'support'
+	}
+];
+
+var menu = [
+	{
+		title: 'Домой',
+		route: 'root'
+	},
+	{
+		title: 'Статистика',
+		route: 'statistics'
+	},
+	{
+		title: 'Анкета продавца',
+		route: 'seller-registratio'
+	},
+	{
+		title: 'Настройки',
+		route: 'settings'
+	},
+	{
+		title: 'Сообщить о проблеме',
 		route: 'support'
 	}
 ];
@@ -80,7 +104,7 @@ export default class PasswordReset extends Component {
 	renderSlide = (item, index) => {
 		return (
 			<View key={index} style={styles.slide}>
-				<TouchableOpacity activeOpacity={75 / 50} style={styles.slidePage} onPress={() => this.navigate(item.route)}>
+				<TouchableOpacity style={styles.slidePage} onPress={() => this.navigate(item.route)} activeOpacity={100 / 100}>
 					<Image style={styles.slideImage} source={item.image} />
 					<View style={styles.slideText}>
 						<Text style={styles.slideTitle}>{item.title.toUpperCase()}</Text>
@@ -115,40 +139,29 @@ export default class PasswordReset extends Component {
 				</View>
 				<View style={styles.divider}></View>
 				<View style={styles.drawerSection}>
-					<TouchableOpacity
-						style={styles.menuItem}
-						onPress={() => this.navigate('root')}>
-						<Text style={[styles.white, styles.h2]}>Домой</Text>
-					</TouchableOpacity>
-					<TouchableOpacity
-						style={[styles.menuItem, styles.menuItemActive]}
-						onPress={() => this.navigate('statistics')}>
-						<Text style={[styles.white, styles.h2]}>Статистика</Text>
-					</TouchableOpacity>
-					<TouchableOpacity
-						style={[styles.menuItem]}
-						onPress={() => this.navigate('seller-registration')}>
-						<Text style={[styles.white, styles.h2]}>Анкета продавца</Text>
-					</TouchableOpacity>
-					<TouchableOpacity
-						style={styles.menuItem}
-						onPress={() => this.navigate('settings')}>
-						<Text style={[styles.white, styles.h2]}>Настройки</Text>
-					</TouchableOpacity>
-					<TouchableOpacity
-						style={styles.menuItem}
-						onPress={() => this.navigate('support')}>
-						<Text style={[styles.white, styles.h2]}>Сообщить о проблеме</Text>
-					</TouchableOpacity>
+					{menu.map((item, index) => {
+						return (
+							<TouchableNativeFeedback
+							key={index}
+								background={rippleBg}
+								onPress={() => this.navigate(item.route)}>
+								<View style={styles.menuItem}>
+									<Text style={[styles.white, styles.h2]}>{item.title}</Text>
+								</View>
+							</TouchableNativeFeedback>
+						)
+					})}
 				</View>
 
 				<View style={[styles.drawerSection, styles.drawerSectionBottom]}>
 					<View style={styles.divider}></View>
-					<TouchableOpacity
-						style={styles.btnDrawerBottom}
+					<TouchableNativeFeedback
+						background={rippleBg}
 						onPress={() => this.navigate('login')}>
-						<Text style={[styles.h2, styles.white, styles.textCenter]}>Выйти из учетной записи</Text>
-					</TouchableOpacity>
+						<View style={styles.btnDrawerBottom}>
+							<Text style={[styles.h2, styles.white, styles.textCenter]}>Выйти из учетной записи</Text>
+						</View>
+					</TouchableNativeFeedback>
 				</View>
 			</View>
 		);

@@ -79,7 +79,7 @@ export default class Support extends Component {
 						<Text style={styles.white}>О приложении</Text>
 					</TouchableOpacity>
 				</View>
-				<View style={[styles.box, styles.center, styles.last]}>
+				<View style={[styles.container, styles.center, styles.last]}>
 					<Text style={styles.mt1}>Помогите нам улучшить приложение,</Text>
 					<Text onPress={() => this.navigate('support-offer')} style={styles.primary}>отправляйте отзывы или предложения</Text>
 				</View>

@@ -20,7 +20,6 @@ import variables from './../theme/variables.js';
 import styles from './../theme/styles.js';
 import t from './../Translations';
 
-var STORAGE_KEY = 'id_token';
 
 var backgroundImage = require('./../images/bg/login.jpg');
 
@@ -30,8 +29,8 @@ export default class Login extends Component {
 		super();
 		this.state = {
 			anim: new Animated.Value(0),
-			email: '',
-			password: ''
+			email: 'test@test.com',
+			password: 'test'
 		};
 	};
 
@@ -45,11 +44,11 @@ export default class Login extends Component {
 	}
 
 	async _getProtectedQuote() {
-		var DEMO_TOKEN = await AsyncStorage.getItem(STORAGE_KEY);
+		var ACCESS_TOKEN = await AsyncStorage.getItem('id_token');
 		fetch("http://localhost:3001/api/protected/random-quote", {
 			method: "GET",
 			headers: {
-				'Authorization': 'Bearer ' + DEMO_TOKEN
+				'Authorization': 'Bearer ' + ACCESS_TOKEN
 			}
 		})
 		.then((response) => response.text())
@@ -74,7 +73,7 @@ export default class Login extends Component {
 		})
 		.then((response) => response.json())
 		.then((responseData) => {
-			this._onValueChange(STORAGE_KEY, responseData.id_token),
+			this._onValueChange('id_token', responseData.id_token),
 			Alert.alert(
 				"Signup Success!",
 				"Click the button to get a Chuck Norris quote!"
@@ -105,8 +104,12 @@ export default class Login extends Component {
 		});
 	}
 
-	navigateRoot() {
-		this.props.navigator.replace({name: 'root'});
+	signIn() {
+		if(this.state.email == 'test@test.com' && this.state.password == 'test'){
+			this.navigate('root');
+		}else{
+			Alert.alert('Ошибка','E-mail или пароль неверны!');
+		}
 	}
 
 	render() {
@@ -145,8 +148,8 @@ export default class Login extends Component {
 								underlineColorAndroid='transparent'
 								placeholder={t.password}
 								placeholderTextColor="#ffffff"
+								secureTextEntry={true}
 								onChangeText={(value) => {this.setState({password: value})}}
-								onSubmitEditing={() => {this.setState({email: ''})}}
 								value={this.state.password}
 							/>
 						</View>
@@ -162,20 +165,17 @@ export default class Login extends Component {
 						<View style={[styles.cols, styles.lngButtons]}>
 							<TouchableOpacity
 								onPress={() => {}}
-								activeOpacity={75 / 100}
 								style={[]}>
 								<Text style={styles.white}>RU</Text>
 							</TouchableOpacity>
 							<TouchableOpacity
 								onPress={() => {}}
-								activeOpacity={75 / 100}
 								style={[]}>
 								<Text style={styles.white}>UA</Text>
 							</TouchableOpacity>
 						</View>
 						<TouchableOpacity
-							onPress={() => this.navigate('root')}
-							activeOpacity={75 / 100}
+							onPress={() => this.signIn()}
 							style={[styles.buttonCircle, styles.mt1]}>
 							<Image
 								style={styles.buttonCircleImg}
@@ -186,8 +186,8 @@ export default class Login extends Component {
 					</Animated.View>
 				</View>
 
-				<View style={styles.section}>
-					<Animated.View style={[styles.last, this.fadeIn(2500, 20)]}>
+				<View style={[styles.section, styles.last]}>
+					<Animated.View style={[this.fadeIn(2500, 20)]}>
 						<TouchableOpacity
 							onPress={() => this.navigate('registration')}
 							style={[styles.btn, styles.btnDefault, styles.btnTransparent]}>

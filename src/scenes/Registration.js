@@ -23,15 +23,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import variables from './../theme/variables.js';
 import styles from './../theme/styles.js';
 import t from './../Translations';
-
-
-var regions = [
-	{id: 0, title: 'Регион'},
-	{id: 1, title: 'Киев'},
-	{id: 2, title: 'Харьков'},
-	{id: 3, title: 'Днепр'},
-];
-
+import data from './../Data';
 
 export default class Registration extends Component {
 
@@ -43,7 +35,16 @@ export default class Registration extends Component {
 			results: {
 				items: []
 			},
-			selectedRegion: 0
+
+			form_name: '',
+			form_surname: '',
+			form_middleName: '',
+			form_email: '',
+			form_password: '',
+			form_passwordConfirm: '',
+			form_region: 0,
+			form_position: '',
+			form_phoneNumber: '',
 		}
 	}
 
@@ -58,6 +59,10 @@ export default class Registration extends Component {
 			name: routeName,
 			data: routeData
 		});
+	}
+
+	_signUp() {
+		Alert.alert('Готово!', 'Ваши данные отправлены на валидацию.', [{text: 'OK', onPress: () => this.navigate('login')}])
 	}
 
 	render() {
@@ -99,8 +104,8 @@ export default class Registration extends Component {
 									style={[ styles.textInputInput ]}
 									underlineColorAndroid='transparent'
 									placeholder={t.name}
-									onChangeText={(name) => this.setState({name: name})}
-									value={(this.state && this.state.name) || ''}
+									onChangeText={(value) => this.setState({form_name: value})}
+									value={this.state.form_name}
 								/>
 							</View>
 							<View style={[styles.col, styles.textInput, styles.inputDefault]}>
@@ -108,8 +113,8 @@ export default class Registration extends Component {
 									style={[ styles.textInputInput ]}
 									underlineColorAndroid='transparent'
 									placeholder={t.surname}
-									onChangeText={(surname) => this.setState({surname: surname})}
-									value={(this.state && this.state.surname) || ''}
+									onChangeText={(value) => this.setState({form_surname: value})}
+									value={this.state.form_surname}
 								/>
 							</View>
 						</View>
@@ -119,8 +124,8 @@ export default class Registration extends Component {
 								style={[ styles.textInputInput ]}
 								underlineColorAndroid='transparent'
 								placeholder={t.middleName}
-								onChangeText={(middleName) => this.setState({middleName: middleName})}
-								value={(this.state && this.state.middleName) || ''}
+								onChangeText={(value) => this.setState({form_middleName: value})}
+								value={this.state.form_middleName}
 							/>
 						</View>
 
@@ -135,8 +140,8 @@ export default class Registration extends Component {
 								style={[ styles.textInputInput ]}
 								underlineColorAndroid='transparent'
 								placeholder={t.email}
-								onChangeText={(email) => this.setState({email: email})}
-								value={(this.state && this.state.email) || ''}
+								onChangeText={(value) => this.setState({form_email: value})}
+								value={this.state.form_email}
 							/>
 						</View>
 
@@ -145,8 +150,9 @@ export default class Registration extends Component {
 								style={[ styles.textInputInput ]}
 								underlineColorAndroid='transparent'
 								placeholder={t.password}
-								onChangeText={(password) => this.setState({password: password})}
-								value={(this.state && this.state.password) || ''}
+								secureTextEntry={true}
+								onChangeText={(value) => this.setState({form_password: value})}
+								value={this.state.form_password}
 							/>
 						</View>
 
@@ -155,8 +161,9 @@ export default class Registration extends Component {
 								style={[ styles.textInputInput ]}
 								underlineColorAndroid='transparent'
 								placeholder={t.passwordConfirm}
-								onChangeText={(passwordConfirm) => this.setState({passwordConfirm: passwordConfirm})}
-								value={(this.state && this.state.passwordConfirm) || ''}
+								secureTextEntry={true}
+								onChangeText={(value) => this.setState({form_passwordConfirm: value})}
+								value={this.state.form_passwordConfirm}
 							/>
 						</View>
 
@@ -166,12 +173,12 @@ export default class Registration extends Component {
 						<View style={[styles.textInput, styles.inputDefault]}>
 							<Picker
 								style={styles.picker}
-								selectedValue={this.state.selectedRegion}
+								selectedValue={this.state.form_region}
 								onValueChange={this.onValueChange.bind(this, 'selected2')}
-								onValueChange={(value) => { this.setState({selectedRegion: value}) }}
+								onValueChange={(value) => { this.setState({form_region: value}) }}
 								mode="dropdown">
-								{regions.map((item, index) => {
-									return (<Picker.Item key={index} label={item.title} value={item.id} />);
+								{data.regions.map((item, index) => {
+									return (<Picker.Item key={index} label={item} value={item} />);
 								}, this)}
 							</Picker>
 						</View>
@@ -181,8 +188,8 @@ export default class Registration extends Component {
 								style={[ styles.textInputInput ]}
 								underlineColorAndroid='transparent'
 								placeholder={t.position}
-								onChangeText={(position) => this.setState({passwordConfirm: position})}
-								value={(this.state && this.state.position) || ''}
+								onChangeText={(value) => this.setState({form_position: value})}
+								value={this.state.form_position}
 							/>
 						</View>
 
@@ -191,14 +198,14 @@ export default class Registration extends Component {
 								style={[ styles.textInputInput ]}
 								underlineColorAndroid='transparent'
 								placeholder={t.phoneNumber}
-								onChangeText={(phoneNumber) => this.setState({phoneNumber: phoneNumber})}
-								value={(this.state && this.state.passwordConfirm) || ''}
+								onChangeText={(value) => this.setState({form_phoneNumber: value})}
+								value={this.state.form_phoneNumber}
 							/>
 						</View>
 
 						<View style={[styles.center, styles.mt2]}>
 							<TouchableOpacity
-								activeOpacity={75 / 100}
+								onPress={() => this._signUp()}
 								style={[styles.btn, styles.btnDefault, styles.btnPrimary]}>
 								<Text style={styles.white}>{t.submit}</Text>
 							</TouchableOpacity>

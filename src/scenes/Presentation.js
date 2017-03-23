@@ -12,7 +12,6 @@ import {
 	StatusBar,
 	Animated,
 	TextInput,
-	TouchableHighlight,
 	TouchableOpacity,
 	ViewPagerAndroid
 } from 'react-native';
@@ -74,7 +73,7 @@ export default class Presentation extends Component {
 		return (
 			<View key={index} style={styles.presentation}>
 				<Image source={item.imageBg} style={styles.presentationTop}>
-					<View style={styles.last}>
+					<View>
 						<Text style={styles.presentationText}>{item.description.toUpperCase()}</Text>
 					</View>
 				</Image>

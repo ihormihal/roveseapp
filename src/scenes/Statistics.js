@@ -12,7 +12,7 @@ import {
 	StatusBar,
 	Animated,
 	TextInput,
-	TouchableHighlight,
+	ListView,
 	TouchableOpacity,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -25,9 +25,17 @@ export default class Statistics extends Component {
 
 	constructor(props) {
 		super(props);
+		const dataset = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 		this.state = {
-			email: '',
-			phone: ''
+			sellers: dataset.cloneWithRows([
+				{
+					id: 1,
+					name: 'Злата Новикова',
+					date: '05.01.15',
+					bonus: 160,
+					total: 900
+				}
+			])
 		};
 	};
 
@@ -36,6 +44,17 @@ export default class Statistics extends Component {
 			name: routeName,
 			data: routeData
 		});
+	}
+
+	renderListItem(item) {
+		return (
+			<TouchableOpacity style={styles.cols} onPress={() => this.navigate('seller', {id: item.id})}>
+				<Text style={styles.col}>{item.name}</Text>
+				<Text style={styles.col}>{item.date}</Text>
+				<Text style={styles.col}>{item.bonus}</Text>
+				<Text style={styles.col}>{item.total}</Text>
+			</TouchableOpacity>
+		)
 	}
 
 	render() {
@@ -60,8 +79,15 @@ export default class Statistics extends Component {
 					<View style={styles.headerRight}>
 					</View>
 				</View>
-				<View style={styles.container}>
-
+				<View style={[styles.container]}>
+					<View style={styles.center}>
+						<Text style={[styles.h2, styles.primary, styles.textCenter]}>База продавцов-участников программы</Text>
+						<View style={styles.hr} />
+					</View>
+					<ListView
+						dataSource={this.state.sellers}
+						renderRow={(rowData) => this.renderListItem(rowData)}
+					/>
 				</View>
 			</View>
 		);

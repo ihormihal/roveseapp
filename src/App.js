@@ -11,6 +11,7 @@ import Root from './scenes/Root';
 import Presentation from './scenes/Presentation';
 import SellerRegistration from './scenes/SellerRegistration';
 import Statistics from './scenes/Statistics';
+import Seller from './scenes/Seller';
 import Support from './scenes/Support';
 import SupportOffer from './scenes/SupportOffer';
 import SupportError from './scenes/SupportError';
@@ -61,6 +62,9 @@ export default class App extends Component {
 		if(route.name == 'statistics'){
 			return (<Statistics navigator={navigator} data={route.data} />);
 		}
+		if(route.name == 'seller'){
+			return (<Seller navigator={navigator} data={route.data} />);
+		}
 		if(route.name == 'support'){
 			return (<Support navigator={navigator} data={route.data} />);
 		}
@@ -97,14 +101,13 @@ export default class App extends Component {
 	}
 
 	navigatorConfig(route) {
-		switch (route.name){
-			case 'root':
-				return {
-					...Navigator.SceneConfigs.FloatFromBottom,
-					gestures: false
-				}
-			default:
-				return Navigator.SceneConfigs.PushFromRight;
+		if(route.name == 'login' || route.name == 'root'){
+			return {
+				...Navigator.SceneConfigs.FloatFromBottom,
+				gestures: false
+			}
+		}else{
+			return Navigator.SceneConfigs.PushFromRight;
 		}
 	}
 

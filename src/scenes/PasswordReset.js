@@ -40,6 +40,14 @@ export default class PasswordReset extends Component {
 		});
 	}
 
+	_passwordReset(){
+		Alert.alert(
+			'',
+			'На Ваш почтовый ящик отправлено письмо с новым паролем!',
+			[{text: 'OK', onPress: () => this.props.navigator.pop() }]
+		);
+	}
+
 	render() {
 		return (
 			<View style={styles.scene}>
@@ -86,11 +94,7 @@ export default class PasswordReset extends Component {
 
 					<View style={[styles.center, styles.mt2]}>
 						<TouchableOpacity
-							onPress={() => Alert.alert(
-								'',
-								'На Ваш почтовый ящик отправлено письмо с новым паролем!',
-								[{text: 'OK', onPress: () => this.props.navigator.pop() }]
-							)}
+							onPress={() => this._passwordReset()}
 							style={[styles.btn, styles.btnDefault, styles.btnPrimary]}>
 							<Text style={styles.white}>{t.change}</Text>
 						</TouchableOpacity>
