@@ -13,7 +13,6 @@ import {
 	StatusBar,
 	Animated,
 	TextInput,
-	TouchableHighlight,
 	TouchableOpacity,
 	Picker,
 	Item
@@ -36,9 +35,17 @@ export default class Settings extends Component {
 			results: {
 				items: []
 			},
-			selectedRegion: 0,
 
-			form_language: 'en'
+			form_name: '',
+			form_surname: '',
+			form_middleName: '',
+			form_region: 0,
+			form_poisition: 0,
+			form_phone: '',
+			form_language: 'en',
+			form_oldPassword: '',
+			form_newPassword: '',
+			form_passwordConfirm: '',
 		}
 	}
 
@@ -53,6 +60,10 @@ export default class Settings extends Component {
 			name: routeName,
 			data: routeData
 		});
+	}
+
+	_save() {
+		Alert.alert(t.error, t.errorEmptyField);
 	}
 
 	render() {
@@ -89,6 +100,8 @@ export default class Settings extends Component {
 								style={[ styles.textInputInput ]}
 								underlineColorAndroid='transparent'
 								placeholder={t.name}
+								onChangeText={(value) => this.setState({form_name: value})}
+								value={this.state.form_name}
 							/>
 						</View>
 
@@ -97,6 +110,8 @@ export default class Settings extends Component {
 								style={[ styles.textInputInput ]}
 								underlineColorAndroid='transparent'
 								placeholder={t.surname}
+								onChangeText={(value) => this.setState({form_surname: value})}
+								value={this.state.form_surname}
 							/>
 						</View>
 
@@ -105,15 +120,16 @@ export default class Settings extends Component {
 								style={[ styles.textInputInput ]}
 								underlineColorAndroid='transparent'
 								placeholder={t.middleName}
+								onChangeText={(value) => this.setState({form_middleName: value})}
+								value={this.state.form_middleName}
 							/>
 						</View>
 
 						<View style={[styles.textInput, styles.inputDefault, styles.mt1]}>
 							<Picker
 								style={styles.picker}
-								selectedValue={this.state.selectedRegion}
-								onValueChange={this.onValueChange.bind(this, 'selected2')}
-								onValueChange={(value) => { this.setState({selectedRegion: value}) }}
+								selectedValue={this.state.form_region}
+								onValueChange={(value) => { this.setState({form_region: value}) }}
 								mode="dropdown">
 								{data.regions.map((item, index) => {
 									return (<Picker.Item key={index} label={item} value={item} />);
@@ -122,13 +138,15 @@ export default class Settings extends Component {
 						</View>
 
 						<View style={[styles.textInput, styles.inputDefault, styles.mt1]}>
-							<TextInput
-								style={[ styles.textInputInput ]}
-								underlineColorAndroid='transparent'
-								placeholder={t.position}
-								onChangeText={(position) => this.setState({passwordConfirm: position})}
-								value={(this.state && this.state.position) || ''}
-							/>
+							<Picker
+								style={styles.picker}
+								selectedValue={this.state.form_poisition}
+								onValueChange={(value) => { this.setState({form_poisition: value}) }}
+								mode="dropdown">
+									<Picker.Item label="Position 1" value={0} />
+									<Picker.Item label="Position 2" value={1} />
+									<Picker.Item label="Position 3" value={2} />
+							</Picker>
 						</View>
 
 						<View style={[styles.textInput, styles.inputDefault, styles.mt1]}>
@@ -136,12 +154,12 @@ export default class Settings extends Component {
 								style={[ styles.textInputInput ]}
 								underlineColorAndroid='transparent'
 								placeholder={t.phoneNumber}
-								onChangeText={(phoneNumber) => this.setState({phoneNumber: phoneNumber})}
-								value={(this.state && this.state.passwordConfirm) || ''}
+								onChangeText={(value) => this.setState({form_phone: value})}
+								value={this.state.form_phone}
 							/>
 						</View>
 
-						<Text style={[styles.inputLabel, styles.textCenter, styles.mt1]}>Выбор языка интерфейса</Text>
+						<Text style={[styles.inputLabel, styles.textCenter, styles.mt1]}>{t.selectLanguage}</Text>
 
 						<View style={[styles.textInput, styles.inputDefault]}>
 							<Picker
@@ -155,13 +173,16 @@ export default class Settings extends Component {
 							</Picker>
 						</View>
 
-						<Text style={[styles.inputLabel, styles.textCenter, styles.mt1]}>Изменение пароляа</Text>
+						<Text style={[styles.inputLabel, styles.textCenter, styles.mt1]}>{t.passwordEdit}</Text>
 
 						<View style={[styles.textInput, styles.inputDefault]}>
 							<TextInput
 								style={[ styles.textInputInput ]}
 								underlineColorAndroid='transparent'
-								placeholder="Старий пароль"
+								placeholder={t.oldPassword}
+								secureTextEntry={true}
+								onChangeText={(value) => this.setState({form_oldPassword: value})}
+								value={this.state.form_oldPassword}
 							/>
 						</View>
 
@@ -169,7 +190,10 @@ export default class Settings extends Component {
 							<TextInput
 								style={[ styles.textInputInput ]}
 								underlineColorAndroid='transparent'
-								placeholder="Новый пароль"
+								placeholder={t.newPassword}
+								secureTextEntry={true}
+								onChangeText={(value) => this.setState({form_newPassword: value})}
+								value={this.state.form_newPassword}
 							/>
 						</View>
 
@@ -177,12 +201,16 @@ export default class Settings extends Component {
 							<TextInput
 								style={[ styles.textInputInput ]}
 								underlineColorAndroid='transparent'
-								placeholder="Подтвердите пароль"
+								placeholder={t.passwordConfirm}
+								secureTextEntry={true}
+								onChangeText={(value) => this.setState({form_passwordConfirm: value})}
+								value={this.state.form_passwordConfirm}
 							/>
 						</View>
 
 						<View style={[styles.center, styles.mt2]}>
 							<TouchableOpacity
+								onPress={() => this._save()}
 								style={[styles.btn, styles.btnDefault, styles.btnPrimary]}>
 								<Text style={styles.white}>{t.save}</Text>
 							</TouchableOpacity>

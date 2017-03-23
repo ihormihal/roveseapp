@@ -28,8 +28,8 @@ export default class SupportOffer extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			email: '',
-			phone: ''
+			form_subject: '',
+			form_comment: ''
 		};
 	};
 
@@ -49,8 +49,7 @@ export default class SupportOffer extends Component {
 					<View style={styles.headerLeft}>
 						<TouchableOpacity
 							style={styles.btn}
-							onPress={() => this.props.navigator.pop()}
-							activeOpacity={75 / 50}>
+							onPress={() => this.props.navigator.pop()}>
 							<Icon style={[styles.btnIcon, styles.primary]} size={20} name="arrow-back"/>
 							<Text style={[styles.btnText, styles.primary]}>{t.back}</Text>
 						</TouchableOpacity>
@@ -65,7 +64,7 @@ export default class SupportOffer extends Component {
 					</View>
 				</View>
 				<View style={styles.pageHeader}>
-					<Text style={styles.white}>Отправить отзыв или предложение</Text>
+					<Text style={styles.white}>{t.submitFeedbackTitle}</Text>
 				</View>
 				<View style={[styles.container, styles.whiteBg]}>
 
@@ -73,9 +72,9 @@ export default class SupportOffer extends Component {
 						<TextInput
 							style={[ styles.textInputInput ]}
 							underlineColorAndroid='transparent'
-							placeholder="Тема"
-							onChangeText={(phone) => this.setState({phone: phone})}
-							value={(this.state && this.state.phone) || ''}
+							placeholder={t.letterSubject}
+							onChangeText={(value) => this.setState({form_subject: value})}
+							value={this.state.form_subject}
 						/>
 					</View>
 
@@ -85,9 +84,9 @@ export default class SupportOffer extends Component {
 							multiline = {true}
 							numberOfLines = {4}
 							underlineColorAndroid='transparent'
-							placeholder="Комментарий"
-							onChangeText={(phone) => this.setState({phone: phone})}
-							value={(this.state && this.state.phone) || ''}
+							placeholder={t.comment}
+							onChangeText={(value) => this.setState({form_comment: value})}
+							value={this.state.form_comment}
 						/>
 					</View>
 

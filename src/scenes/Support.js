@@ -49,8 +49,7 @@ export default class Support extends Component {
 					<View style={styles.headerLeft}>
 						<TouchableOpacity
 							style={styles.btn}
-							onPress={() => this.props.navigator.pop()}
-							activeOpacity={75 / 50}>
+							onPress={() => this.props.navigator.pop()}>
 							<Icon style={[styles.btnIcon, styles.primary]} size={20} name="arrow-back"/>
 							<Text style={[styles.btnText, styles.primary]}>{t.back}</Text>
 						</TouchableOpacity>
@@ -71,17 +70,17 @@ export default class Support extends Component {
 					<TouchableOpacity
 						onPress={() => this.navigate('support-error')}
 						style={[styles.btn, styles.btnDefault, styles.btnPrimary]}>
-						<Text style={styles.white}>Сообщить об ошибке</Text>
+						<Text style={styles.white}>{t.reportAnError}</Text>
 					</TouchableOpacity>
 					<TouchableOpacity
 						onPress={() => this.navigate('about')}
 						style={[styles.btn, styles.btnDefault, styles.btnPrimary]}>
-						<Text style={styles.white}>О приложении</Text>
+						<Text style={styles.white}>{t.aboutApp}</Text>
 					</TouchableOpacity>
 				</View>
 				<View style={[styles.container, styles.center, styles.last]}>
-					<Text style={styles.mt1}>Помогите нам улучшить приложение,</Text>
-					<Text onPress={() => this.navigate('support-offer')} style={styles.primary}>отправляйте отзывы или предложения</Text>
+					<Text style={styles.mt1}>{t.helpToImproveApp},</Text>
+					<Text onPress={() => this.navigate('support-offer')} style={styles.primary}>{t.submitFeedback}</Text>
 				</View>
 			</Image>
 		);

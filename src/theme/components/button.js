@@ -9,9 +9,9 @@ export default {
 	buttonCircle: {
 		alignItems: 'center',
 		justifyContent: 'center',
-		height: 70,
-		width: 70,
-		borderRadius: 70,
+		height: 50*variables.PIXEL_RATIO,
+		width: 50*variables.PIXEL_RATIO,
+		borderRadius: 50*variables.PIXEL_RATIO,
 		backgroundColor: variables.colorPrimaryDark
 	},
 	buttonCircleImg: {
@@ -34,5 +34,9 @@ export default {
 	},
 	btnIcon: {
 		marginRight: 5,
+		fontSize: variables.FONTSIZE_MD
 	},
+	btnText: {
+		fontSize: variables.FONTSIZE_MD
+	}
 }

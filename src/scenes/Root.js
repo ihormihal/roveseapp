@@ -20,7 +20,6 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
-//import Drawer from './../components/Drawer.js';
 
 import variables from './../theme/variables.js';
 import styles from './../theme/styles.js';
@@ -57,23 +56,23 @@ var slides = [
 
 var menu = [
 	{
-		title: 'Домой',
+		title: t.menu_root,
 		route: 'root'
 	},
 	{
-		title: 'Статистика',
+		title: t.menu_statistics,
 		route: 'statistics'
 	},
 	{
-		title: 'Анкета продавца',
-		route: 'seller-registratio'
+		title: t.menu_sellerRegistration,
+		route: 'seller-registration'
 	},
 	{
-		title: 'Настройки',
+		title: t.menu_settings,
 		route: 'settings'
 	},
 	{
-		title: 'Сообщить о проблеме',
+		title: t.menu_support,
 		route: 'support'
 	}
 ];
@@ -119,23 +118,13 @@ export default class PasswordReset extends Component {
 	onPageScroll = (e) => {
 		var offset = parseInt((variables.pagStep+variables.pagSize)*(e.nativeEvent.position + e.nativeEvent.offset));
 		this.setState({pagOffset: parseInt(offset)});
-		// var delta_w = variables.pagStep + variables.pagSize;
-		// var offset = (variables.pagStep+variables.pagSize)*e.nativeEvent.position;
-		// var width = this.state.pagWidth;
-		// if(e.nativeEvent.offset <= 0.5){
-		// 	width = variables.pagSize + delta_w * e.nativeEvent.offset * 2;
-		// }else{
-		// 	offset = offset + delta_w * e.nativeEvent.offset;
-		// 	width = variables.pagSize + delta_w * (1 - e.nativeEvent.offset );
-		// }
-		// this.setState({pagOffset: parseInt(offset), pagWidth: parseInt(width)});
 	};
 
 	render() {
 		var Drawer = (
 			<View style={styles.drawer}>
 				<View style={[styles.drawerSection, styles.drawerSectionTop]}>
-					<Text style={[styles.h1, styles.white, styles.textCenter]}>Имя Фамилия</Text>
+					<Text style={[styles.h1, styles.white, styles.textCenter]}>{t.name_surname}</Text>
 				</View>
 				<View style={styles.divider}></View>
 				<View style={styles.drawerSection}>
@@ -146,7 +135,7 @@ export default class PasswordReset extends Component {
 								background={rippleBg}
 								onPress={() => this.navigate(item.route)}>
 								<View style={styles.menuItem}>
-									<Text style={[styles.white, styles.h2]}>{item.title}</Text>
+									<Text style={styles.menuItemText}>{item.title}</Text>
 								</View>
 							</TouchableNativeFeedback>
 						)
@@ -159,7 +148,7 @@ export default class PasswordReset extends Component {
 						background={rippleBg}
 						onPress={() => this.navigate('login')}>
 						<View style={styles.btnDrawerBottom}>
-							<Text style={[styles.h2, styles.white, styles.textCenter]}>Выйти из учетной записи</Text>
+							<Text style={[styles.menuItemText, styles.textCenter]}>{t.logout}</Text>
 						</View>
 					</TouchableNativeFeedback>
 				</View>
@@ -175,7 +164,7 @@ export default class PasswordReset extends Component {
 
 		return (
 			<DrawerLayoutAndroid
-				drawerWidth={250}
+				drawerWidth={200*variables.PIXEL_RATIO}
 				drawerBackgroundColor="transparent"
 				drawerPosition={DrawerLayoutAndroid.positions.Left}
 				renderNavigationView={() => Drawer}

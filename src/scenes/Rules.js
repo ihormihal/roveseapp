@@ -48,8 +48,7 @@ export default class PasswordReset extends Component {
 					<View style={styles.headerLeft}>
 						<TouchableOpacity
 							style={styles.btn}
-							onPress={() => this.props.navigator.pop()}
-							activeOpacity={75 / 50}>
+							onPress={() => this.props.navigator.pop()}>
 							<Icon style={[styles.btnIcon, styles.primary]} size={20} name="arrow-back"/>
 							<Text style={[styles.btnText, styles.primary]}>{t.back}</Text>
 						</TouchableOpacity>

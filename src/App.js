@@ -12,6 +12,7 @@ import Presentation from './scenes/Presentation';
 import SellerRegistration from './scenes/SellerRegistration';
 import Statistics from './scenes/Statistics';
 import Seller from './scenes/Seller';
+import SellerEdit from './scenes/SellerEdit';
 import Support from './scenes/Support';
 import SupportOffer from './scenes/SupportOffer';
 import SupportError from './scenes/SupportError';
@@ -64,6 +65,9 @@ export default class App extends Component {
 		}
 		if(route.name == 'seller'){
 			return (<Seller navigator={navigator} data={route.data} />);
+		}
+		if(route.name == 'seller-edit'){
+			return (<SellerEdit navigator={navigator} data={route.data} />);
 		}
 		if(route.name == 'support'){
 			return (<Support navigator={navigator} data={route.data} />);

@@ -25,7 +25,7 @@ import styles from './../theme/styles.js';
 import t from './../Translations';
 import data from './../Data';
 
-export default class SellerRegistration extends Component {
+export default class SellerEdit extends Component {
 
 	constructor(props) {
 		super(props);
@@ -36,10 +36,11 @@ export default class SellerRegistration extends Component {
 				items: []
 			},
 
-			form_name: '',
-			form_surname: '',
+			form_name: 'Злата',
+			form_surname: 'Новикова',
 			form_middleName: '',
-			form_email: '',
+			form_email: 'zlata@tets.com',
+			form_phone: '+380509999999',
 			form_tradePoint: 0,
 			form_sertifivate: 0,
 		}
@@ -56,14 +57,6 @@ export default class SellerRegistration extends Component {
 			name: routeName,
 			data: routeData
 		});
-	}
-
-	_save() {
-		if(this.state.form_name && this.state.form_surname && this.state.form_middleName && this.state.form_email){
-			Alert.alert(t.done, t.data_send, [{text: 'OK', onPress: () => this.navigate('seller')}]);
-		}else{
-			Alert.alert(t.error, t.errorEmptyField);
-		}
 	}
 
 	render() {
@@ -86,23 +79,15 @@ export default class SellerRegistration extends Component {
 
 					<View style={styles.container}>
 
-						<View style={styles.logoTitle}>
-							<Image
-								style={[ styles.logoHeader ]}
-								source={require('./../images/logo-blue.png')}
-							/>
-							<View style={styles.logoRightText}>
-								<Text style={styles.lrtBig}>{t.logoRegistration}</Text>
-								<Text style={styles.lrt}>{t.logoSeller}</Text>
-								<Text style={styles.lrt}>{t.logoMember}</Text>
-							</View>
-						</View>
+						<Text style={[styles.inputLabel, styles.textCenter]}>{t.edit_profile}</Text>
 
 						<View style={[styles.textInput, styles.inputDefault]}>
 							<TextInput
 								style={[ styles.textInputInput ]}
 								underlineColorAndroid='transparent'
 								placeholder={t.name}
+								onChangeText={(value) => this.setState({form_name: value})}
+								value={this.state.form_name}
 							/>
 						</View>
 
@@ -111,6 +96,8 @@ export default class SellerRegistration extends Component {
 								style={[ styles.textInputInput ]}
 								underlineColorAndroid='transparent'
 								placeholder={t.surname}
+								onChangeText={(value) => this.setState({form_surname: value})}
+								value={this.state.form_surname}
 							/>
 						</View>
 
@@ -119,6 +106,8 @@ export default class SellerRegistration extends Component {
 								style={[ styles.textInputInput ]}
 								underlineColorAndroid='transparent'
 								placeholder={t.middleName}
+								onChangeText={(value) => this.setState({form_middleName: value})}
+								value={this.state.form_middleName}
 							/>
 						</View>
 
@@ -127,6 +116,8 @@ export default class SellerRegistration extends Component {
 								style={[ styles.textInputInput ]}
 								underlineColorAndroid='transparent'
 								placeholder={t.email}
+								onChangeText={(value) => this.setState({form_email: value})}
+								value={this.state.form_email}
 							/>
 						</View>
 
@@ -147,6 +138,8 @@ export default class SellerRegistration extends Component {
 								style={[ styles.textInputInput ]}
 								underlineColorAndroid='transparent'
 								placeholder={t.phoneNumber}
+								onChangeText={(value) => this.setState({form_phone: value})}
+								value={this.state.form_phone}
 							/>
 						</View>
 
@@ -164,9 +157,8 @@ export default class SellerRegistration extends Component {
 
 						<View style={[styles.center, styles.mt2]}>
 							<TouchableOpacity
-								onPress={() => this._save()}
 								style={[styles.btn, styles.btnDefault, styles.btnPrimary]}>
-								<Text style={styles.white}>{t.submit}</Text>
+								<Text style={styles.white}>{t.save}</Text>
 							</TouchableOpacity>
 						</View>
 

@@ -64,8 +64,7 @@ export default class Statistics extends Component {
 					<View style={styles.headerLeft}>
 						<TouchableOpacity
 							style={styles.btn}
-							onPress={() => this.props.navigator.pop()}
-							activeOpacity={75 / 50}>
+							onPress={() => this.props.navigator.pop()}>
 							<Icon style={[styles.btnIcon, styles.primary]} size={20} name="arrow-back"/>
 							<Text style={[styles.btnText, styles.primary]}>{t.back}</Text>
 						</TouchableOpacity>
@@ -81,7 +80,7 @@ export default class Statistics extends Component {
 				</View>
 				<View style={[styles.container]}>
 					<View style={styles.center}>
-						<Text style={[styles.h2, styles.primary, styles.textCenter]}>База продавцов-участников программы</Text>
+						<Text style={[styles.h2, styles.primary, styles.textCenter]}>{t.sellerBase}</Text>
 						<View style={styles.hr} />
 					</View>
 					<ListView

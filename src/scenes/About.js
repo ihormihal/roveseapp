@@ -65,13 +65,13 @@ export default class About extends Component {
 					</View>
 				</View>
 				<View style={styles.pageHeader}>
-					<Text style={styles.white}>О приложении</Text>
+					<Text style={styles.white}>{t.aboutApp}</Text>
 				</View>
 				<View style={[styles.container, styles.center, styles.whiteBg]}>
 					<Text style={[styles.h2, styles.mb1]}>ROVESE RETAIL CLUB</Text>
 					<Text style={styles.small}>Version: 1.0.0</Text>
 					<View style={styles.hr} />
-					<Text><Icon name="copyright" /> 2017 JayaDigital. All rights reserved.</Text>
+					<Text><Icon name="copyright" /> {t.copyright}</Text>
 				</View>
 			</Image>
 		);

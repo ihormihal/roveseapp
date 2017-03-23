@@ -18,7 +18,7 @@ export default {
 		flex: 1,
 		alignItems: 'stretch',
 		//justifyContent: 'flex-start',
-		width: '60%',
+
 		backgroundColor: '#fff',
 		shadowColor: '#000',
 		elevation: 5,

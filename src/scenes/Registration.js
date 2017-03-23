@@ -43,7 +43,7 @@ export default class Registration extends Component {
 			form_password: '',
 			form_passwordConfirm: '',
 			form_region: 0,
-			form_position: '',
+			form_position: 0,
 			form_phoneNumber: '',
 		}
 	}
@@ -62,7 +62,11 @@ export default class Registration extends Component {
 	}
 
 	_signUp() {
-		Alert.alert('Готово!', 'Ваши данные отправлены на валидацию.', [{text: 'OK', onPress: () => this.navigate('login')}])
+		if(this.state.form_name && this.state.form_surname && this.state.form_middleName && this.state.form_email && this.state.form_password && this.state.form_passwordConfirm && this.state.form_phoneNumber){
+			Alert.alert(t.done, t.data_send, [{text: 'OK', onPress: () => this.navigate('login')}]);
+		}else{
+			Alert.alert(t.error, t.errorEmptyField)
+		}
 	}
 
 	render() {
@@ -73,8 +77,7 @@ export default class Registration extends Component {
 					<View style={styles.headerLeft}>
 						<TouchableOpacity
 							style={styles.btn}
-							onPress={() => this.props.navigator.pop()}
-							activeOpacity={75 / 50}>
+							onPress={() => this.props.navigator.pop()}>
 							<Icon style={[styles.btnIcon, styles.primary]} size={20} name="arrow-back"/>
 							<Text style={[styles.btnText, styles.primary]}>{t.back}</Text>
 						</TouchableOpacity>
@@ -88,18 +91,18 @@ export default class Registration extends Component {
 
 						<View style={styles.logoTitle}>
 							<Image
-								style={[ styles.logoHeader ]}
+								style={styles.logoTitleImg}
 								source={require('./../images/logo-blue.png')}
 							/>
 							<View style={styles.logoRightText}>
-								<Text style={styles.lrtBig}>Регистрация</Text>
-								<Text style={styles.lrt}>регионального</Text>
-								<Text style={styles.lrt}>представителя</Text>
+								<Text style={styles.lrtBig}>{t.logoRegistration}</Text>
+								<Text style={styles.lrt}>{t.logoRegional}</Text>
+								<Text style={styles.lrt}>{t.logoMember}</Text>
 							</View>
 						</View>
 
-						<View style={styles.cols}>
-							<View style={[styles.col, styles.textInput, styles.inputDefault, styles.mr1]}>
+						<View style={[styles.cols, styles.inputOffsetB]}>
+							<View style={[styles.col, styles.textInput, styles.inputDefault, styles.inputOffsetR]}>
 								<TextInput
 									style={[ styles.textInputInput ]}
 									underlineColorAndroid='transparent'
@@ -119,7 +122,7 @@ export default class Registration extends Component {
 							</View>
 						</View>
 
-						<View style={[styles.textInput, styles.inputDefault, styles.mt1]}>
+						<View style={[styles.textInput, styles.inputDefault, styles.inputOffsetB]}>
 							<TextInput
 								style={[ styles.textInputInput ]}
 								underlineColorAndroid='transparent'
@@ -135,7 +138,7 @@ export default class Registration extends Component {
 							<View style={styles.lline}></View>
 						</View>
 
-						<View style={[styles.textInput, styles.inputDefault]}>
+						<View style={[styles.textInput, styles.inputDefault, styles.inputOffsetB]}>
 							<TextInput
 								style={[ styles.textInputInput ]}
 								underlineColorAndroid='transparent'
@@ -145,7 +148,7 @@ export default class Registration extends Component {
 							/>
 						</View>
 
-						<View style={[styles.textInput, styles.inputDefault, styles.mt1]}>
+						<View style={[styles.textInput, styles.inputDefault, styles.inputOffsetB]}>
 							<TextInput
 								style={[ styles.textInputInput ]}
 								underlineColorAndroid='transparent'
@@ -156,7 +159,7 @@ export default class Registration extends Component {
 							/>
 						</View>
 
-						<View style={[styles.textInput, styles.inputDefault, styles.mt1]}>
+						<View style={[styles.textInput, styles.inputDefault, styles.inputOffsetB]}>
 							<TextInput
 								style={[ styles.textInputInput ]}
 								underlineColorAndroid='transparent'
@@ -168,9 +171,9 @@ export default class Registration extends Component {
 						</View>
 
 
-						<View style={styles.hr} />
+						<View style={styles.formHR} />
 
-						<View style={[styles.textInput, styles.inputDefault]}>
+						<View style={[styles.textInput, styles.inputDefault, styles.inputOffsetB]}>
 							<Picker
 								style={styles.picker}
 								selectedValue={this.state.form_region}
@@ -183,17 +186,19 @@ export default class Registration extends Component {
 							</Picker>
 						</View>
 
-						<View style={[styles.textInput, styles.inputDefault, styles.mt1]}>
-							<TextInput
-								style={[ styles.textInputInput ]}
-								underlineColorAndroid='transparent'
-								placeholder={t.position}
-								onChangeText={(value) => this.setState({form_position: value})}
-								value={this.state.form_position}
-							/>
+						<View style={[styles.textInput, styles.inputDefault, styles.inputOffsetB]}>
+							<Picker
+								style={styles.picker}
+								selectedValue={this.state.form_poisition}
+								onValueChange={(value) => { this.setState({form_poisition: value}) }}
+								mode="dropdown">
+									<Picker.Item label="Position 1" value={0} />
+									<Picker.Item label="Position 2" value={1} />
+									<Picker.Item label="Position 3" value={2} />
+							</Picker>
 						</View>
 
-						<View style={[styles.textInput, styles.inputDefault, styles.mt1]}>
+						<View style={[styles.textInput, styles.inputDefault, styles.inputOffsetB]}>
 							<TextInput
 								style={[ styles.textInputInput ]}
 								underlineColorAndroid='transparent'
@@ -203,15 +208,15 @@ export default class Registration extends Component {
 							/>
 						</View>
 
-						<View style={[styles.center, styles.mt2]}>
+						<View style={[styles.center]}>
 							<TouchableOpacity
 								onPress={() => this._signUp()}
 								style={[styles.btn, styles.btnDefault, styles.btnPrimary]}>
-								<Text style={styles.white}>{t.submit}</Text>
+								<Text style={[styles.white, styles.btnText]}>{t.submit}</Text>
 							</TouchableOpacity>
 
-							<Text style={styles.mt1}>Регистрируясь в Retail Club, вы принимаете</Text>
-							<Text onPress={() => this.navigate('rules')} style={styles.primary}>Правила пользования и зашиты информации</Text>
+							<Text style={[styles.mt1, styles.textSM]}>{t.regRulesAgreement_1}</Text>
+							<Text onPress={() => this.navigate('rules')} style={[styles.primary, styles.textSM]}>{t.regRulesAgreement_2}</Text>
 						</View>
 
 					</View>

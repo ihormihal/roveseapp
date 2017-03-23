@@ -10,15 +10,15 @@ export default {
 	},
 	inputDefault: {
 		borderWidth: 1,
-		borderColor: '#ccc',
+		borderColor: variables.colorGreyLight,
 		borderRadius: 2,
-		paddingHorizontal: 5,
+		paddingHorizontal: variables.inputPadding,
 	},
 	textInputInput: {
 		alignSelf: 'stretch',
 		height: variables.inputHeight,
 		padding: 0,
-		fontSize: 18,
+		fontSize: variables.FONTSIZE_SM,
 		//textAlignVertical: 'bottom'
 	},
 	textAreaInput: {
@@ -31,11 +31,24 @@ export default {
 	picker: {
 		height: variables.inputHeight,
 	},
+	inputOffsetB: {
+		marginBottom: variables.inputGAP
+	},
+	inputOffsetR: {
+		marginRight: variables.inputGAP
+	},
+
+	formHR: {
+		alignSelf: 'center',
+		backgroundColor: variables.colorGreyLight,
+		height: 1,
+		width: 250,
+		marginBottom: variables.inputGAP
+	},
 
 	//text
 	legend: {
-		marginTop: variables.gap,
-		marginBottom: variables.gap,
+		marginBottom: variables.inputGAP,
 		flexDirection: 'row',
 		alignItems: 'center',
 		alignSelf: 'center'

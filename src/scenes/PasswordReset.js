@@ -28,8 +28,7 @@ export default class PasswordReset extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			email: '',
-			phone: ''
+			form_email: ''
 		};
 	};
 
@@ -41,11 +40,23 @@ export default class PasswordReset extends Component {
 	}
 
 	_passwordReset(){
-		Alert.alert(
-			'',
-			'На Ваш почтовый ящик отправлено письмо с новым паролем!',
-			[{text: 'OK', onPress: () => this.props.navigator.pop() }]
-		);
+		if(this.state.form_email){
+			if(this.state.form_email.indexOf('@') == -1){
+				Alert.alert(t.error, t.errorEmailField);
+			}else{
+				if(this.state.form_email == 'test@test.com'){
+					Alert.alert(
+						'',
+						t.passwordResetSuccess,
+						[{text: 'OK', onPress: () => this.props.navigator.pop() }]
+					);
+				}else{
+					Alert.alert(t.error, t.errorUserNotFound);
+				}
+			}
+		}else{
+			Alert.alert(t.error, t.errorEmptyField);
+		}
 	}
 
 	render() {
@@ -55,8 +66,7 @@ export default class PasswordReset extends Component {
 					<View style={styles.headerLeft}>
 						<TouchableOpacity
 							style={styles.btn}
-							onPress={() => this.props.navigator.pop()}
-							activeOpacity={75 / 50}>
+							onPress={() => this.props.navigator.pop()}>
 							<Icon style={[styles.btnIcon, styles.primary]} size={20} name="arrow-back"/>
 							<Text style={[styles.btnText, styles.primary]}>{t.back}</Text>
 						</TouchableOpacity>
@@ -72,25 +82,19 @@ export default class PasswordReset extends Component {
 				</View>
 				<View style={styles.container}>
 					<View style={styles.center}>
-						<Text style={[styles.h2]}>{t.passwordRecovery.toUpperCase()}</Text>
+						<Text style={styles.h2}>{t.passwordRecovery.toUpperCase()}</Text>
 						<View style={styles.hr} />
 					</View>
 
-					<InputText
-						label={t.enterEmail}
-						placeholder={t.email}
-						value=""
-						onInputChange={(value) => this.setState({email: value})}
-					/>
-
-					<Text style={[styles.inputLabel, styles.textCenter, styles.textDivider, styles.primary]}>{t.or}</Text>
-
-					<InputText
-						label={t.phoneNumber}
-						placeholder={t.phone}
-						value=""
-						onInputChange={(value) => this.setState({phone: value})}
-					/>
+					<View style={[styles.textInput, styles.inputDefault]}>
+						<Text style={styles.inputLabel}>{t.enterEmail}</Text>
+						<TextInput
+							style={[ styles.textInputInput ]}
+							underlineColorAndroid='transparent'
+							onChangeText={(value) => this.setState({form_email: value})}
+							value={this.state.form_email}
+						/>
+					</View>
 
 					<View style={[styles.center, styles.mt2]}>
 						<TouchableOpacity

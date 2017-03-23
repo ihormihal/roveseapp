@@ -7,6 +7,7 @@ import {
 	AsyncStorage,
 	View,
 	Text,
+	Keyboard,
 	Alert,
 	Image,
 	StatusBar,
@@ -29,8 +30,8 @@ export default class Login extends Component {
 		super();
 		this.state = {
 			anim: new Animated.Value(0),
-			email: 'test@test.com',
-			password: 'test'
+			form_email: 'test@test.com',
+			form_password: 'test'
 		};
 	};
 
@@ -84,6 +85,8 @@ export default class Login extends Component {
 
 
 	componentDidMount() {
+
+		//Alert.alert('Dim', variables.pixelRatio.toString());
 		//this.loadPosts();
 		Animated.timing(this.state.anim, {toValue: 3000, duration: 3000}).start();
 
@@ -105,10 +108,11 @@ export default class Login extends Component {
 	}
 
 	signIn() {
-		if(this.state.email == 'test@test.com' && this.state.password == 'test'){
+		if(this.state.form_email == 'test@test.com' && this.state.form_password == 'test'){
+			Keyboard.dismiss();
 			this.navigate('root');
 		}else{
-			Alert.alert('Ошибка','E-mail или пароль неверны!');
+			Alert.alert(t.error,t.loginError);
 		}
 	}
 
@@ -129,16 +133,16 @@ export default class Login extends Component {
 				<View style={[styles.section, styles.middle]}>
 					<Animated.View style={[styles.sectionLogin, this.fadeIn(500, 20)]}>
 
-						<Text style={[styles.white, styles.h1, styles.textCenter]}>{t.login.toUpperCase()}</Text>
+						<Text style={[styles.white, styles.textLG, styles.textCenter]}>{t.login.toUpperCase()}</Text>
 
-						<View style={[styles.textInput, styles.inputWhite, styles.mt1]}>
+						<View style={[styles.textInput, styles.inputWhite, styles.mt2]}>
 							<TextInput
 								style={[ styles.textInputInput, styles.textCenter, styles.white ]}
 								underlineColorAndroid='transparent'
 								placeholderTextColor="#ffffff"
 								placeholder={t.email}
-								onChangeText={(value) => this.setState({email: value})}
-								value={this.state.email}
+								onChangeText={(value) => this.setState({form_email: value})}
+								value={this.state.form_email}
 							/>
 						</View>
 
@@ -149,8 +153,8 @@ export default class Login extends Component {
 								placeholder={t.password}
 								placeholderTextColor="#ffffff"
 								secureTextEntry={true}
-								onChangeText={(value) => {this.setState({password: value})}}
-								value={this.state.password}
+								onChangeText={(value) => {this.setState({form_password: value})}}
+								value={this.state.form_password}
 							/>
 						</View>
 
@@ -166,17 +170,17 @@ export default class Login extends Component {
 							<TouchableOpacity
 								onPress={() => {}}
 								style={[]}>
-								<Text style={styles.white}>RU</Text>
+								<Text style={[styles.white, styles.textMD]}>RU</Text>
 							</TouchableOpacity>
 							<TouchableOpacity
 								onPress={() => {}}
 								style={[]}>
-								<Text style={styles.white}>UA</Text>
+								<Text style={[styles.white, styles.textMD, styles.opacity50]}>UA</Text>
 							</TouchableOpacity>
 						</View>
 						<TouchableOpacity
 							onPress={() => this.signIn()}
-							style={[styles.buttonCircle, styles.mt1]}>
+							style={[styles.buttonCircle, styles.mt2]}>
 							<Image
 								style={styles.buttonCircleImg}
 								resizeMode={"contain"}
@@ -191,7 +195,7 @@ export default class Login extends Component {
 						<TouchableOpacity
 							onPress={() => this.navigate('registration')}
 							style={[styles.btn, styles.btnDefault, styles.btnTransparent]}>
-							<Text style={styles.white}>{t.registration}</Text>
+							<Text style={[styles.btnText, styles.white]}>{t.registration}</Text>
 						</TouchableOpacity>
 					</Animated.View>
 				</View>
