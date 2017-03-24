@@ -65,13 +65,13 @@ export default class About extends Component {
 					</View>
 				</View>
 				<View style={styles.pageHeader}>
-					<Text style={styles.white}>{t.aboutApp}</Text>
+					<Text style={[styles.white, styles.textMD]}>{t.aboutApp}</Text>
 				</View>
 				<View style={[styles.container, styles.center, styles.whiteBg]}>
-					<Text style={[styles.h2, styles.mb1]}>ROVESE RETAIL CLUB</Text>
-					<Text style={styles.small}>Version: 1.0.0</Text>
+					<Text style={[styles.textLG, styles.mb1]}>ROVESE RETAIL CLUB</Text>
+					<Text style={styles.textXS}>Version: 1.0.0</Text>
 					<View style={styles.hr} />
-					<Text><Icon name="copyright" /> {t.copyright}</Text>
+					<Text style={styles.textSM}><Icon name="copyright" /> {t.copyright}</Text>
 				</View>
 			</Image>
 		);

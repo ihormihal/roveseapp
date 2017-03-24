@@ -86,7 +86,7 @@ export default class Login extends Component {
 
 	componentDidMount() {
 
-		//Alert.alert('Dim', variables.pixelRatio.toString());
+		//Alert.alert('Dim', variables.screenWidth.toString());
 		//this.loadPosts();
 		Animated.timing(this.state.anim, {toValue: 3000, duration: 3000}).start();
 
@@ -110,6 +110,7 @@ export default class Login extends Component {
 	signIn() {
 		if(this.state.form_email == 'test@test.com' && this.state.form_password == 'test'){
 			Keyboard.dismiss();
+			//this.navigate('root');
 			this.navigate('root');
 		}else{
 			Alert.alert(t.error,t.loginError);
@@ -195,7 +196,7 @@ export default class Login extends Component {
 						<TouchableOpacity
 							onPress={() => this.navigate('registration')}
 							style={[styles.btn, styles.btnDefault, styles.btnTransparent]}>
-							<Text style={[styles.textMD, styles.white]}>{t.registration}</Text>
+							<Text style={[styles.inputText, styles.white]}>{t.registration}</Text>
 						</TouchableOpacity>
 					</Animated.View>
 				</View>

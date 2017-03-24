@@ -95,7 +95,7 @@ export default class Settings extends Component {
 
 						<Text style={[styles.inputLabel, styles.textCenter]}>Редактировать профиль</Text>
 
-						<View style={[styles.textInput, styles.inputDefault]}>
+						<View style={[styles.textInput, styles.inputDefault, styles.inputOffsetB]}>
 							<TextInput
 								style={[ styles.textInputInput ]}
 								underlineColorAndroid='transparent'
@@ -105,7 +105,7 @@ export default class Settings extends Component {
 							/>
 						</View>
 
-						<View style={[styles.textInput, styles.inputDefault, styles.mt1]}>
+						<View style={[styles.textInput, styles.inputDefault, styles.inputOffsetB]}>
 							<TextInput
 								style={[ styles.textInputInput ]}
 								underlineColorAndroid='transparent'
@@ -115,7 +115,7 @@ export default class Settings extends Component {
 							/>
 						</View>
 
-						<View style={[styles.textInput, styles.inputDefault, styles.mt1]}>
+						<View style={[styles.textInput, styles.inputDefault, styles.inputOffsetB]}>
 							<TextInput
 								style={[ styles.textInputInput ]}
 								underlineColorAndroid='transparent'
@@ -125,7 +125,7 @@ export default class Settings extends Component {
 							/>
 						</View>
 
-						<View style={[styles.textInput, styles.inputDefault, styles.mt1]}>
+						<View style={[styles.textInput, styles.inputPickerDefault, styles.inputOffsetB]}>
 							<Picker
 								style={styles.picker}
 								selectedValue={this.state.form_region}
@@ -137,7 +137,7 @@ export default class Settings extends Component {
 							</Picker>
 						</View>
 
-						<View style={[styles.textInput, styles.inputDefault, styles.mt1]}>
+						<View style={[styles.textInput, styles.inputPickerDefault, styles.inputOffsetB]}>
 							<Picker
 								style={styles.picker}
 								selectedValue={this.state.form_poisition}
@@ -149,7 +149,7 @@ export default class Settings extends Component {
 							</Picker>
 						</View>
 
-						<View style={[styles.textInput, styles.inputDefault, styles.mt1]}>
+						<View style={[styles.textInput, styles.inputDefault, styles.inputOffsetB]}>
 							<TextInput
 								style={[ styles.textInputInput ]}
 								underlineColorAndroid='transparent'
@@ -159,9 +159,9 @@ export default class Settings extends Component {
 							/>
 						</View>
 
-						<Text style={[styles.inputLabel, styles.textCenter, styles.mt1]}>{t.selectLanguage}</Text>
+						<Text style={[styles.inputLabel, styles.textCenter]}>{t.selectLanguage}</Text>
 
-						<View style={[styles.textInput, styles.inputDefault]}>
+						<View style={[styles.textInput, styles.inputPickerDefault, styles.inputOffsetB]}>
 							<Picker
 								style={styles.picker}
 								selectedValue={this.state.form_language}
@@ -173,9 +173,9 @@ export default class Settings extends Component {
 							</Picker>
 						</View>
 
-						<Text style={[styles.inputLabel, styles.textCenter, styles.mt1]}>{t.passwordEdit}</Text>
+						<Text style={[styles.inputLabel, styles.textCenter]}>{t.passwordEdit}</Text>
 
-						<View style={[styles.textInput, styles.inputDefault]}>
+						<View style={[styles.textInput, styles.inputDefault, styles.inputOffsetB]}>
 							<TextInput
 								style={[ styles.textInputInput ]}
 								underlineColorAndroid='transparent'
@@ -186,7 +186,7 @@ export default class Settings extends Component {
 							/>
 						</View>
 
-						<View style={[styles.textInput, styles.inputDefault, styles.mt1]}>
+						<View style={[styles.textInput, styles.inputDefault, styles.inputOffsetB]}>
 							<TextInput
 								style={[ styles.textInputInput ]}
 								underlineColorAndroid='transparent'
@@ -197,7 +197,7 @@ export default class Settings extends Component {
 							/>
 						</View>
 
-						<View style={[styles.textInput, styles.inputDefault, styles.mt1]}>
+						<View style={[styles.textInput, styles.inputDefault, styles.inputOffsetB]}>
 							<TextInput
 								style={[ styles.textInputInput ]}
 								underlineColorAndroid='transparent'
@@ -208,11 +208,11 @@ export default class Settings extends Component {
 							/>
 						</View>
 
-						<View style={[styles.center, styles.mt2]}>
+						<View style={[styles.center, styles.inputOffsetB]}>
 							<TouchableOpacity
 								onPress={() => this._save()}
 								style={[styles.btn, styles.btnDefault, styles.btnPrimary]}>
-								<Text style={styles.white}>{t.save}</Text>
+								<Text style={[styles.white, styles.inputText]}>{t.save}</Text>
 							</TouchableOpacity>
 						</View>
 

@@ -78,8 +78,8 @@ export default class Registration extends Component {
 						<TouchableOpacity
 							style={styles.btn}
 							onPress={() => this.props.navigator.pop()}>
-							<Icon style={[styles.btnIcon, styles.textSM, styles.primary]} size={20} name="arrow-back"/>
-							<Text style={[styles.textSM, styles.primary]}>{t.back}</Text>
+							<Icon style={[styles.btnIcon, styles.primary]} size={20} name="arrow-back"/>
+							<Text style={[styles.primary]}>{t.back}</Text>
 						</TouchableOpacity>
 					</View>
 					<View style={styles.headerCenter} />
@@ -95,9 +95,9 @@ export default class Registration extends Component {
 								source={require('./../images/logo-blue.png')}
 							/>
 							<View style={styles.logoRightText}>
-								<Text style={styles.lrtBig}>{t.logoRegistration}</Text>
-								<Text style={styles.lrt}>{t.logoRegional}</Text>
-								<Text style={styles.lrt}>{t.logoMember}</Text>
+								<Text style={styles.logoTitleText1}>{t.logoRegistration}</Text>
+								<Text style={styles.logoTitleText2}>{t.logoRegional}</Text>
+								<Text style={styles.logoTitleText2}>{t.logoMember}</Text>
 							</View>
 						</View>
 
@@ -173,7 +173,7 @@ export default class Registration extends Component {
 
 						<View style={styles.formHR} />
 
-						<View style={[styles.textInput, styles.inputDefault, styles.inputOffsetB]}>
+						<View style={[styles.textInput, styles.inputPickerDefault, styles.inputOffsetB]}>
 							<Picker
 								style={styles.picker}
 								selectedValue={this.state.form_region}
@@ -186,7 +186,7 @@ export default class Registration extends Component {
 							</Picker>
 						</View>
 
-						<View style={[styles.textInput, styles.inputDefault, styles.inputOffsetB]}>
+						<View style={[styles.textInput, styles.inputPickerDefault, styles.inputOffsetB]}>
 							<Picker
 								style={styles.picker}
 								selectedValue={this.state.form_poisition}
@@ -212,7 +212,7 @@ export default class Registration extends Component {
 							<TouchableOpacity
 								onPress={() => this._signUp()}
 								style={[styles.btn, styles.btnDefault, styles.btnPrimary]}>
-								<Text style={[styles.white, styles.textMD]}>{t.submit}</Text>
+								<Text style={[styles.white, styles.inputText]}>{t.submit}</Text>
 							</TouchableOpacity>
 
 							<Text style={[styles.mt1, styles.textSM]}>{t.regRulesAgreement_1}</Text>

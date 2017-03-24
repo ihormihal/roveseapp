@@ -67,7 +67,7 @@ export default class PasswordReset extends Component {
 
 					<View style={styles.container}>
 						<View style={styles.center}>
-							<Text style={[styles.h2, styles.primary, styles.textCenter]}>Правила користування та захисту інформації</Text>
+							<Text style={[styles.textMD, styles.primary, styles.textCenter]}>Правила користування та захисту інформації</Text>
 							<View style={styles.hr} />
 						</View>
 

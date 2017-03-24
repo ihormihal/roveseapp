@@ -47,12 +47,13 @@ const dimentions = {
 	container: {
 		flex: 1,
 		flexDirection: 'column',
-		paddingHorizontal: variables.CONTAINER,
-		paddingVertical: variables.UNIT,
+		paddingHorizontal: variables.CONTAINER_H_PADDING,
+		paddingVertical: variables.CONTAINER_V_PADDING,
 	},
 	box: {
 		flexDirection: 'column',
-		padding: variables.CONTAINER,
+		paddingHorizontal: variables.CONTAINER_H_PADDING,
+		paddingVertical: variables.CONTAINER_V_PADDING,
 	},
 	row: {
 		flex: 1,
@@ -88,29 +89,25 @@ const dimentions = {
 	textCenter: {
 		textAlign: 'center',
 	},
-	h1: {
-		fontSize: variables.FONTSIZE_XG
-	},
-	h2: {
-		fontSize: variables.FONTSIZE_LG
-	},
-	small: {
-		fontSize: variables.FONTSIZE_SM
-	},
+
+
 	italic: {
 		fontStyle: 'italic',
 	},
+	textXS: {
+		fontSize: variables.TEXT_XS
+	},
 	textSM: {
-		fontSize: variables.FONTSIZE_SM
+		fontSize: variables.TEXT_SM
 	},
 	textMD: {
-		fontSize: variables.FONTSIZE_MD
+		fontSize: variables.TEXT_MD
 	},
 	textLG: {
-		fontSize: variables.FONTSIZE_LG
+		fontSize: variables.TEXT_LG
 	},
 	textXL: {
-		fontSize: variables.FONTSIZE_XL
+		fontSize: variables.TEXT_XL
 	},
 	opacity50: {
 		opacity: 0.5,
@@ -155,18 +152,16 @@ const elements = {
 		flexDirection: 'row',
 		justifyContent: 'center',
 		paddingHorizontal: 10,
-		height: 56,
+		height: variables.NAVBAR_HEIGHT,
 		backgroundColor: '#ffffff',
 	},
 	shadow: {
 		shadowColor: '#000',
-		//shadowOpacity: 0.1,
-		//shadowRadius: 5,
 		elevation: 4,
 	},
 
 	sceneTitle: {
-		fontSize: variables.FONTSIZE_LG,
+		fontSize: variables.TEXT_LG,
 		paddingHorizontal: variables.UNIT,
 		paddingBottom: 10,
 		borderBottomWidth: 1,
@@ -207,7 +202,7 @@ const elements = {
 	},
 	sectionLogin: {
 		width: '100%',
-		maxWidth: 320
+		maxWidth: variables.LOGIN_FORM_WIDTH
 	},
 	lngButtons: {
 		width: 100
@@ -223,26 +218,25 @@ const elements = {
 	logoTitle: {
 		alignSelf: 'center',
 		flexDirection: 'row',
-		paddingTop: 5*variables.PIXEL_RATIO,
-		marginBottom: variables.gap*2,
+		marginBottom: variables.CONTAINER_V_PADDING,
 	},
 	logoTitleImg: {
-		height: 32*variables.PIXEL_RATIO,
-		width: 32*variables.PIXEL_RATIO,
+		height: variables.LOGO_TITLE_IMG,
+		width: variables.LOGO_TITLE_IMG,
 	},
 	logoRightText: {
 		marginLeft: 10,
-		marginTop: -2*variables.PIXEL_RATIO,
+		//marginTop: -3,
 	},
-	lrtBig: {
+	logoTitleText1: {
 		color: variables.colorPrimary,
-		fontSize: 14*variables.PIXEL_RATIO,
-		lineHeight: parseInt(14*variables.PIXEL_RATIO)
+		fontSize: variables.LOGO_TITLE_TEXT_1,
+		lineHeight: variables.LOGO_TITLE_TEXT_1,
 	},
-	lrt: {
+	logoTitleText2: {
 		color: variables.colorPrimary,
-		fontSize: 12*variables.PIXEL_RATIO,
-		lineHeight: parseInt(10*variables.PIXEL_RATIO)
+		fontSize: variables.LOGO_TITLE_TEXT_2,
+		lineHeight: variables.LOGO_TITLE_TEXT_2,
 	},
 	drawer: {
 		flex: 1,
@@ -281,11 +275,11 @@ const elements = {
 	},
 	menuItemText: {
 		color: '#fff',
-		fontSize: variables.FONTSIZE_MD
+		fontSize: variables.TEXT_MD
 	},
 	menuItemActive: {
 		borderLeftWidth: 1,
-		paddingLeft: 8,
+		paddingLeft: variables.UNIT/2,
 		borderColor: variables.colorPrimary,
 	},
 
@@ -314,7 +308,7 @@ const elements = {
 	presentationsHeader: {
 		position: 'absolute',
 		top: 0,
-		height: 56*2,
+		height: variables.NAVBAR_HEIGHT*2,
 		zIndex: 2
 	},
 	presentations: {
@@ -332,8 +326,12 @@ const elements = {
 		flex: 1,
 		width: screen.w,
 		flexDirection: 'column',
-		justifyContent: 'flex-end',
 		alignItems: 'stretch',
+		paddingTop: variables.NAVBAR_HEIGHT*2,
+	},
+	presentationTopWrapper: {
+		flex: 1,
+		justifyContent: 'center',
 	},
 	presentationBottom: {
 		width: screen.w,
@@ -352,7 +350,7 @@ const elements = {
 	//
 	pageHeader: {
 		width: screen.w,
-		minHeight: 56,
+		minHeight: variables.NAVBAR_HEIGHT,
 		paddingVertical: variables.gap/2,
 		paddingHorizontal: variables.gap,
 		justifyContent: 'center',
@@ -382,31 +380,30 @@ const elements = {
 	},
 
 	chartBar: {
-		width: 40,
+		width: variables.CHART_ITEM_WIDTH,
 		flexDirection: 'column',
 		justifyContent: 'flex-end',
+		paddingLeft: 10,
 	},
 	chartBarBar: {
 		position: 'relative',
 		zIndex: 1,
 		flexDirection: 'row',
-		justifyContent: 'center',
 		alignItems: 'flex-end',
 	},
 	chartBarText: {
 		textAlign: 'left',
-		paddingLeft: 8,
 		fontSize: 11,
 		color: '#ccc',
 	},
 	chartBarValue: {
-		width: 15,
-		height: 70,
+		width: variables.CHART_BAR_WIDTH,
+		height: 0,
 		backgroundColor: variables.colorPrimary,
 	},
 	chartBarShadow: {
-		width: 10,
-		height: 65,
+		width: variables.CHART_BAR_WIDTH/2,
+		height: 0,
 		backgroundColor: '#ddd',
 	},
 	chartX: {
@@ -416,7 +413,7 @@ const elements = {
 		paddingVertical: 5,
 	},
 	chartXitem: {
-		width: 40,
+		width:  variables.CHART_ITEM_WIDTH,
 		paddingLeft: 10,
 	},
 	axisText: {
@@ -426,9 +423,8 @@ const elements = {
 
 	bonusText: {
 		color: variables.colorPrimary,
-		fontSize: 50,
-		lineHeight: 50,
-		fontWeight: "300",
+		fontSize: variables.TEXT_BONUS,
+		lineHeight: variables.TEXT_BONUS,
 		borderBottomWidth: 1,
 		borderBottomColor: '#ccc',
 		paddingBottom: 5,

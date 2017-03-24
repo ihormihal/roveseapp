@@ -69,10 +69,15 @@ export default class SellerEdit extends Component {
 							style={styles.btn}
 							onPress={() => this.props.navigator.pop()}>
 							<Icon style={[styles.btnIcon, styles.textSM, styles.primary]} size={20} name="arrow-back"/>
-							<Text style={[styles.textSM, styles.primary]}>{t.back}</Text>
+							<Text style={[styles.primary]}>{t.back}</Text>
 						</TouchableOpacity>
 					</View>
-					<View style={styles.headerCenter} />
+					<View style={styles.headerCenter}>
+						<Image
+							style={[ styles.logoHeader ]}
+							source={require('./../images/logo-header.png')}
+						/>
+					</View>
 					<View style={styles.headerRight} />
 				</View>
 				<ScrollView style={styles.scroll}>
@@ -81,7 +86,7 @@ export default class SellerEdit extends Component {
 
 						<Text style={[styles.inputLabel, styles.textCenter]}>{t.edit_profile}</Text>
 
-						<View style={[styles.textInput, styles.inputDefault]}>
+						<View style={[styles.textInput, styles.inputDefault, styles.inputOffsetB]}>
 							<TextInput
 								style={[ styles.textInputInput ]}
 								underlineColorAndroid='transparent'
@@ -91,7 +96,7 @@ export default class SellerEdit extends Component {
 							/>
 						</View>
 
-						<View style={[styles.textInput, styles.inputDefault, styles.mt1]}>
+						<View style={[styles.textInput, styles.inputDefault, styles.inputOffsetB]}>
 							<TextInput
 								style={[ styles.textInputInput ]}
 								underlineColorAndroid='transparent'
@@ -101,7 +106,7 @@ export default class SellerEdit extends Component {
 							/>
 						</View>
 
-						<View style={[styles.textInput, styles.inputDefault, styles.mt1]}>
+						<View style={[styles.textInput, styles.inputDefault, styles.inputOffsetB]}>
 							<TextInput
 								style={[ styles.textInputInput ]}
 								underlineColorAndroid='transparent'
@@ -111,7 +116,7 @@ export default class SellerEdit extends Component {
 							/>
 						</View>
 
-						<View style={[styles.textInput, styles.inputDefault, styles.mt1]}>
+						<View style={[styles.textInput, styles.inputDefault, styles.inputOffsetB]}>
 							<TextInput
 								style={[ styles.textInputInput ]}
 								underlineColorAndroid='transparent'
@@ -121,7 +126,7 @@ export default class SellerEdit extends Component {
 							/>
 						</View>
 
-						<View style={[styles.textInput, styles.inputDefault, styles.mt1]}>
+						<View style={[styles.textInput, styles.inputPickerDefault, styles.inputOffsetB]}>
 							<Picker
 								style={styles.picker}
 								selectedValue={this.state.form_tradePoint}
@@ -133,7 +138,7 @@ export default class SellerEdit extends Component {
 							</Picker>
 						</View>
 
-						<View style={[styles.textInput, styles.inputDefault, styles.mt1]}>
+						<View style={[styles.textInput, styles.inputDefault, styles.inputOffsetB]}>
 							<TextInput
 								style={[ styles.textInputInput ]}
 								underlineColorAndroid='transparent'
@@ -143,7 +148,7 @@ export default class SellerEdit extends Component {
 							/>
 						</View>
 
-						<View style={[styles.textInput, styles.inputDefault, styles.mt1]}>
+						<View style={[styles.textInput, styles.inputPickerDefault, styles.inputOffsetB]}>
 							<Picker
 								style={styles.picker}
 								selectedValue={this.state.form_sertifivate}
@@ -155,15 +160,15 @@ export default class SellerEdit extends Component {
 							</Picker>
 						</View>
 
-						<View style={[styles.center, styles.mt2]}>
+						<View style={[styles.center, styles.inputOffsetB]}>
 							<TouchableOpacity
 								style={[styles.btn, styles.btnDefault, styles.btnPrimary]}>
-								<Text style={styles.white}>{t.save}</Text>
+								<Text style={[styles.white, styles.inputText]}>{t.save}</Text>
 							</TouchableOpacity>
 						</View>
 
-						<View style={[styles.center, styles.last, styles.mt2]}>
-							<Text style={styles.mt1}>* {t.requiredFields}</Text>
+						<View style={[styles.center, styles.last]}>
+							<Text style={styles.textMD}>* {t.requiredFields}</Text>
 						</View>
 
 					</View>

@@ -76,7 +76,7 @@ export default class SellerRegistration extends Component {
 							style={styles.btn}
 							onPress={() => this.props.navigator.pop()}>
 							<Icon style={[styles.btnIcon, styles.primary]} size={20} name="arrow-back"/>
-							<Text style={[styles.btnText, styles.primary]}>{t.back}</Text>
+							<Text style={[styles.primary]}>{t.back}</Text>
 						</TouchableOpacity>
 					</View>
 					<View style={styles.headerCenter} />
@@ -88,17 +88,17 @@ export default class SellerRegistration extends Component {
 
 						<View style={styles.logoTitle}>
 							<Image
-								style={[ styles.logoHeader ]}
+								style={styles.logoTitleImg}
 								source={require('./../images/logo-blue.png')}
 							/>
 							<View style={styles.logoRightText}>
-								<Text style={styles.lrtBig}>{t.logoRegistration}</Text>
-								<Text style={styles.lrt}>{t.logoSeller}</Text>
-								<Text style={styles.lrt}>{t.logoMember}</Text>
+								<Text style={styles.logoTitleText1}>{t.logoRegistration}</Text>
+								<Text style={styles.logoTitleText2}>{t.logoSeller}</Text>
+								<Text style={styles.logoTitleText2}>{t.logoMember}</Text>
 							</View>
 						</View>
 
-						<View style={[styles.textInput, styles.inputDefault]}>
+						<View style={[styles.textInput, styles.inputDefault, styles.inputOffsetB]}>
 							<TextInput
 								style={[ styles.textInputInput ]}
 								underlineColorAndroid='transparent'
@@ -106,7 +106,7 @@ export default class SellerRegistration extends Component {
 							/>
 						</View>
 
-						<View style={[styles.textInput, styles.inputDefault, styles.mt1]}>
+						<View style={[styles.textInput, styles.inputDefault, styles.inputOffsetB]}>
 							<TextInput
 								style={[ styles.textInputInput ]}
 								underlineColorAndroid='transparent'
@@ -114,7 +114,7 @@ export default class SellerRegistration extends Component {
 							/>
 						</View>
 
-						<View style={[styles.textInput, styles.inputDefault, styles.mt1]}>
+						<View style={[styles.textInput, styles.inputDefault, styles.inputOffsetB]}>
 							<TextInput
 								style={[ styles.textInputInput ]}
 								underlineColorAndroid='transparent'
@@ -122,7 +122,7 @@ export default class SellerRegistration extends Component {
 							/>
 						</View>
 
-						<View style={[styles.textInput, styles.inputDefault, styles.mt1]}>
+						<View style={[styles.textInput, styles.inputDefault, styles.inputOffsetB]}>
 							<TextInput
 								style={[ styles.textInputInput ]}
 								underlineColorAndroid='transparent'
@@ -130,7 +130,7 @@ export default class SellerRegistration extends Component {
 							/>
 						</View>
 
-						<View style={[styles.textInput, styles.inputDefault, styles.mt1]}>
+						<View style={[styles.textInput, styles.inputPickerDefault, styles.inputOffsetB]}>
 							<Picker
 								style={styles.picker}
 								selectedValue={this.state.form_tradePoint}
@@ -142,7 +142,7 @@ export default class SellerRegistration extends Component {
 							</Picker>
 						</View>
 
-						<View style={[styles.textInput, styles.inputDefault, styles.mt1]}>
+						<View style={[styles.textInput, styles.inputDefault, styles.inputOffsetB]}>
 							<TextInput
 								style={[ styles.textInputInput ]}
 								underlineColorAndroid='transparent'
@@ -150,7 +150,7 @@ export default class SellerRegistration extends Component {
 							/>
 						</View>
 
-						<View style={[styles.textInput, styles.inputDefault, styles.mt1]}>
+						<View style={[styles.textInput, styles.inputPickerDefault, styles.inputOffsetB]}>
 							<Picker
 								style={styles.picker}
 								selectedValue={this.state.form_sertifivate}
@@ -162,16 +162,16 @@ export default class SellerRegistration extends Component {
 							</Picker>
 						</View>
 
-						<View style={[styles.center, styles.mt2]}>
+						<View style={[styles.center, styles.inputOffsetB]}>
 							<TouchableOpacity
 								onPress={() => this._save()}
 								style={[styles.btn, styles.btnDefault, styles.btnPrimary]}>
-								<Text style={styles.white}>{t.submit}</Text>
+								<Text style={[styles.white, styles.inputText]}>{t.submit}</Text>
 							</TouchableOpacity>
 						</View>
 
-						<View style={[styles.center, styles.last, styles.mt2]}>
-							<Text style={styles.mt1}>* {t.requiredFields}</Text>
+						<View style={[styles.center, styles.last]}>
+							<Text style={[styles.mt1, styles.textMD]}>* {t.requiredFields}</Text>
 						</View>
 
 					</View>

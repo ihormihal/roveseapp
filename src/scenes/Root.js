@@ -124,7 +124,8 @@ export default class PasswordReset extends Component {
 		var Drawer = (
 			<View style={styles.drawer}>
 				<View style={[styles.drawerSection, styles.drawerSectionTop]}>
-					<Text style={[styles.h1, styles.white, styles.textCenter]}>{t.name_surname}</Text>
+					<Text style={[styles.textXL, styles.white, styles.textCenter]}>{t.name}</Text>
+					<Text style={[styles.textXL, styles.white, styles.textCenter]}>{t.surname}</Text>
 				</View>
 				<View style={styles.divider}></View>
 				<View style={styles.drawerSection}>

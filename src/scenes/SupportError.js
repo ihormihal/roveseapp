@@ -51,7 +51,7 @@ export default class SupportError extends Component {
 							style={styles.btn}
 							onPress={() => this.props.navigator.pop()}>
 							<Icon style={[styles.btnIcon, styles.primary]} size={20} name="arrow-back"/>
-							<Text style={[styles.btnText, styles.primary]}>{t.back}</Text>
+							<Text style={[styles.primary]}>{t.back}</Text>
 						</TouchableOpacity>
 					</View>
 					<View style={styles.headerCenter}>
@@ -64,11 +64,11 @@ export default class SupportError extends Component {
 					</View>
 				</View>
 				<View style={styles.pageHeader}>
-					<Text style={styles.white}>{t.reportAnError}</Text>
+					<Text style={[styles.white, styles.textMD]}>{t.reportAnError}</Text>
 				</View>
 				<View style={[styles.container, styles.whiteBg]}>
 
-					<View style={[styles.textInput, styles.inputDefault]}>
+					<View style={[styles.textInput, styles.inputDefault, styles.inputOffsetB]}>
 						<TextInput
 							style={[ styles.textInputInput ]}
 							underlineColorAndroid='transparent'
@@ -78,7 +78,7 @@ export default class SupportError extends Component {
 						/>
 					</View>
 
-					<View style={[styles.textInput, styles.inputDefault, styles.mt1]}>
+					<View style={[styles.textInput, styles.inputDefault, styles.inputOffsetB]}>
 						<TextInput
 							style={[ styles.textAreaInput ]}
 							multiline = {true}
@@ -89,12 +89,12 @@ export default class SupportError extends Component {
 							value={this.state.form_message}
 						/>
 					</View>
-					<Text style={[styles.italic]}>*{t.describeTheProblem}</Text>
+					<Text style={[styles.italic, styles.textSM, styles.inputOffsetB]}>*{t.describeTheProblem}</Text>
 
-					<View style={[styles.center, styles.mt2]}>
+					<View style={styles.center}>
 						<TouchableOpacity
 							style={[styles.btn, styles.btnDefault, styles.btnPrimary]}>
-							<Text style={styles.white}>{t.submit}</Text>
+							<Text style={[styles.white, styles.textInput]}>{t.submit}</Text>
 						</TouchableOpacity>
 					</View>
 

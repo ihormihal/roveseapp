@@ -42,12 +42,12 @@ export default {
 		marginBottom: 8,
 	},
 	slideTitle: {
-		fontSize: variables.FONTSIZE_MD,
+		fontSize: variables.TEXT_MD,
 		color: variables.colorPrimary,
 		textAlign: 'center'
 	},
 	slideDescription: {
-		fontSize: variables.FONTSIZE_SM,
+		fontSize: variables.TEXT_SM,
 		color: variables.colorGrey,
 		textAlign: 'center'
 	},

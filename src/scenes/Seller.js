@@ -180,28 +180,28 @@ export default class Seller extends Component {
 					<View style={styles.headerRight}>
 					</View>
 				</View>
-				<View style={[styles.pageHeader, styles.center]}>
-					<Text style={[styles.white, styles.h2]} onPress={() => this.navigate('seller-edit')}>Злата Новикова</Text>
+				<TouchableOpacity activeOpacity={90} style={[styles.pageHeader, styles.center]} onPress={() => this.navigate('seller-edit')}>
+					<Text style={[styles.white, styles.textLG]}>Злата Новикова</Text>
 					<View style={[styles.sellerInfo, styles.center]}>
-						<Text style={[styles.white, styles.h3]}>+38 (050) XXX-XX-XX</Text>
-						<Text style={styles.white}>вул. Михайла Грушевського, 93,</Text>
-						<Text style={styles.white}>Житомирська область</Text>
+						<Text style={[styles.white, styles.textMD]}>+38 (050) XXX-XX-XX</Text>
+						<Text style={[styles.white, styles.textSM]}>вул. Михайла Грушевського, 93,</Text>
+						<Text style={[styles.white, styles.textSM]}>Житомирська область</Text>
 					</View>
-					<Text style={styles.white}>04.06.16</Text>
-				</View>
+					<Text style={[styles.white, styles.textSM]}>04.06.16</Text>
+				</TouchableOpacity>
 				<View style={[styles.section, styles.whiteBg]}>
 
 					<View style={[styles.cols, styles.mb1, styles.mt1]}>
 						<View style={[styles.col, styles.center]}>
-							<Text>Май</Text>
+							<Text style={styles.textSM}>Май</Text>
 							<Text style={ styles.bonusText }>900</Text>
-							<Text>Бонусы</Text>
+							<Text style={styles.textSM}>Бонусы</Text>
 						</View>
 
 						<View style={[styles.col, styles.center]}>
-							<Text>За все время</Text>
+							<Text style={styles.textSM}>За все время</Text>
 							<Text style={ styles.bonusText }>1500</Text>
-							<Text>Бонусы</Text>
+							<Text style={styles.textSM}>Бонусы</Text>
 						</View>
 					</View>
 
@@ -210,12 +210,13 @@ export default class Seller extends Component {
 
 							<View style={styles.chartArea}>
 								{chartData.map((item, index) => {
+									var barHeight =  item.value*variables.CHART_BAR_RATIO;
 									return (
 										<View key={index} style={styles.chartBar}>
 											<Text style={styles.chartBarText}>{item.value}</Text>
 											<View style={styles.chartBarBar}>
-												<View style={[styles.chartBarValue, {height: item.value} ]} />
-												<View style={[styles.chartBarShadow, {height: item.value-5} ]} />
+												<View style={[styles.chartBarValue, {height: barHeight} ]} />
+												<View style={[styles.chartBarShadow, {height: barHeight-5} ]} />
 											</View>
 										</View>
 									)

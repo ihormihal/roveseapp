@@ -9,9 +9,9 @@ export default {
 	buttonCircle: {
 		alignItems: 'center',
 		justifyContent: 'center',
-		height: 50*variables.PIXEL_RATIO,
-		width: 50*variables.PIXEL_RATIO,
-		borderRadius: 50*variables.PIXEL_RATIO,
+		height: variables.BUTTON_CIRCLE_SIZE,
+		width: variables.BUTTON_CIRCLE_SIZE,
+		borderRadius: variables.BUTTON_CIRCLE_SIZE,
 		backgroundColor: variables.colorPrimaryDark
 	},
 	buttonCircleImg: {
@@ -19,8 +19,8 @@ export default {
 		width: 30,
 	},
 	btnDefault: {
-		paddingVertical: variables.buttonPV,
-		paddingHorizontal: variables.buttonPH,
+		paddingVertical: variables.BUTTON_V_PADDING,
+		paddingHorizontal: variables.BUTTON_H_PADDING,
 		borderRadius: 2,
 		elevation: 1,
 		shadowColor: '#000',
