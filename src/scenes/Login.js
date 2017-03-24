@@ -30,8 +30,8 @@ export default class Login extends Component {
 		super();
 		this.state = {
 			anim: new Animated.Value(0),
-			form_email: '',
-			form_password: ''
+			form_email: 'test@test.com',
+			form_password: 'test'
 		};
 	};
 
@@ -141,6 +141,7 @@ export default class Login extends Component {
 								style={[ styles.textInputInput, styles.textCenter, styles.white ]}
 								underlineColorAndroid='transparent'
 								placeholderTextColor="#ffffff"
+								selectionColor={variables.colorPrimaryRGBA}
 								placeholder={t.email}
 								onChangeText={(value) => this.setState({form_email: value})}
 								value={this.state.form_email}

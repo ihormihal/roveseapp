@@ -33,6 +33,7 @@ var COLORS = {
 	colorPrimaryLight: '#22c2e5',
 	colorGrey: '#9e9e9e',
 	colorGreyLight: '#ccc',
+	colorRipple: 'rgba(255, 255, 255, 0.5)',
 };
 
 
@@ -60,11 +61,11 @@ DEVICE_SIZES['SM'] = {
 
 	INPUT_HEIGHT: 32,
 	INPUT_GAP: 16,
-	INPUT_TEXT: 12,
+	INPUT_TEXT: 14,
 
 	BUTTON_CIRCLE_SIZE: 60,
-	BUTTON_V_PADDING: 5,
-	BUTTON_H_PADDING: 20,
+	BUTTON_V_PADDING: 10,
+	BUTTON_H_PADDING: 24,
 
 	TEXT_XL: 24,
 	TEXT_LG: 18,
@@ -97,7 +98,7 @@ DEVICE_SIZES['MD'] = {
 	INPUT_TEXT: 12,
 
 	BUTTON_CIRCLE_SIZE: 120,
-	BUTTON_V_PADDING: 8,
+	BUTTON_V_PADDING: 12,
 	BUTTON_H_PADDING: 30,
 
 	TEXT_BONUS: 70,

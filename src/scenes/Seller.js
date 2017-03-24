@@ -191,14 +191,14 @@ export default class Seller extends Component {
 				</TouchableOpacity>
 				<View style={[styles.section, styles.whiteBg]}>
 
-					<View style={[styles.cols, styles.mb1, styles.mt1]}>
-						<View style={[styles.col, styles.center]}>
+					<View style={[styles.cols, styles.middle]}>
+						<View style={[styles.bonusCircle]}>
 							<Text style={styles.textSM}>Май</Text>
 							<Text style={ styles.bonusText }>900</Text>
 							<Text style={styles.textSM}>Бонусы</Text>
 						</View>
 
-						<View style={[styles.col, styles.center]}>
+						<View style={[styles.bonusCircle]}>
 							<Text style={styles.textSM}>За все время</Text>
 							<Text style={ styles.bonusText }>1500</Text>
 							<Text style={styles.textSM}>Бонусы</Text>

@@ -421,6 +421,16 @@ const elements = {
 		color: variables.colorPrimary,
 	},
 
+	bonusCircle: {
+		alignItems: 'center',
+		justifyContent: 'center',
+		marginHorizontal: variables.UNIT,
+		marginVertical: variables.UNIT,
+		width: variables.TEXT_BONUS*3,
+		height: variables.TEXT_BONUS*3,
+		backgroundColor: '#eee',
+		borderRadius: 1000
+	},
 	bonusText: {
 		color: variables.colorPrimary,
 		fontSize: variables.TEXT_BONUS,

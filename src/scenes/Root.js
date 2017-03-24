@@ -25,7 +25,7 @@ import variables from './../theme/variables.js';
 import styles from './../theme/styles.js';
 import t from './../Translations';
 
-var rippleBg = TouchableNativeFeedback.Ripple(variables.colorPrimaryRGBA);
+var rippleBg = TouchableNativeFeedback.Ripple(variables.colorRipple);
 
 var slides = [
 	{
@@ -132,7 +132,7 @@ export default class PasswordReset extends Component {
 					{menu.map((item, index) => {
 						return (
 							<TouchableNativeFeedback
-							key={index}
+								key={index}
 								background={rippleBg}
 								onPress={() => this.navigate(item.route)}>
 								<View style={styles.menuItem}>
