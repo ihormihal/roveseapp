@@ -167,7 +167,7 @@ export default class Seller extends Component {
 						<TouchableOpacity
 							style={styles.btn}
 							onPress={() => this.props.navigator.pop()}>
-							<Icon style={[styles.btnIcon, styles.textSM, styles.primary]} size={20} name="arrow-back"/>
+							<Icon style={[styles.btnIcon, styles.primary]} size={20} name="arrow-back"/>
 							<Text style={[styles.textSM, styles.primary]}>{t.back}</Text>
 						</TouchableOpacity>
 					</View>

@@ -14,6 +14,7 @@ import {
 	TextInput,
 	TouchableHighlight,
 	TouchableOpacity,
+	Keyboard
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
@@ -34,6 +35,7 @@ export default class About extends Component {
 	};
 
 	navigate(routeName, routeData) {
+		Keyboard.dismiss();
 		this.props.navigator.push({
 			name: routeName,
 			data: routeData
@@ -52,7 +54,7 @@ export default class About extends Component {
 							onPress={() => this.props.navigator.pop()}
 							activeOpacity={75 / 50}>
 							<Icon style={[styles.btnIcon, styles.primary]} size={20} name="arrow-back"/>
-							<Text style={[styles.btnText, styles.primary]}>{t.back}</Text>
+							<Text style={[styles.textSM, styles.primary]}>{t.back}</Text>
 						</TouchableOpacity>
 					</View>
 					<View style={styles.headerCenter}>

@@ -13,7 +13,7 @@ import {
 	Animated,
 	TextInput,
 	TouchableOpacity,
-	ViewPagerAndroid
+	ViewPagerAndroid,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
@@ -129,7 +129,7 @@ export default class Presentation extends Component {
 							)
 						})}
 					</View>
-					<View style={tabIndicator} />
+					<Animated.View style={tabIndicator} />
 
 				</View>
 

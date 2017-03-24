@@ -16,7 +16,8 @@ import {
 	TouchableHighlight,
 	TouchableOpacity,
 	Picker,
-	Item
+	Item,
+	Keyboard
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
@@ -53,6 +54,7 @@ export default class SellerEdit extends Component {
 	}
 
 	navigate(routeName, routeData) {
+		Keyboard.dismiss();
 		this.props.navigator.push({
 			name: routeName,
 			data: routeData
@@ -68,8 +70,8 @@ export default class SellerEdit extends Component {
 						<TouchableOpacity
 							style={styles.btn}
 							onPress={() => this.props.navigator.pop()}>
-							<Icon style={[styles.btnIcon, styles.textSM, styles.primary]} size={20} name="arrow-back"/>
-							<Text style={[styles.primary]}>{t.back}</Text>
+							<Icon style={[styles.btnIcon, styles.primary]} size={20} name="arrow-back"/>
+							<Text style={[styles.textSM, styles.primary]}>{t.back}</Text>
 						</TouchableOpacity>
 					</View>
 					<View style={styles.headerCenter}>

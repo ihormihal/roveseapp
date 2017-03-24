@@ -66,7 +66,7 @@ export default class Statistics extends Component {
 							style={styles.btn}
 							onPress={() => this.props.navigator.pop()}>
 							<Icon style={[styles.btnIcon, styles.primary]} size={20} name="arrow-back"/>
-							<Text style={[styles.primary]}>{t.back}</Text>
+							<Text style={[styles.textSM, styles.primary]}>{t.back}</Text>
 						</TouchableOpacity>
 					</View>
 					<View style={styles.headerCenter}>
@@ -80,7 +80,7 @@ export default class Statistics extends Component {
 				</View>
 				<View style={[styles.container]}>
 					<View style={styles.center}>
-						<Text style={[styles.h2, styles.primary, styles.textCenter]}>{t.sellerBase}</Text>
+						<Text style={[styles.textMD, styles.primary, styles.textCenter]}>{t.sellerBase}</Text>
 						<View style={styles.hr} />
 					</View>
 					<ListView

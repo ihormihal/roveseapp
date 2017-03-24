@@ -178,7 +178,7 @@ export default class PasswordReset extends Component {
 						<View style={styles.headerLeft}>
 							<TouchableOpacity
 								style={styles.btn}
-								onPress={() => this.openDrawer()}>
+								onPress={() => this.openDrawer()} style={styles.TEXT_MD}>
 								<Icon style={[styles.btnIcon, styles.white]} size={20} name="menu"/>
 							</TouchableOpacity>
 						</View>
@@ -205,7 +205,7 @@ export default class PasswordReset extends Component {
 									<View key={index} style={styles.pagDot}></View>
 								)
 							})}
-							<View style={[styles.pagDot, styles.pagDotActive, pagination_transform]}></View>
+							<Animated.View style={[styles.pagDot, styles.pagDotActive, pagination_transform]} />
 						</View>
 					</View>
 

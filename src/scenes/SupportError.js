@@ -14,6 +14,7 @@ import {
 	TextInput,
 	TouchableHighlight,
 	TouchableOpacity,
+	Keyboard
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
@@ -21,7 +22,7 @@ import variables from './../theme/variables.js';
 import styles from './../theme/styles.js';
 import t from './../Translations';
 
-var backgroundImage = require('./../images/bg/service.jpg');
+var backgroundImage = require('./../images/bg/root.jpg');
 
 export default class SupportError extends Component {
 
@@ -34,6 +35,7 @@ export default class SupportError extends Component {
 	};
 
 	navigate(routeName, routeData) {
+		Keyboard.dismiss();
 		this.props.navigator.push({
 			name: routeName,
 			data: routeData
@@ -51,7 +53,7 @@ export default class SupportError extends Component {
 							style={styles.btn}
 							onPress={() => this.props.navigator.pop()}>
 							<Icon style={[styles.btnIcon, styles.primary]} size={20} name="arrow-back"/>
-							<Text style={[styles.primary]}>{t.back}</Text>
+							<Text style={[styles.textSM, styles.primary]}>{t.back}</Text>
 						</TouchableOpacity>
 					</View>
 					<View style={styles.headerCenter}>
@@ -94,7 +96,7 @@ export default class SupportError extends Component {
 					<View style={styles.center}>
 						<TouchableOpacity
 							style={[styles.btn, styles.btnDefault, styles.btnPrimary]}>
-							<Text style={[styles.white, styles.textInput]}>{t.submit}</Text>
+							<Text style={[styles.white, styles.inputText]}>{t.submit}</Text>
 						</TouchableOpacity>
 					</View>
 

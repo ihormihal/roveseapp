@@ -341,7 +341,7 @@ const elements = {
 		padding: variables.gap,
 		color: '#fff',
 		textAlign: 'center',
-		fontSize: 18,
+		fontSize: variables.TEXT_LG,
 		textShadowColor: 'rgba(0,0,0,0.5)',
 		textShadowOffset: {width: 1, height: 1},
 		textShadowRadius: 1,
@@ -393,7 +393,7 @@ const elements = {
 	},
 	chartBarText: {
 		textAlign: 'left',
-		fontSize: 11,
+		fontSize: variables.TEXT_XS,
 		color: '#ccc',
 	},
 	chartBarValue: {
@@ -417,7 +417,7 @@ const elements = {
 		paddingLeft: 10,
 	},
 	axisText: {
-		fontSize: 11,
+		fontSize: variables.TEXT_XS,
 		color: variables.colorPrimary,
 	},
 

@@ -30,8 +30,8 @@ export default class Login extends Component {
 		super();
 		this.state = {
 			anim: new Animated.Value(0),
-			form_email: 'test@test.com',
-			form_password: 'test'
+			form_email: '',
+			form_password: ''
 		};
 	};
 
@@ -101,6 +101,7 @@ export default class Login extends Component {
 	}
 
 	navigate(routeName, routeData) {
+		Keyboard.dismiss();
 		this.props.navigator.push({
 			name: routeName,
 			data: routeData
@@ -109,7 +110,6 @@ export default class Login extends Component {
 
 	signIn() {
 		if(this.state.form_email == 'test@test.com' && this.state.form_password == 'test'){
-			Keyboard.dismiss();
 			//this.navigate('root');
 			this.navigate('root');
 		}else{

@@ -34,6 +34,6 @@ export default {
 	},
 	btnIcon: {
 		marginRight: 5,
-		fontSize: variables.FONTSIZE_MD
+		fontSize: variables.TEXT_MD
 	},
 }

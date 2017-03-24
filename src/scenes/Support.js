@@ -51,7 +51,7 @@ export default class Support extends Component {
 							style={styles.btn}
 							onPress={() => this.props.navigator.pop()}>
 							<Icon style={[styles.btnIcon, styles.primary]} size={20} name="arrow-back"/>
-							<Text style={styles.primary}>{t.back}</Text>
+							<Text style={[styles.textSM, styles.primary]}>{t.back}</Text>
 						</TouchableOpacity>
 					</View>
 					<View style={styles.headerCenter}>
