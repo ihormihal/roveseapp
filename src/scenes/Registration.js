@@ -73,12 +73,12 @@ export default class Registration extends Component {
 	//http://192.168.1.11:3001/sessions/create
 
 	valid() {
-		if(this.state.form.name && this.state.form.surname && this.state.form.middlename && this.state.form.email && this.state.form.phone && this.state.form.password && this.state.form.passwordConfirm){
+		if(this.state.form.name && this.state.form.surname && this.state.form.middleName && this.state.form.email && this.state.form.phone && this.state.form.password && this.state.form.passwordConfirm){
 			if(this.state.form.email.indexOf('@') == -1){
-				Alert.alert('Error', 'Неверный формат e-mail');
+				Alert.alert(t.error, t.errorEmail);
 				return false;
 			}else if(this.state.form.password !== this.state.form.passwordConfirm){
-				Alert.alert('Error', 'Пароли не совпадают');
+				Alert.alert(t.error, t.errorPasswordConfirm);
 				return false;
 			}
 			return true;
@@ -237,8 +237,8 @@ export default class Registration extends Component {
 						<View style={[styles.textInput, styles.inputPickerDefault, styles.inputOffsetB]}>
 							<Picker
 								style={styles.picker}
-								selectedValue={this.state.form.poisition}
-								onValueChange={(value) => this.setForm('poisition', value)}
+								selectedValue={this.state.form.position}
+								onValueChange={(value) => this.setForm('position', value)}
 								mode="dropdown">
 									<Picker.Item label="Position 1" value={0} />
 									<Picker.Item label="Position 2" value={1} />

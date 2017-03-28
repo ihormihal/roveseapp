@@ -32,6 +32,8 @@ export default new LocalizedStrings({
 		aboutApp: 'О приложении',
 		copyright: '2017 JayaDigital. All rights reserved.',
 		error: 'Ошибка',
+		errorEmail: 'Неверный формат e-mail',
+		errorPasswordConfirm: 'Пароли не совпадают',
 		errorEmptyField: 'Заполните обязательные поля',
 		errorEmailField: 'E-mail введен неверно',
 		errorUserNotFound: 'Пользователя не найдено',

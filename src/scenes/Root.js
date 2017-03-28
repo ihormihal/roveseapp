@@ -24,6 +24,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import variables from './../theme/variables.js';
 import styles from './../theme/styles.js';
 import t from './../Translations';
+import settings from './../Settings';
 
 var rippleBg = TouchableNativeFeedback.Ripple(variables.colorRipple);
 
@@ -54,34 +55,6 @@ var slides = [
 	}
 ];
 
-var menu = [
-	{
-		title: t.menu_root,
-		route: 'root',
-		data: null
-	},
-	{
-		title: t.menu_statistics,
-		route: 'statistics',
-		data: null
-	},
-	{
-		title: t.menu_sellerRegistration,
-		route: 'seller-registration',
-		data: null
-	},
-	{
-		title: t.menu_settings,
-		route: 'settings',
-		data: null
-	},
-	{
-		title: t.menu_support,
-		route: 'support',
-		data: null
-	}
-];
-
 var backgroundImage = require('./../images/bg/root.jpg');
 
 export default class Root extends Component {
@@ -91,7 +64,34 @@ export default class Root extends Component {
 		this.state = {
 			pagOffset: 0,
 			pagWidth: variables.pagSize,
-			user: {id: null, name: "", surname: ""}
+			user: {id: null, name: "", surname: ""},
+			menu: [
+				{
+					title: t.menu_root,
+					route: 'root',
+					data: null
+				},
+				{
+					title: t.menu_statistics,
+					route: 'statistics',
+					data: null
+				},
+				{
+					title: t.menu_sellerRegistration,
+					route: 'seller-registration',
+					data: null
+				},
+				{
+					title: t.menu_settings,
+					route: 'settings',
+					data: null
+				},
+				{
+					title: t.menu_support,
+					route: 'support',
+					data: null
+				}
+			]
 		};
 	};
 
@@ -104,7 +104,7 @@ export default class Root extends Component {
 
 	componentDidMount() {
 
-		fetch('https://raw.githubusercontent.com/ihormihal/roveseapp/master/api/user.json', {
+		fetch(settings.api.user, {
 			method: "GET",
 			headers: {
 				'Accept': 'application/json',
@@ -114,10 +114,12 @@ export default class Root extends Component {
 		.then((response) => response.json())
 		.then((data) => {
 			if(data.status == "success"){
+				var menu = this.state.menu;
+				menu[3].data = data.data;
 				this.setState({
-					user: data.data
-				});
-				munu[3].data = this.state.user;
+					//user: data.data,
+					//menu: this.state.menu,
+				})
 			}else{
 				//Alert(t.error, data.message);
 			}
@@ -158,7 +160,7 @@ export default class Root extends Component {
 				</View>
 				<View style={styles.divider}></View>
 				<View style={styles.drawerSection}>
-					{menu.map((item, index) => {
+					{this.state.menu.map((item, index) => {
 						return (
 							<TouchableNativeFeedback
 								key={index}

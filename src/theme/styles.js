@@ -68,6 +68,24 @@ const dimentions = {
 	col: {
 		flex: 1,
 	},
+	tr: {
+		flexDirection: 'row',
+		justifyContent: 'space-between',
+		borderBottomWidth: 1,
+		borderColor: variables.colorGreyLight
+	},
+	td: {
+		//flex: 1,
+		marginVertical: 5,
+		paddingHorizontal: 5,
+	},
+	tdb: {
+		//flex: 1,
+		borderLeftWidth: 1,
+		borderColor: variables.colorGreyLight,
+		marginVertical: 5,
+		paddingHorizontal: 5,
+	},
 	middle: {
 		justifyContent: 'center',
 	},
@@ -371,7 +389,6 @@ const elements = {
 
 	chart: {
 		flexDirection: 'column',
-
 	},
 
 	chartArea: {

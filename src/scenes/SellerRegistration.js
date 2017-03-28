@@ -44,7 +44,7 @@ export default class SellerRegistration extends Component {
 				email: '',
 				phone: '',
 				tradePoint: '',
-				sertificate: 0,
+				sertifiсate: 0,
 			}
 		}
 	}
@@ -69,6 +69,10 @@ export default class SellerRegistration extends Component {
 
 	valid() {
 		if(this.state.form.name && this.state.form.surname && this.state.form.middleName && this.state.form.email){
+			if(this.state.form.email.indexOf('@') == -1){
+				Alert.alert(t.error, t.errorEmail);
+				return false;
+			}
 			return true;
 		}else{
 			Alert.alert(t.error, t.errorEmptyField);
@@ -174,7 +178,7 @@ export default class SellerRegistration extends Component {
 							<TextInput
 								style={[ styles.textInputInput ]}
 								underlineColorAndroid='transparent'
-								placeholder={t.email}
+								placeholder={t.tradePoint}
 								onChangeText={(value) => this.setForm('tradePoint', value)}
 								value={this.state.form.tradePoint}
 							/>
@@ -193,7 +197,7 @@ export default class SellerRegistration extends Component {
 						<View style={[styles.textInput, styles.inputPickerDefault, styles.inputOffsetB]}>
 							<Picker
 								style={styles.picker}
-								selectedValue={this.state.form.sertificate}
+								selectedValue={this.state.form.sertifiсate}
 								onValueChange={(value) => this.setForm('sertifiсate', value)}
 								mode="dropdown">
 									<Picker.Item label="Sertificate 1" value={0} />

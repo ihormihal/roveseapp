@@ -20,19 +20,21 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import variables from './../theme/variables.js';
 import styles from './../theme/styles.js';
 import t from './../Translations';
+import settings from './../Settings';
+
+const dataset = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 
 export default class Statistics extends Component {
 
 	constructor(props) {
 		super(props);
-		const dataset = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 		this.state = {
 			sellers: dataset.cloneWithRows([])
 		};
 	};
 
 	componentDidMount() {
-		fetch('https://raw.githubusercontent.com/ihormihal/roveseapp/master/api/statistics.json', {
+		fetch(settings.api.statistics, {
 			method: "GET",
 			headers: {
 				'Accept': 'application/json',
@@ -61,11 +63,11 @@ export default class Statistics extends Component {
 
 	renderListItem(item) {
 		return (
-			<TouchableOpacity style={styles.cols} onPress={() => this.navigate('seller', {id: item.id})}>
-				<Text style={styles.col}>{item.name}</Text>
-				<Text style={styles.col}>{item.date}</Text>
-				<Text style={styles.col}>{item.bonus}</Text>
-				<Text style={styles.col}>{item.total}</Text>
+			<TouchableOpacity style={styles.tr} onPress={() => this.navigate('seller', {id: item.id})}>
+				<Text style={styles.td}>{item.name}</Text>
+				<Text style={styles.tdb}>{item.registered}</Text>
+				<Text style={styles.tdb}>{item.month}</Text>
+				<Text style={styles.tdb}>{item.total}</Text>
 			</TouchableOpacity>
 		)
 	}

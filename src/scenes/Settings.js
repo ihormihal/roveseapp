@@ -24,42 +24,43 @@ import variables from './../theme/variables.js';
 import styles from './../theme/styles.js';
 import t from './../Translations';
 import data from './../Data';
+import settings from './../Settings';
 
 
 export default class Settings extends Component {
 
 	constructor(props) {
 		super(props);
+
+		var form = this.props.data;
 		this.state = {
-			selectedItem: undefined,
-			selected1: 'key1',
 			results: {
 				items: []
 			},
 
-			//form: this.props.data
+			form: Object.assign(form, {
+				language: 'ru'
+			})
 
-			form: {
+			/*form: {
 				name: '',
 				surname: '',
 				middleName: '',
 				region: 0,
-				poisition: 0,
+				position: 0,
 				phone: '',
 				language: 'en',
 				oldPassword: '',
 				password: '',
 				passwordConfirm: '',
-			}
+			}*/
 
 		}
 	}
 
 	setForm(key, value) {
 		var form = this.state.form;
-		if(key in form){
-			form[key] = value;
-		}
+		form[key] = value;
 		this.setState({
 			form: form
 		});
@@ -74,12 +75,12 @@ export default class Settings extends Component {
 	}
 
 	valid() {
-		if(this.state.form.name && this.state.form.surname && this.state.form.middlename && this.state.form.email && this.state.form.phone && this.state.form.password && this.state.form.passwordConfirm){
+		if(this.state.form.name && this.state.form.surname && this.state.form.middleName && this.state.form.email && this.state.form.phone && this.state.form.oldPassword && this.state.form.password && this.state.form.passwordConfirm){
 			if(this.state.form.email.indexOf('@') == -1){
-				Alert.alert('Error', 'Неверный формат e-mail');
+				Alert.alert(t.error, t.errorEmail);
 				return false;
 			}else if(this.state.form.password !== this.state.form.passwordConfirm){
-				Alert.alert('Error', 'Пароли не совпадают');
+				Alert.alert(t.error, t.errorPasswordConfirm);
 				return false;
 			}
 			return true;
@@ -91,7 +92,7 @@ export default class Settings extends Component {
 
 	_submit() {
 		if(this.valid()){
-			fetch('https://raw.githubusercontent.com/ihormihal/roveseapp/master/api/success.json', {
+			fetch(settings.api.success, {
 				method: "POST",
 				headers: {
 					'Accept': 'application/json',
@@ -185,8 +186,8 @@ export default class Settings extends Component {
 						<View style={[styles.textInput, styles.inputPickerDefault, styles.inputOffsetB]}>
 							<Picker
 								style={styles.picker}
-								selectedValue={this.state.form.poisition}
-								onValueChange={(value) => this.setForm('region', value)}
+								selectedValue={this.state.form.position}
+								onValueChange={(value) => this.setForm('position', value)}
 								mode="dropdown">
 									<Picker.Item label="Position 1" value={0} />
 									<Picker.Item label="Position 2" value={1} />
@@ -210,7 +211,7 @@ export default class Settings extends Component {
 							<Picker
 								style={styles.picker}
 								selectedValue={this.state.form.language}
-								onValueChange={(value) => this.setForm('region', value)}
+								onValueChange={(value) => this.setForm('language', value)}
 								mode="dropdown">
 								<Picker.Item label="English" value="en" />
 								<Picker.Item label="Русский" value="ru" />

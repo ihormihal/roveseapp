@@ -25,6 +25,7 @@ import variables from './../theme/variables.js';
 import styles from './../theme/styles.js';
 import t from './../Translations';
 import data from './../Data';
+import settings from './../Settings';
 
 export default class SellerEdit extends Component {
 
@@ -37,18 +38,18 @@ export default class SellerEdit extends Component {
 				items: []
 			},
 
-			//form: this.props.data,
+			form: this.props.data,
 
-			form: {
-				id: 1,
-				name: 'Злата',
-				surname: 'Новикова',
-				middleName: '',
-				email: 'zlata@tets.com',
-				phone: '+380509999999',
-				tradePoint: '',
-				sertificate: 0,
-			}
+			// form: {
+			// 	id: 1,
+			// 	name: 'Злата',
+			// 	surname: 'Новикова',
+			// 	middleName: '',
+			// 	email: 'zlata@tets.com',
+			// 	phone: '+380509999999',
+			// 	tradePoint: '',
+			// 	sertifiсate: 0,
+			// }
 		}
 	}
 
@@ -72,6 +73,10 @@ export default class SellerEdit extends Component {
 
 	valid() {
 		if(this.state.form.name && this.state.form.surname && this.state.form.middleName && this.state.form.email){
+			if(this.state.form.email.indexOf('@') == -1){
+				Alert.alert(t.error, t.errorEmail);
+				return false;
+			}
 			return true;
 		}else{
 			Alert.alert(t.error, t.errorEmptyField);
@@ -81,7 +86,7 @@ export default class SellerEdit extends Component {
 
 	_submit() {
 		if(this.valid){
-			fetch('https://raw.githubusercontent.com/ihormihal/roveseapp/master/api/success.json', {
+			fetch(settings.api.success, {
 				method: "POST",
 				headers: {
 					'Accept': 'application/json',
@@ -94,7 +99,7 @@ export default class SellerEdit extends Component {
 			.then((response) => response.json())
 			.then((data) => {
 				if(data.status == "success"){
-					this.navigate('seller', {id: this.state.form.id});
+					this.props.navigator.pop();
 				}else{
 					Alert.alert(t.error, data.message);
 				}
@@ -174,7 +179,7 @@ export default class SellerEdit extends Component {
 							<TextInput
 								style={[ styles.textInputInput ]}
 								underlineColorAndroid='transparent'
-								placeholder={t.email}
+								placeholder={t.tradePoint}
 								onChangeText={(value) => this.setForm('tradePoint', value)}
 								value={this.state.form.tradePoint}
 							/>
@@ -193,7 +198,7 @@ export default class SellerEdit extends Component {
 						<View style={[styles.textInput, styles.inputPickerDefault, styles.inputOffsetB]}>
 							<Picker
 								style={styles.picker}
-								selectedValue={this.state.form.sertificate}
+								selectedValue={this.state.form.sertifiсate}
 								onValueChange={(value) => this.setForm('sertifiсate', value)}
 								mode="dropdown">
 									<Picker.Item label="Sertificate 1" value={0} />
@@ -204,7 +209,8 @@ export default class SellerEdit extends Component {
 
 						<View style={[styles.center, styles.inputOffsetB]}>
 							<TouchableOpacity
-								style={[styles.btn, styles.btnDefault, styles.btnPrimary]}>
+								style={[styles.btn, styles.btnDefault, styles.btnPrimary]}
+								onPress={() => this._submit()}>
 								<Text style={[styles.white, styles.inputText]}>{t.save}</Text>
 							</TouchableOpacity>
 						</View>

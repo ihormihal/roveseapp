@@ -20,85 +20,26 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import variables from './../theme/variables.js';
 import styles from './../theme/styles.js';
 import t from './../Translations';
+import d from './../Data';
+import settings from './../Settings';
 
 var backgroundImage = require('./../images/bg/root.jpg');
-
-var chartData = [
-{
-	dayName: 'Пн',
-	dayNumber: '10',
-	value: 60,
-},
-{
-	dayName: 'Вт',
-	dayNumber: '11',
-	value: 80,
-},
-{
-	dayName: 'Ср',
-	dayNumber: '12',
-	value: 65,
-},
-{
-	dayName: 'Чт',
-	dayNumber: '13',
-	value: 85,
-},
-{
-	dayName: 'Пт',
-	dayNumber: '14',
-	value: 45,
-},
-{
-	dayName: 'Сб',
-	dayNumber: '15',
-	value: 50,
-},
-{
-	dayName: 'Вс',
-	dayNumber: '16',
-	value: 90,
-},
-{
-	dayName: 'Пн',
-	dayNumber: '17',
-	value: 95,
-},
-{
-	dayName: 'Вт',
-	dayNumber: '18',
-	value: 100,
-},
-{
-	dayName: 'Ср',
-	dayNumber: '19',
-	value: 80,
-},
-{
-	dayName: 'Чт',
-	dayNumber: '20',
-	value: 70,
-},
-{
-	dayName: 'Пт',
-	dayNumber: '21',
-	value: 45,
-},
-];
 
 export default class Seller extends Component {
 
 	constructor(props) {
 		super(props);
 		this.state = {
-			email: '',
-			phone: ''
+			seller: {},
+			month: 0,
+			total: 0,
+			chart: []
 		};
 	};
 
 	componentDidMount() {
 
-		fetch('https://raw.githubusercontent.com/ihormihal/roveseapp/master/api/seller.json', {
+		fetch(settings.api.seller, {
 			method: "GET",
 			headers: {
 				'Accept': 'application/json',
@@ -109,7 +50,7 @@ export default class Seller extends Component {
 		.then((data) => {
 			if(data.status == "success"){
 				this.setState({
-					form: data.data
+					seller: data.data
 				});
 			}else{
 				//Alert(t.error, data.message);
@@ -117,7 +58,7 @@ export default class Seller extends Component {
 		})
 		.done();
 
-		fetch('https://raw.githubusercontent.com/ihormihal/roveseapp/master/api/bonuses.json', {
+		fetch(settings.api.bonuses, {
 			method: "GET",
 			headers: {
 				'Accept': 'application/json',
@@ -128,14 +69,40 @@ export default class Seller extends Component {
 		.then((data) => {
 			if(data.status == "success"){
 				this.setState({
-					bonuses: data.data
+					month: data.data.month,
+					total: data.data.total
 				});
+				this.prepareChart(data.data.all);
 			}else{
 				//Alert(t.error, data.message);
 			}
 		})
 		.done();
 
+	}
+
+	prepareChart(data){
+		var normalize = 100;
+		var chartData = [];
+		var maxValue = 1;
+		for (var i = 0; i < data.length; i++) {
+			maxValue = maxValue < parseInt(data[i].value) ? parseInt(data[i].value) : maxValue;
+		}
+		var ratio = normalize/maxValue;
+
+		for (var i = 0; i < data.length; i++) {
+			var date = new Date(data[i].date);
+			chartData.push({
+				dayNumber: date.getDate(),
+				dayName: d.days[date.getDay()],
+				value: data[i].value,
+				height: parseInt(data[i].value)*(normalize/maxValue)*variables.CHART_BAR_RATIO
+			})
+		}
+
+		this.setState({
+			chart: chartData
+		});
 	}
 
 	navigate(routeName, routeData) {
@@ -168,27 +135,26 @@ export default class Seller extends Component {
 					<View style={styles.headerRight}>
 					</View>
 				</View>
-				<TouchableOpacity activeOpacity={90} style={[styles.pageHeader, styles.center]} onPress={() => this.navigate('seller-edit')}>
-					<Text style={[styles.white, styles.textLG]}>Злата Новикова</Text>
+				<TouchableOpacity activeOpacity={90} style={[styles.pageHeader, styles.center]} onPress={() => this.navigate('seller-edit', this.state.seller)}>
+					<Text style={[styles.white, styles.textLG]}>{this.state.seller.name} {this.state.seller.surname}</Text>
 					<View style={[styles.sellerInfo, styles.center]}>
-						<Text style={[styles.white, styles.textMD]}>+38 (050) XXX-XX-XX</Text>
-						<Text style={[styles.white, styles.textSM]}>вул. Михайла Грушевського, 93,</Text>
-						<Text style={[styles.white, styles.textSM]}>Житомирська область</Text>
+						<Text style={[styles.white, styles.textMD]}>{this.state.seller.phone}</Text>
+						<Text style={[styles.white, styles.textSM]}>{this.state.seller.tradePoint}</Text>
 					</View>
-					<Text style={[styles.white, styles.textSM]}>04.06.16</Text>
+					<Text style={[styles.white, styles.textSM]}>{this.state.seller.registered}</Text>
 				</TouchableOpacity>
 				<View style={[styles.section, styles.whiteBg]}>
 
 					<View style={[styles.cols, styles.middle]}>
 						<View style={[styles.bonusCircle]}>
 							<Text style={styles.textSM}>Май</Text>
-							<Text style={ styles.bonusText }>900</Text>
+							<Text style={ styles.bonusText }>{this.state.month}</Text>
 							<Text style={styles.textSM}>Бонусы</Text>
 						</View>
 
 						<View style={[styles.bonusCircle]}>
 							<Text style={styles.textSM}>За все время</Text>
-							<Text style={ styles.bonusText }>1500</Text>
+							<Text style={ styles.bonusText }>{this.state.total}</Text>
 							<Text style={styles.textSM}>Бонусы</Text>
 						</View>
 					</View>
@@ -197,21 +163,20 @@ export default class Seller extends Component {
 						<View style={styles.chart}>
 
 							<View style={styles.chartArea}>
-								{chartData.map((item, index) => {
-									var barHeight =  item.value*variables.CHART_BAR_RATIO;
+								{this.state.chart.map((item, index) => {
 									return (
 										<View key={index} style={styles.chartBar}>
 											<Text style={styles.chartBarText}>{item.value}</Text>
 											<View style={styles.chartBarBar}>
-												<View style={[styles.chartBarValue, {height: barHeight} ]} />
-												<View style={[styles.chartBarShadow, {height: barHeight-5} ]} />
+												<View style={[styles.chartBarValue, {height: item.height} ]} />
+												<View style={[styles.chartBarShadow, {height: item.height-5} ]} />
 											</View>
 										</View>
 									)
 								})}
 							</View>
 							<View style={styles.chartX}>
-								{chartData.map((item, index) => {
+								{this.state.chart.map((item, index) => {
 									return (
 										<View key={index} style={styles.chartXitem}>
 											<Text style={styles.axisText}>{item.dayName}</Text>

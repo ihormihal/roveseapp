@@ -20,6 +20,7 @@ import {
 import variables from './../theme/variables.js';
 import styles from './../theme/styles.js';
 import t from './../Translations';
+import settings from './../Settings';
 
 
 var backgroundImage = require('./../images/bg/login.jpg');
@@ -97,7 +98,7 @@ export default class Login extends Component {
 
 	_submit() {
 		if(this.valid()){
-			fetch('https://raw.githubusercontent.com/ihormihal/roveseapp/master/api/success.json', {
+			fetch(settings.api.login, {
 				method: "POST",
 				headers: {
 					'Accept': 'application/json',

@@ -21,6 +21,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import variables from './../theme/variables.js';
 import styles from './../theme/styles.js';
 import t from './../Translations';
+import settings from './../Settings';
 
 var backgroundImage = require('./../images/bg/root.jpg');
 
@@ -57,15 +58,14 @@ export default class SupportOffer extends Component {
 	valid() {
 		if(this.state.form.subject && this.state.form.message){
 			return true;
-		}else{
-			Alert.alert(t.error, t.errorEmptyField);
-			return false;
 		}
+		Alert.alert(t.error, t.errorEmptyField);
+		return false;
 	}
 
 	_submit(){
-		if(this.state.form.subject && this.state.form.message){
-			fetch('https://raw.githubusercontent.com/ihormihal/roveseapp/master/api/success.json', {
+		if(this.valid()){
+			fetch(settings.api.success, {
 				method: "POST",
 				headers: {
 					'Accept': 'application/json',
@@ -84,8 +84,6 @@ export default class SupportOffer extends Component {
 				}
 			})
 			.done();
-		}else{
-			Alert.alert(t.error, t.errorEmptyField);
 		}
 	}
 

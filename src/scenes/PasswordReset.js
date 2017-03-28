@@ -21,6 +21,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import variables from './../theme/variables.js';
 import styles from './../theme/styles.js';
 import t from './../Translations';
+import settings from './../Settings';
 
 import { InputText } from './../components/Form';
 
@@ -57,6 +58,9 @@ export default class PasswordReset extends Component {
 		if(this.state.form.email){
 			if(this.state.form.email.indexOf('@') !== -1){
 				return true;
+			}else{
+				Alert.alert(t.error, t.errorEmail);
+				return false;
 			}
 		}else{
 			Alert.alert(t.error, t.errorEmptyField);
@@ -66,7 +70,7 @@ export default class PasswordReset extends Component {
 
 	_submit(){
 		if(this.valid()){
-			fetch('http://rovese.jaya-test.com/api/request_password_reset', {
+			fetch(settings.api.success, {
 				method: "POST",
 				headers: {
 					'Accept': 'application/json',
