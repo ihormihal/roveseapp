@@ -77,7 +77,7 @@ export default class App extends Component {
 	}
 
 	componentWillMount() {
-		AsyncStorage.getItem('access_token', (token) => {
+		AsyncStorage.getItem('access_token', (error, token) => {
 			this.setState({
 				initialRoute: (token ? 'root' : 'login'),
 				isLoading: false
