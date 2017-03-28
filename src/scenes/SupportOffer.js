@@ -29,10 +29,22 @@ export default class SupportOffer extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			form_subject: '',
-			form_comment: ''
+			form: {
+				subject: '',
+				message: ''
+			}
 		};
 	};
+
+	setForm(key, value) {
+		var form = this.state.form;
+		if(key in form){
+			form[key] = value;
+		}
+		this.setState({
+			form: form
+		});
+	}
 
 	navigate(routeName, routeData) {
 		Keyboard.dismiss();
@@ -40,6 +52,39 @@ export default class SupportOffer extends Component {
 			name: routeName,
 			data: routeData
 		});
+	}
+
+	valid() {
+		if(this.state.form.subject && this.state.form.message){
+			return true;
+		}else{
+			Alert.alert(t.error, t.errorEmptyField);
+			return false;
+		}
+	}
+
+	_submit(){
+		if(this.state.form.subject && this.state.form.message){
+			fetch('http://rovese.jaya-test.com/api/support_offer', {
+				method: "POST",
+				headers: {
+					'Accept': 'application/json',
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify({
+					email: this.state.form.reset
+				})
+			})
+			.then((response) => response.json())
+			.then((data) => {
+				Alert.alert(JSON.stringify(data));
+				//AsyncStorage.setItem(item, selectedValue);
+				//this.navigate('root');
+			})
+			.done();
+		}else{
+			Alert.alert(t.error, t.errorEmptyField);
+		}
 	}
 
 	render() {
@@ -75,8 +120,8 @@ export default class SupportOffer extends Component {
 							style={[ styles.textInputInput ]}
 							underlineColorAndroid='transparent'
 							placeholder={t.letterSubject}
-							onChangeText={(value) => this.setState({form_subject: value})}
-							value={this.state.form_subject}
+							onChangeText={(value) => this.setForm('subject', value)}
+							value={this.state.form.subject}
 						/>
 					</View>
 
@@ -87,14 +132,15 @@ export default class SupportOffer extends Component {
 							numberOfLines = {4}
 							underlineColorAndroid='transparent'
 							placeholder={t.comment}
-							onChangeText={(value) => this.setState({form_comment: value})}
-							value={this.state.form_comment}
+							onChangeText={(value) => this.setForm('comment', value)}
+							value={this.state.form.comment}
 						/>
 					</View>
 
 					<View style={styles.center}>
 						<TouchableOpacity
-							style={[styles.btn, styles.btnDefault, styles.btnPrimary]}>
+							style={[styles.btn, styles.btnDefault, styles.btnPrimary]}
+							onPress={() => this._submit()>
 							<Text style={[styles.white, styles.inputText]}>{t.submit}</Text>
 						</TouchableOpacity>
 					</View>

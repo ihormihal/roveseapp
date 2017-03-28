@@ -79,7 +79,7 @@ var menu = [
 
 var backgroundImage = require('./../images/bg/root.jpg');
 
-export default class PasswordReset extends Component {
+export default class Root extends Component {
 
 	constructor(props) {
 		super(props);

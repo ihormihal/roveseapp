@@ -30,17 +30,28 @@ export default class Login extends Component {
 		super();
 		this.state = {
 			anim: new Animated.Value(0),
-			form_email: 'test@test.com',
-			form_password: 'test'
+			form: {
+				email: 'testuser',
+				password: 'Pass1234'
+			}
 		};
 	};
 
-	async _onValueChange(item, selectedValue) {
+	// setForm(key, value) {
+	// 	var form = this.state.form;
+	// 	if(key in form){
+	// 		form[key] = value;
+	// 	}
+	// 	this.setState({
+	// 		form: form
+	// 	});
+	// }
+
+	async _setStorageValue(item, selectedValue) {
 		try {
 			await AsyncStorage.setItem(item, selectedValue);
 		} catch (error) {
-			Alert.alert("AsyncStorage error:", error.message)
-			//console.log('AsyncStorage error: ' + error.message);
+			Alert.alert("AsyncStorage error:", error.message);
 		}
 	}
 
@@ -60,36 +71,8 @@ export default class Login extends Component {
 	}
 
 
-	_userLogin() {
-		fetch("http://192.168.1.11:3001/sessions/create", {
-			method: "POST",
-			headers: {
-				'Accept': 'application/json',
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify({
-				username: 'gonto',
-				password: 'gonto',
-			})
-		})
-		.then((response) => response.json())
-		.then((responseData) => {
-			this._onValueChange('id_token', responseData.id_token),
-			Alert.alert(
-				"Signup Success!",
-				"Click the button to get a Chuck Norris quote!"
-			);
-		})
-		.done();
-	}
-
-
 	componentDidMount() {
-
-		//Alert.alert('Dim', variables.screenWidth.toString());
-		//this.loadPosts();
 		Animated.timing(this.state.anim, {toValue: 3000, duration: 3000}).start();
-
 		BackAndroid.addEventListener('hardwareBackPress', () => {
 			if (this.props.navigator.getCurrentRoutes().length > 1) {
 				this.props.navigator.pop();
@@ -108,14 +91,29 @@ export default class Login extends Component {
 		});
 	}
 
-	signIn() {
-		if(this.state.form_email == 'test@test.com' && this.state.form_password == 'test'){
-			//this.navigate('root');
-			this.navigate('root');
-		}else{
-			Alert.alert(t.error,t.loginError);
+	valid() {
+		return true;
+	}
+
+	_submit() {
+		if(this.valid()){
+			fetch('http://rovese.jaya-test.com/api/login', {
+				method: "POST",
+				headers: {
+					'Accept': 'application/json',
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify(this.state.form)
+			})
+			.then((response) => response.json())
+			.then((responseData) => {
+				Alert.alert(JSON.stringify(responseData));
+			})
+			.done();
 		}
 	}
+
+	//http://192.168.1.11:3001/sessions/create
 
 	render() {
 		return (
@@ -143,8 +141,8 @@ export default class Login extends Component {
 								placeholderTextColor="#ffffff"
 								selectionColor={variables.colorPrimaryRGBA}
 								placeholder={t.email}
-								onChangeText={(value) => this.setState({form_email: value})}
-								value={this.state.form_email}
+								onChangeText={(value) => this.setFrom('email', value)}
+								value={this.state.form.email}
 							/>
 						</View>
 
@@ -155,8 +153,8 @@ export default class Login extends Component {
 								placeholder={t.password}
 								placeholderTextColor="#ffffff"
 								secureTextEntry={true}
-								onChangeText={(value) => {this.setState({form_password: value})}}
-								value={this.state.form_password}
+								onChangeText={(value) => this.setFrom('password', value)}
+								value={this.state.form.password}
 							/>
 						</View>
 
@@ -181,7 +179,7 @@ export default class Login extends Component {
 							</TouchableOpacity>
 						</View>
 						<TouchableOpacity
-							onPress={() => this.signIn()}
+							onPress={() => this._submit()}
 							style={[styles.buttonCircle, styles.mt2]}>
 							<Image
 								style={styles.buttonCircleImg}

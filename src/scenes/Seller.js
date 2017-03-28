@@ -22,60 +22,6 @@ import styles from './../theme/styles.js';
 import t from './../Translations';
 
 var backgroundImage = require('./../images/bg/root.jpg');
-//
-//
-// var chartData = [
-// {
-// 	legend: 'Янв',
-// 	value: 60,
-// },
-// {
-// 	legend: 'Фев',
-// 	value: 80,
-// },
-// {
-// 	legend: 'Мар',
-// 	value: 65,
-// },
-// {
-// 	legend: 'Апр',
-// 	value: 85,
-// },
-// {
-// 	legend: 'Май',
-// 	value: 45,
-// },
-// {
-// 	legend: 'Июн',
-// 	value: 50,
-// },
-// {
-// 	legend: 'Июл',
-// 	value: 90,
-// },
-// {
-// 	legend: 'Авг',
-// 	value: 95,
-// },
-// {
-// 	legend: 'Сен',
-// 	value: 100,
-// },
-// {
-// 	legend: 'Окт',
-// 	value: 80,
-// },
-// {
-// 	legend: 'Ноя',
-// 	value: 70,
-// },
-// {
-// 	legend: 'Дек',
-// 	value: 45,
-// },
-// ];
-
-
 
 var chartData = [
 {
@@ -149,6 +95,24 @@ export default class Seller extends Component {
 			phone: ''
 		};
 	};
+
+	componentDidMount() {
+		fetch('http://rovese.jaya-test.com/api/stats/1', {
+			method: "POST",
+			headers: {
+				'Accept': 'application/json',
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(this.state.form)
+		})
+		.then((response) => response.json())
+		.then((responseData) => {
+			// this.setState({
+			// 	sellers: responseData
+			// })
+		})
+		.done();
+	}
 
 	navigate(routeName, routeData) {
 		this.props.navigator.push({

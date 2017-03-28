@@ -39,6 +39,24 @@ export default class Statistics extends Component {
 		};
 	};
 
+	componentDidMount() {
+		fetch('http://rovese.jaya-test.com/api/stats', {
+			method: "POST",
+			headers: {
+				'Accept': 'application/json',
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(this.state.form)
+		})
+		.then((response) => response.json())
+		.then((responseData) => {
+			// this.setState({
+			// 	sellers: responseData
+			// })
+		})
+		.done();
+	}
+
 	navigate(routeName, routeData) {
 		this.props.navigator.push({
 			name: routeName,

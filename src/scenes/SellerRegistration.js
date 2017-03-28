@@ -37,18 +37,25 @@ export default class SellerRegistration extends Component {
 				items: []
 			},
 
-			form_name: '',
-			form_surname: '',
-			form_middleName: '',
-			form_email: '',
-			form_tradePoint: 0,
-			form_sertifivate: 0,
+			form: {
+				name: '',
+				surname: '',
+				middleName: '',
+				email: '',
+				phone: '',
+				tradePoint: '',
+				sertificate: 0,
+			}
 		}
 	}
 
-	onValueChange (value: string) {
+	setForm(key, value) {
+		var form = this.state.form;
+		if(key in form){
+			form[key] = value;
+		}
 		this.setState({
-			selected1 : value
+			form: form
 		});
 	}
 
@@ -60,11 +67,34 @@ export default class SellerRegistration extends Component {
 		});
 	}
 
-	_save() {
-		if(this.state.form_name && this.state.form_surname && this.state.form_middleName && this.state.form_email){
-			Alert.alert(t.done, t.data_send, [{text: 'OK', onPress: () => this.navigate('seller')}]);
+	valid() {
+		if(this.state.form.name && this.state.form.surname && this.state.form.middleName && this.state.form.email){
+			return true;
 		}else{
 			Alert.alert(t.error, t.errorEmptyField);
+			return false;
+		}
+	}
+
+	_submit() {
+		if(this.valid){
+			fetch('http://rovese.jaya-test.com/api/seller_registration', {
+				method: "POST",
+				headers: {
+					'Accept': 'application/json',
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify({
+					email: this.state.form.reset
+				})
+			})
+			.then((response) => response.json())
+			.then((data) => {
+				Alert.alert(JSON.stringify(data));
+				//AsyncStorage.setItem(item, selectedValue);
+				//this.navigate('root');
+			})
+			.done();
 		}
 	}
 
@@ -105,6 +135,8 @@ export default class SellerRegistration extends Component {
 								style={[ styles.textInputInput ]}
 								underlineColorAndroid='transparent'
 								placeholder={t.name}
+								onChangeText={(value) => this.setForm('name', value)}
+								value={this.state.form.name}
 							/>
 						</View>
 
@@ -113,6 +145,8 @@ export default class SellerRegistration extends Component {
 								style={[ styles.textInputInput ]}
 								underlineColorAndroid='transparent'
 								placeholder={t.surname}
+								onChangeText={(value) => this.setForm('surname', value)}
+								value={this.state.form.surname}
 							/>
 						</View>
 
@@ -121,6 +155,8 @@ export default class SellerRegistration extends Component {
 								style={[ styles.textInputInput ]}
 								underlineColorAndroid='transparent'
 								placeholder={t.middleName}
+								onChangeText={(value) => this.setForm('middleName', value)}
+								value={this.state.form.middleName}
 							/>
 						</View>
 
@@ -129,19 +165,19 @@ export default class SellerRegistration extends Component {
 								style={[ styles.textInputInput ]}
 								underlineColorAndroid='transparent'
 								placeholder={t.email}
+								onChangeText={(value) => this.setForm('email', value)}
+								value={this.state.form.email}
 							/>
 						</View>
 
-						<View style={[styles.textInput, styles.inputPickerDefault, styles.inputOffsetB]}>
-							<Picker
-								style={styles.picker}
-								selectedValue={this.state.form_tradePoint}
-								onValueChange={(value) => { this.setState({form_tradePoint: value}) }}
-								mode="dropdown">
-									<Picker.Item label="Point 1" value={0} />
-									<Picker.Item label="Point 2" value={1} />
-									<Picker.Item label="Point 3" value={2} />
-							</Picker>
+						<View style={[styles.textInput, styles.inputDefault, styles.inputOffsetB]}>
+							<TextInput
+								style={[ styles.textInputInput ]}
+								underlineColorAndroid='transparent'
+								placeholder={t.email}
+								onChangeText={(value) => this.setForm('tradePoint', value)}
+								value={this.state.form.tradePoint}
+							/>
 						</View>
 
 						<View style={[styles.textInput, styles.inputDefault, styles.inputOffsetB]}>
@@ -149,14 +185,16 @@ export default class SellerRegistration extends Component {
 								style={[ styles.textInputInput ]}
 								underlineColorAndroid='transparent'
 								placeholder={t.phoneNumber}
+								onChangeText={(value) => this.setForm('phone', value)}
+								value={this.state.form.phone}
 							/>
 						</View>
 
 						<View style={[styles.textInput, styles.inputPickerDefault, styles.inputOffsetB]}>
 							<Picker
 								style={styles.picker}
-								selectedValue={this.state.form_sertifivate}
-								onValueChange={(value) => { this.setState({form_sertifivate: value}) }}
+								selectedValue={this.state.form.sertificate}
+								onValueChange={(value) => this.setForm('sertifiсate', value)}
 								mode="dropdown">
 									<Picker.Item label="Sertificate 1" value={0} />
 									<Picker.Item label="Sertificate 2" value={1} />
@@ -166,7 +204,7 @@ export default class SellerRegistration extends Component {
 
 						<View style={[styles.center, styles.inputOffsetB]}>
 							<TouchableOpacity
-								onPress={() => this._save()}
+								onPress={() => this._submit()}
 								style={[styles.btn, styles.btnDefault, styles.btnPrimary]}>
 								<Text style={[styles.white, styles.inputText]}>{t.submit}</Text>
 							</TouchableOpacity>

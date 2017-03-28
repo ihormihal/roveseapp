@@ -29,9 +29,21 @@ export default class PasswordReset extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			form_email: ''
+			form: {
+				email: ''
+			}
 		};
 	};
+
+	setForm(key, value) {
+		var form = this.state.form;
+		if(key in form){
+			form[key] = value;
+		}
+		this.setState({
+			form: form
+		});
+	}
 
 	navigate(routeName, routeData) {
 		Keyboard.dismiss();
@@ -41,23 +53,38 @@ export default class PasswordReset extends Component {
 		});
 	}
 
-	_passwordReset(){
-		if(this.state.form_email){
-			if(this.state.form_email.indexOf('@') == -1){
-				Alert.alert(t.error, t.errorEmailField);
-			}else{
-				if(this.state.form_email == 'test@test.com'){
-					Alert.alert(
-						'',
-						t.passwordResetSuccess,
-						[{text: 'OK', onPress: () => this.props.navigator.pop() }]
-					);
-				}else{
-					Alert.alert(t.error, t.errorUserNotFound);
-				}
+	valid() {
+		if(this.state.form.email){
+			if(this.state.form.email.indexOf('@') !== -1){
+				return true;
 			}
 		}else{
 			Alert.alert(t.error, t.errorEmptyField);
+			return false;
+		}
+	}
+
+	_submit(){
+		if(this.valid()){
+			fetch('http://rovese.jaya-test.com/api/request_password_reset', {
+				method: "POST",
+				headers: {
+					'Accept': 'application/json',
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify({
+					email: this.state.form.reset
+				})
+			})
+			.then((response) => response.json())
+			.then((data) => {
+				Alert.alert(
+					'',
+					t.passwordResetSuccess,
+					[{text: 'OK', onPress: () => this.props.navigator.pop() }]
+				);
+			})
+			.done();
 		}
 	}
 
@@ -92,14 +119,14 @@ export default class PasswordReset extends Component {
 						<TextInput
 							style={[ styles.textInputInput ]}
 							underlineColorAndroid='transparent'
-							onChangeText={(value) => this.setState({form_email: value})}
-							value={this.state.form_email}
+							onChangeText={(value) => this.setForm('email', value)}
+							value={this.state.form.email}
 						/>
 					</View>
 
 					<View style={styles.center}>
 						<TouchableOpacity
-							onPress={() => this._passwordReset()}
+							onPress={() => this._submit()}
 							style={[styles.btn, styles.btnDefault, styles.btnPrimary]}>
 							<Text style={[styles.white, styles.inputText]}>{t.change}</Text>
 						</TouchableOpacity>

@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
-import { AppRegistry, AsyncStorage, View, Navigator, Text } from 'react-native';
-import { connect } from 'react-redux';
+import { AppRegistry, AsyncStorage, Alert, View, Navigator, TouchableOpacity, Text } from 'react-native';
 
 import Login from './scenes/Login';
 import PasswordReset from './scenes/PasswordReset';
 import Registration from './scenes/Registration';
 import Rules from './scenes/Rules';
-
 import Root from './scenes/Root';
 import Presentation from './scenes/Presentation';
 import SellerRegistration from './scenes/SellerRegistration';
@@ -20,22 +18,14 @@ import About from './scenes/About';
 import Settings from './scenes/Settings';
 
 
-const styles = {
-	container: {
-		flex: 1
-	}
-};
-
-var initialRoute = {'name': 'root'};
-
 export default class App extends Component {
 
-	constructor() {
-		super();
+	constructor(props) {
+		super(props);
 		this.state = {
-			isLoading: true,
-			tiken: null
-		};
+			initialRoute: 'login',
+			isLoading: true
+		}
 	};
 
 	navScene(route, navigator) {
@@ -86,19 +76,10 @@ export default class App extends Component {
 		}
 	}
 
-	async getToken() {
-		try {
-			let token = await AsyncStorage.getItem('id_token');
-			return token;
-		} catch (e) {
-			console.log('caught error', e);
-		}
-	}
-
 	componentWillMount() {
-		AsyncStorage.getItem('id_token').then((token) => {
+		AsyncStorage.getItem('access_token', (token) => {
 			this.setState({
-				token: token,
+				initialRoute: (token ? 'root' : 'login'),
 				isLoading: false
 			});
 		})
@@ -119,28 +100,12 @@ export default class App extends Component {
 		if(this.state.isLoading) {
 			return <View><Text>Loading...</Text></View>;
 		}
-		if(this.state.token === null){
-			initialRoute.name = 'login';
-		}
-		initialRoute.name = 'login';
 		return (
-			<View style={styles.container}>
-				<Navigator
-					initialRoute={initialRoute}
-					renderScene={this.navScene}
-					configureScene={this.navigatorConfig}
-				/>
-			</View>
+			<Navigator
+				initialRoute={{name: this.state.initialRoute}}
+				renderScene={this.navScene}
+				configureScene={this.navigatorConfig}
+			/>
 		);
 	}
-
-
 }
-
-module.exports = connect(
-	//закидываем в this.props
-	state => ({
-		testStore: state
-	}),
-	dispatch => ({})
-)(App);

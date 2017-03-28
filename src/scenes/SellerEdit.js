@@ -37,19 +37,25 @@ export default class SellerEdit extends Component {
 				items: []
 			},
 
-			form_name: 'Злата',
-			form_surname: 'Новикова',
-			form_middleName: '',
-			form_email: 'zlata@tets.com',
-			form_phone: '+380509999999',
-			form_tradePoint: 0,
-			form_sertifivate: 0,
+			form: {
+				name: 'Злата',
+				surname: 'Новикова',
+				middleName: '',
+				email: 'zlata@tets.com',
+				phone: '+380509999999',
+				tradePoint: '',
+				sertificate: 0,
+			}
 		}
 	}
 
-	onValueChange (value: string) {
+	setForm(key, value) {
+		var form = this.state.form;
+		if(key in form){
+			form[key] = value;
+		}
 		this.setState({
-			selected1 : value
+			form: form
 		});
 	}
 
@@ -59,6 +65,37 @@ export default class SellerEdit extends Component {
 			name: routeName,
 			data: routeData
 		});
+	}
+
+	valid() {
+		if(this.state.form.name && this.state.form.surname && this.state.form.middleName && this.state.form.email){
+			return true;
+		}else{
+			Alert.alert(t.error, t.errorEmptyField);
+			return false;
+		}
+	}
+
+	_submit() {
+		if(this.valid){
+			fetch('http://rovese.jaya-test.com/api/seller_edit', {
+				method: "POST",
+				headers: {
+					'Accept': 'application/json',
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify({
+					email: this.state.form.reset
+				})
+			})
+			.then((response) => response.json())
+			.then((data) => {
+				Alert.alert(JSON.stringify(data));
+				//AsyncStorage.setItem(item, selectedValue);
+				//this.navigate('root');
+			})
+			.done();
+		}
 	}
 
 	render() {
@@ -93,8 +130,8 @@ export default class SellerEdit extends Component {
 								style={[ styles.textInputInput ]}
 								underlineColorAndroid='transparent'
 								placeholder={t.name}
-								onChangeText={(value) => this.setState({form_name: value})}
-								value={this.state.form_name}
+								onChangeText={(value) => this.setForm('name', value)}
+								value={this.state.form.name}
 							/>
 						</View>
 
@@ -103,8 +140,8 @@ export default class SellerEdit extends Component {
 								style={[ styles.textInputInput ]}
 								underlineColorAndroid='transparent'
 								placeholder={t.surname}
-								onChangeText={(value) => this.setState({form_surname: value})}
-								value={this.state.form_surname}
+								onChangeText={(value) => this.setForm('surname', value)}
+								value={this.state.form.surname}
 							/>
 						</View>
 
@@ -113,8 +150,8 @@ export default class SellerEdit extends Component {
 								style={[ styles.textInputInput ]}
 								underlineColorAndroid='transparent'
 								placeholder={t.middleName}
-								onChangeText={(value) => this.setState({form_middleName: value})}
-								value={this.state.form_middleName}
+								onChangeText={(value) => this.setForm('middleName', value)}
+								value={this.state.form.middleName}
 							/>
 						</View>
 
@@ -123,21 +160,19 @@ export default class SellerEdit extends Component {
 								style={[ styles.textInputInput ]}
 								underlineColorAndroid='transparent'
 								placeholder={t.email}
-								onChangeText={(value) => this.setState({form_email: value})}
-								value={this.state.form_email}
+								onChangeText={(value) => this.setForm('email', value)}
+								value={this.state.form.email}
 							/>
 						</View>
 
-						<View style={[styles.textInput, styles.inputPickerDefault, styles.inputOffsetB]}>
-							<Picker
-								style={styles.picker}
-								selectedValue={this.state.form_tradePoint}
-								onValueChange={(value) => { this.setState({form_tradePoint: value}) }}
-								mode="dropdown">
-									<Picker.Item label="Point 1" value={0} />
-									<Picker.Item label="Point 2" value={1} />
-									<Picker.Item label="Point 3" value={2} />
-							</Picker>
+						<View style={[styles.textInput, styles.inputDefault, styles.inputOffsetB]}>
+							<TextInput
+								style={[ styles.textInputInput ]}
+								underlineColorAndroid='transparent'
+								placeholder={t.email}
+								onChangeText={(value) => this.setForm('tradePoint', value)}
+								value={this.state.form.tradePoint}
+							/>
 						</View>
 
 						<View style={[styles.textInput, styles.inputDefault, styles.inputOffsetB]}>
@@ -145,16 +180,16 @@ export default class SellerEdit extends Component {
 								style={[ styles.textInputInput ]}
 								underlineColorAndroid='transparent'
 								placeholder={t.phoneNumber}
-								onChangeText={(value) => this.setState({form_phone: value})}
-								value={this.state.form_phone}
+								onChangeText={(value) => this.setForm('phone', value)}
+								value={this.state.form.phone}
 							/>
 						</View>
 
 						<View style={[styles.textInput, styles.inputPickerDefault, styles.inputOffsetB]}>
 							<Picker
 								style={styles.picker}
-								selectedValue={this.state.form_sertifivate}
-								onValueChange={(value) => { this.setState({form_sertifivate: value}) }}
+								selectedValue={this.state.form.sertificate}
+								onValueChange={(value) => this.setForm('sertifiсate', value)}
 								mode="dropdown">
 									<Picker.Item label="Sertificate 1" value={0} />
 									<Picker.Item label="Sertificate 2" value={1} />
