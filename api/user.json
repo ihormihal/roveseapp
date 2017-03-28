@@ -1,0 +1,13 @@
+{
+  "status": "success",
+  "data": {
+    "id": 1,
+    "name": "Name",
+    "surname": "Surname",
+    "middleName": "MiddleName",
+    "email": "test@test.com",
+    "region": 0,
+    "position": 0,
+    "phone": "+380500000000"
+  }
+}

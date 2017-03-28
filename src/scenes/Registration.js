@@ -46,7 +46,7 @@ export default class Registration extends Component {
 				passwordConfirm: '',
 				region: 0,
 				position: 0,
-				phoneNumber: '',
+				phone: '',
 			}
 		}
 	}
@@ -90,7 +90,7 @@ export default class Registration extends Component {
 
 	_submit() {
 		if(this.valid()){
-			fetch('http://rovese.jaya-test.com/api/register', {
+			fetch('https://raw.githubusercontent.com/ihormihal/roveseapp/master/api/success.json', {
 				method: "POST",
 				headers: {
 					'Accept': 'application/json',
@@ -99,9 +99,12 @@ export default class Registration extends Component {
 				body: JSON.stringify(this.state.form)
 			})
 			.then((response) => response.json())
-			.then((responseData) => {
-				await AsyncStorage.setItem(item, selectedValue);
-				Alert.alert(t.done, t.data_send, [{text: 'OK', onPress: () => this.navigate('login')}]);
+			.then((data) => {
+				if(data.status == "success"){
+					Alert.alert(t.done, t.data_send, [{text: 'OK', onPress: () => this.navigate('login')}]);
+				}else{
+					Alert(t.error, data.message);
+				}
 			})
 			.done();
 		}
@@ -248,8 +251,8 @@ export default class Registration extends Component {
 								style={[ styles.textInputInput ]}
 								underlineColorAndroid='transparent'
 								placeholder={t.phoneNumber}
-								onChangeText={(value) => this.setForm('phoneNumber', value)}
-								value={this.state.form.phoneNumber}
+								onChangeText={(value) => this.setForm('phone', value)}
+								value={this.state.form.phone}
 							/>
 						</View>
 

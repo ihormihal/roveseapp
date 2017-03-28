@@ -97,7 +97,7 @@ export default class Login extends Component {
 
 	_submit() {
 		if(this.valid()){
-			fetch('http://rovese.jaya-test.com/api/login', {
+			fetch('https://raw.githubusercontent.com/ihormihal/roveseapp/master/api/success.json', {
 				method: "POST",
 				headers: {
 					'Accept': 'application/json',
@@ -106,8 +106,13 @@ export default class Login extends Component {
 				body: JSON.stringify(this.state.form)
 			})
 			.then((response) => response.json())
-			.then((responseData) => {
-				Alert.alert(JSON.stringify(responseData));
+			.then((data) => {
+				if(data.status == "success"){
+					//save token
+					this.navigate('root');
+				}else{
+					Alert.alert(t.error, data.message);
+				}
 			})
 			.done();
 		}

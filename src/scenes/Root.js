@@ -57,23 +57,28 @@ var slides = [
 var menu = [
 	{
 		title: t.menu_root,
-		route: 'root'
+		route: 'root',
+		data: null
 	},
 	{
 		title: t.menu_statistics,
-		route: 'statistics'
+		route: 'statistics',
+		data: null
 	},
 	{
 		title: t.menu_sellerRegistration,
-		route: 'seller-registration'
+		route: 'seller-registration',
+		data: null
 	},
 	{
 		title: t.menu_settings,
-		route: 'settings'
+		route: 'settings',
+		data: null
 	},
 	{
 		title: t.menu_support,
-		route: 'support'
+		route: 'support',
+		data: null
 	}
 ];
 
@@ -85,7 +90,8 @@ export default class Root extends Component {
 		super(props);
 		this.state = {
 			pagOffset: 0,
-			pagWidth: variables.pagSize
+			pagWidth: variables.pagSize,
+			user: {id: null, name: "", surname: ""}
 		};
 	};
 
@@ -94,6 +100,29 @@ export default class Root extends Component {
 			name: routeName,
 			data: routeData
 		});
+	}
+
+	componentDidMount() {
+
+		fetch('https://raw.githubusercontent.com/ihormihal/roveseapp/master/api/user.json', {
+			method: "GET",
+			headers: {
+				'Accept': 'application/json',
+				'Content-Type': 'application/json'
+			}
+		})
+		.then((response) => response.json())
+		.then((data) => {
+			if(data.status == "success"){
+				this.setState({
+					user: data.data
+				});
+				munu[3].data = this.state.user;
+			}else{
+				//Alert(t.error, data.message);
+			}
+		})
+		.done();
 	}
 
 	openDrawer() {
@@ -134,7 +163,7 @@ export default class Root extends Component {
 							<TouchableNativeFeedback
 								key={index}
 								background={rippleBg}
-								onPress={() => this.navigate(item.route)}>
+								onPress={() => this.navigate(item.route, item.data)}>
 								<View style={styles.menuItem}>
 									<Text style={styles.menuItemText}>{item.title}</Text>
 								</View>

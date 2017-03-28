@@ -97,21 +97,45 @@ export default class Seller extends Component {
 	};
 
 	componentDidMount() {
-		fetch('http://rovese.jaya-test.com/api/stats/1', {
-			method: "POST",
+
+		fetch('https://raw.githubusercontent.com/ihormihal/roveseapp/master/api/seller.json', {
+			method: "GET",
 			headers: {
 				'Accept': 'application/json',
 				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify(this.state.form)
+			}
 		})
 		.then((response) => response.json())
-		.then((responseData) => {
-			// this.setState({
-			// 	sellers: responseData
-			// })
+		.then((data) => {
+			if(data.status == "success"){
+				this.setState({
+					form: data.data
+				});
+			}else{
+				//Alert(t.error, data.message);
+			}
 		})
 		.done();
+
+		fetch('https://raw.githubusercontent.com/ihormihal/roveseapp/master/api/bonuses.json', {
+			method: "GET",
+			headers: {
+				'Accept': 'application/json',
+				'Content-Type': 'application/json'
+			}
+		})
+		.then((response) => response.json())
+		.then((data) => {
+			if(data.status == "success"){
+				this.setState({
+					bonuses: data.data
+				});
+			}else{
+				//Alert(t.error, data.message);
+			}
+		})
+		.done();
+
 	}
 
 	navigate(routeName, routeData) {

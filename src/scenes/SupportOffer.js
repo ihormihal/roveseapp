@@ -65,7 +65,7 @@ export default class SupportOffer extends Component {
 
 	_submit(){
 		if(this.state.form.subject && this.state.form.message){
-			fetch('http://rovese.jaya-test.com/api/support_offer', {
+			fetch('https://raw.githubusercontent.com/ihormihal/roveseapp/master/api/success.json', {
 				method: "POST",
 				headers: {
 					'Accept': 'application/json',
@@ -77,9 +77,11 @@ export default class SupportOffer extends Component {
 			})
 			.then((response) => response.json())
 			.then((data) => {
-				Alert.alert(JSON.stringify(data));
-				//AsyncStorage.setItem(item, selectedValue);
-				//this.navigate('root');
+				if(data.status == "success"){
+					Alert('Success',"Message sent");
+				}else{
+					Alert(t.error, data.message);
+				}
 			})
 			.done();
 		}else{
@@ -140,7 +142,7 @@ export default class SupportOffer extends Component {
 					<View style={styles.center}>
 						<TouchableOpacity
 							style={[styles.btn, styles.btnDefault, styles.btnPrimary]}
-							onPress={() => this._submit()>
+							onPress={() => this._submit()}>
 							<Text style={[styles.white, styles.inputText]}>{t.submit}</Text>
 						</TouchableOpacity>
 					</View>

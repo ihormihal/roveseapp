@@ -37,7 +37,10 @@ export default class SellerEdit extends Component {
 				items: []
 			},
 
+			//form: this.props.data,
+
 			form: {
+				id: 1,
 				name: 'Злата',
 				surname: 'Новикова',
 				middleName: '',
@@ -78,7 +81,7 @@ export default class SellerEdit extends Component {
 
 	_submit() {
 		if(this.valid){
-			fetch('http://rovese.jaya-test.com/api/seller_edit', {
+			fetch('https://raw.githubusercontent.com/ihormihal/roveseapp/master/api/success.json', {
 				method: "POST",
 				headers: {
 					'Accept': 'application/json',
@@ -90,9 +93,11 @@ export default class SellerEdit extends Component {
 			})
 			.then((response) => response.json())
 			.then((data) => {
-				Alert.alert(JSON.stringify(data));
-				//AsyncStorage.setItem(item, selectedValue);
-				//this.navigate('root');
+				if(data.status == "success"){
+					this.navigate('seller', {id: this.state.form.id});
+				}else{
+					Alert.alert(t.error, data.message);
+				}
 			})
 			.done();
 		}

@@ -78,11 +78,15 @@ export default class PasswordReset extends Component {
 			})
 			.then((response) => response.json())
 			.then((data) => {
-				Alert.alert(
-					'',
-					t.passwordResetSuccess,
-					[{text: 'OK', onPress: () => this.props.navigator.pop() }]
-				);
+				if(data.status == 'success'){
+					Alert.alert(
+						'',
+						t.passwordResetSuccess,
+						[{text: 'OK', onPress: () => this.props.navigator.pop() }]
+					);
+				}else{
+					Alert.alert(t.error, data.message);
+				}
 			})
 			.done();
 		}

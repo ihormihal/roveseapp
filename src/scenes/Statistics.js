@@ -27,32 +27,27 @@ export default class Statistics extends Component {
 		super(props);
 		const dataset = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 		this.state = {
-			sellers: dataset.cloneWithRows([
-				{
-					id: 1,
-					name: 'Злата Новикова',
-					date: '05.01.15',
-					bonus: 160,
-					total: 900
-				}
-			])
+			sellers: dataset.cloneWithRows([])
 		};
 	};
 
 	componentDidMount() {
-		fetch('http://rovese.jaya-test.com/api/stats', {
-			method: "POST",
+		fetch('https://raw.githubusercontent.com/ihormihal/roveseapp/master/api/statistics.json', {
+			method: "GET",
 			headers: {
 				'Accept': 'application/json',
 				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify(this.state.form)
+			}
 		})
 		.then((response) => response.json())
-		.then((responseData) => {
-			// this.setState({
-			// 	sellers: responseData
-			// })
+		.then((data) => {
+			if(data.status == "success"){
+				this.setState({
+					sellers: dataset.cloneWithRows(data.data)
+				});
+			}else{
+				//Alert(t.error, data.message);
+			}
 		})
 		.done();
 	}
