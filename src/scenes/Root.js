@@ -102,13 +102,13 @@ export default class Root extends Component {
 		});
 	}
 
-	componentDidMount() {
-
+	fetch(token) {
 		fetch(settings.api.user, {
 			method: "GET",
 			headers: {
 				'Accept': 'application/json',
-				'Content-Type': 'application/json'
+				'Content-Type': 'application/json',
+				'Authorization': 'Bearer ' + token
 			}
 		})
 		.then((response) => response.json())
@@ -117,18 +117,30 @@ export default class Root extends Component {
 				var menu = this.state.menu;
 				menu[3].data = data.data;
 				this.setState({
-					//user: data.data,
-					//menu: this.state.menu,
+					user: data.data,
+					menu: this.state.menu,
 				})
 			}else{
-				//Alert(t.error, data.message);
+				Alert(t.error, data.message);
 			}
 		})
 		.done();
 	}
 
+	componentDidMount() {
+		AsyncStorage.getItem('access_token',(error, result) => {
+			this.fetch(result);
+		});
+	}
+
 	openDrawer() {
 		this.refs['DRAWER'].openDrawer()
+	}
+
+	_logout() {
+		AsyncStorage.setItem('access_token', '', () => {
+			this.navigate('login');
+		});
 	}
 
 	renderSlide = (item, index) => {
@@ -155,8 +167,8 @@ export default class Root extends Component {
 		var Drawer = (
 			<View style={styles.drawer}>
 				<View style={[styles.drawerSection, styles.drawerSectionTop]}>
-					<Text style={[styles.textXL, styles.white, styles.textCenter]}>{t.name}</Text>
-					<Text style={[styles.textXL, styles.white, styles.textCenter]}>{t.surname}</Text>
+					<Text style={[styles.textXL, styles.white, styles.textCenter]}>{this.state.user.name}</Text>
+					<Text style={[styles.textXL, styles.white, styles.textCenter]}>{this.state.user.surname}</Text>
 				</View>
 				<View style={styles.divider}></View>
 				<View style={styles.drawerSection}>
@@ -178,7 +190,7 @@ export default class Root extends Component {
 					<View style={styles.divider}></View>
 					<TouchableNativeFeedback
 						background={rippleBg}
-						onPress={() => this.navigate('login')}>
+						onPress={() => this._logout()}>
 						<View style={styles.btnDrawerBottom}>
 							<Text style={[styles.menuItemText, styles.textCenter]}>{t.logout}</Text>
 						</View>

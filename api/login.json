@@ -1,3 +1,6 @@
 {
-  "token": "soken.long.string"
+  "status": "success",
+  "data": {
+    "token": "soken.long.string"
+  }
 }

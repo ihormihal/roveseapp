@@ -38,39 +38,15 @@ export default class Login extends Component {
 		};
 	};
 
-	// setForm(key, value) {
-	// 	var form = this.state.form;
-	// 	if(key in form){
-	// 		form[key] = value;
-	// 	}
-	// 	this.setState({
-	// 		form: form
-	// 	});
-	// }
-
-	async _setStorageValue(item, selectedValue) {
-		try {
-			await AsyncStorage.setItem(item, selectedValue);
-		} catch (error) {
-			Alert.alert("AsyncStorage error:", error.message);
+	setForm(key, value) {
+		var form = this.state.form;
+		if(key in form){
+			form[key] = value;
 		}
+		this.setState({
+			form: form
+		});
 	}
-
-	async _getProtectedQuote() {
-		var ACCESS_TOKEN = await AsyncStorage.getItem('id_token');
-		fetch("http://localhost:3001/api/protected/random-quote", {
-			method: "GET",
-			headers: {
-				'Authorization': 'Bearer ' + ACCESS_TOKEN
-			}
-		})
-		.then((response) => response.text())
-		.then((quote) => {
-			Alert.alert("Chuck Norris Quote:", quote);
-		})
-		.done();
-	}
-
 
 	componentDidMount() {
 		Animated.timing(this.state.anim, {toValue: 3000, duration: 3000}).start();
@@ -110,7 +86,10 @@ export default class Login extends Component {
 			.then((data) => {
 				if(data.status == "success"){
 					//save token
-					this.navigate('root');
+					var token = data.data.token;
+					AsyncStorage.setItem('access_token', token, () => {
+						this.navigate('root');
+					});
 				}else{
 					Alert.alert(t.error, data.message);
 				}
