@@ -28,10 +28,6 @@ export default class About extends Component {
 
 	constructor(props) {
 		super(props);
-		this.state = {
-			email: '',
-			phone: ''
-		};
 	};
 
 	navigate(routeName, routeData) {
@@ -54,7 +50,7 @@ export default class About extends Component {
 							onPress={() => this.props.navigator.pop()}
 							activeOpacity={75 / 50}>
 							<Icon style={[styles.btnIcon, styles.primary]} size={20} name="arrow-back"/>
-							<Text style={[styles.textSM, styles.primary]}>{t.back}</Text>
+							<Text style={[styles.textSM, styles.primary]}>{t.btn.back}</Text>
 						</TouchableOpacity>
 					</View>
 					<View style={styles.headerCenter}>
@@ -67,7 +63,7 @@ export default class About extends Component {
 					</View>
 				</View>
 				<View style={styles.pageHeader}>
-					<Text style={[styles.white, styles.textMD]}>{t.aboutApp}</Text>
+					<Text style={[styles.white, styles.textMD]}>{t.title.about}</Text>
 				</View>
 				<View style={[styles.container, styles.center, styles.whiteBg]}>
 					<Text style={[styles.textLG, styles.mb1]}>ROVESE RETAIL CLUB</Text>

@@ -5,6 +5,7 @@ export default {
 		flexDirection: 'row',
 		justifyContent: 'space-between',
 		alignItems: 'center',
+		flexWrap: 'nowrap'
 	},
 	buttonCircle: {
 		alignItems: 'center',
@@ -24,10 +25,16 @@ export default {
 		borderRadius: 2,
 		elevation: 1,
 		shadowColor: '#000',
-		marginBottom: 4
+		marginVertical: 2
 	},
 	btnPrimary: {
 		backgroundColor: variables.colorPrimary,
+	},
+	btnDisabled: {
+		backgroundColor: variables.colorDisabled,
+	},
+	btnSuccess: {
+		backgroundColor: variables.colorSuccess,
 	},
 	btnTransparent: {
 		backgroundColor: 'transparent'
@@ -36,4 +43,16 @@ export default {
 		marginRight: 5,
 		fontSize: variables.TEXT_MD
 	},
+	hlSuccess: {
+		color: '#fff',
+		backgroundColor: variables.colorSuccess,
+	},
+	hlPrimary: {
+		color: '#fff',
+		backgroundColor: variables.colorPrimary,
+	},
+	hlDisabled: {
+		color: '#fff',
+		backgroundColor: variables.colorDisabled,
+	}
 }

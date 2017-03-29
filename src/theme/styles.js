@@ -40,6 +40,9 @@ const dimentions = {
 	mr1: {
 		marginRight:  variables.gap
 	},
+	relative: {
+		position: 'relative'
+	},
 	section: {
 		flex: 1,
 		flexDirection: 'column',
@@ -147,6 +150,8 @@ const colors = {
 	}
 };
 
+var presentationImgHeight = parseInt(variables.screenWidth*(1030/1536));
+
 const elements = {
 	scene: {
 		flex: 1,
@@ -191,7 +196,10 @@ const elements = {
 		backgroundColor: 'rgba(0,0,0,0.1)',
 	},
 	opacityDark: {
-		backgroundColor: 'rgba(0,0,0,0.5)',
+		backgroundColor: 'rgba(23,68,116,0.5)',
+	},
+	opacityBlue: {
+		backgroundColor: 'rgba(0,173,226,0.5)',
 	},
 	headerLeft: {
 		flex: 0.25,
@@ -302,11 +310,16 @@ const elements = {
 	},
 
 	//tabs
+	tabsContainer: {
+		position: 'absolute',
+		bottom: presentationImgHeight,
+		width: '100%',
+		zIndex: 10
+	},
 	tabs: {
 		flexDirection: 'row',
 		justifyContent: 'center',
-		alignItems: 'stretch',
-		backgroundColor: 'rgba(0,0,0,0.5)',
+		alignItems: 'stretch'
 	},
 	tab: {
 		flex: 1,
@@ -345,15 +358,15 @@ const elements = {
 		width: screen.w,
 		flexDirection: 'column',
 		alignItems: 'stretch',
-		paddingTop: variables.NAVBAR_HEIGHT*2,
+		paddingVertical: variables.NAVBAR_HEIGHT,
 	},
 	presentationTopWrapper: {
 		flex: 1,
-		justifyContent: 'center',
+		justifyContent: 'flex-end',
 	},
 	presentationBottom: {
 		width: screen.w,
-		height: parseInt(variables.screenWidth*(1030/1536)),
+		height: presentationImgHeight,
 	},
 	presentationText: {
 		padding: variables.gap,
@@ -383,7 +396,7 @@ const elements = {
 	},
 
 	chartScroll: {
-		height: 120,
+		//height: 120,
 		marginBottom: variables.gap
 	},
 
@@ -437,7 +450,6 @@ const elements = {
 		fontSize: variables.TEXT_XS,
 		color: variables.colorPrimary,
 	},
-
 	bonusCircle: {
 		alignItems: 'center',
 		justifyContent: 'center',
@@ -456,7 +468,41 @@ const elements = {
 		borderBottomColor: '#ccc',
 		paddingBottom: 5,
 		color: variables.colorPrimaryLight,
-	}
+	},
+
+	selectSection: {
+		paddingHorizontal: variables.CONTAINER_H_PADDING,
+		paddingVertical: variables.CONTAINER_V_PADDING,
+	},
+
+	monthPicker: {
+		borderWidth: 1,
+		borderColor: variables.colorGreyLight,
+		borderRadius: 2,
+		paddingHorizontal: 5,
+		paddingVertical: 5,
+	},
+
+	pickerRow: {
+		flexDirection: 'row',
+		justifyContent: 'space-between',
+		borderWidth: 1,
+		borderRadius: 4,
+		borderColor: variables.colorPrimary,
+		marginBottom: variables.INPUT_GAP,
+		padding: variables.INPUT_GAP/2
+	},
+
+	pickerRowSelected: {
+		backgroundColor: variables.colorPrimaryLightRGBA
+	},
+
+	pickerCol: {
+		width: '30%',
+		paddingHorizontal: variables.INPUT_GAP/2,
+		paddingVertical: variables.BUTTON_V_PADDING+2,
+	},
+
 };
 
 

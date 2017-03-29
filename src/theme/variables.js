@@ -29,8 +29,11 @@ const base_unit = 16;
 var COLORS = {
 	colorPrimary: '#00ade2',
 	colorPrimaryRGBA: 'rgba(0, 173, 226, 0.7)',
-	colorPrimaryDark: '#27599e',
+	colorPrimaryLightRGBA: 'rgba(0, 173, 226, 0.3)',
+	colorPrimaryDark: '#174474',
 	colorPrimaryLight: '#22c2e5',
+	colorDisabled: '#9e9e9e',
+	colorSuccess: '#39a650',
 	colorGrey: '#9e9e9e',
 	colorGreyLight: '#ccc',
 	colorRipple: 'rgba(255, 255, 255, 0.5)',
@@ -101,7 +104,7 @@ DEVICE_SIZES['MD'] = {
 	BUTTON_V_PADDING: 12,
 	BUTTON_H_PADDING: 30,
 
-	TEXT_BONUS: 70,
+	TEXT_BONUS: 80,
 	CHART_ITEM_WIDTH: 60,
 	CHART_BAR_WIDTH: 20,
 	CHART_BAR_RATIO: 1.5,
@@ -133,7 +136,7 @@ DEVICE_SIZES['LG'] = {
 	BUTTON_V_PADDING: 15,
 	BUTTON_H_PADDING: 50,
 
-	TEXT_BONUS: 100,
+	TEXT_BONUS: 80,
 	CHART_ITEM_WIDTH: 80,
 	CHART_BAR_WIDTH: 30,
 	CHART_BAR_RATIO: 2,

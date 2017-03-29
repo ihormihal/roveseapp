@@ -51,7 +51,7 @@ export default class Support extends Component {
 							style={styles.btn}
 							onPress={() => this.props.navigator.pop()}>
 							<Icon style={[styles.btnIcon, styles.primary]} size={20} name="arrow-back"/>
-							<Text style={[styles.textSM, styles.primary]}>{t.back}</Text>
+							<Text style={[styles.textSM, styles.primary]}>{t.btn.back}</Text>
 						</TouchableOpacity>
 					</View>
 					<View style={styles.headerCenter}>
@@ -63,23 +63,23 @@ export default class Support extends Component {
 					<View style={styles.headerRight} />
 				</View>
 				<View style={styles.pageHeader}>
-					<Text style={[styles.white, styles.textCenter, styles.textLG]}>{t.tech_support.toUpperCase()}</Text>
+					<Text style={[styles.white, styles.textCenter, styles.textLG]}>{t.title.techSupport.toUpperCase()}</Text>
 				</View>
 				<View style={[styles.box, styles.whiteBg]}>
 					<TouchableOpacity
 						onPress={() => this.navigate('support-error')}
 						style={[styles.btn, styles.btnDefault, styles.btnPrimary]}>
-						<Text style={[styles.white, styles.inputText]}>{t.reportAnError}</Text>
+						<Text style={[styles.white, styles.inputText]}>{t.btn.reportAnError}</Text>
 					</TouchableOpacity>
 					<TouchableOpacity
 						onPress={() => this.navigate('about')}
 						style={[styles.btn, styles.btnDefault, styles.btnPrimary]}>
-						<Text style={[styles.white, styles.inputText]}>{t.aboutApp}</Text>
+						<Text style={[styles.white, styles.inputText]}>{t.btn.about}</Text>
 					</TouchableOpacity>
 				</View>
 				<View style={[styles.container, styles.center, styles.last]}>
 					<Text style={styles.textMD}>{t.helpToImproveApp},</Text>
-					<Text onPress={() => this.navigate('support-offer')} style={[styles.primary, styles.textMD]}>{t.submitFeedback}</Text>
+					<Text onPress={() => this.navigate('support-offer')} style={[styles.primary, styles.textMD]}>{t.btn.submitFeedback}</Text>
 				</View>
 			</Image>
 		);

@@ -32,12 +32,6 @@ export default class SellerEdit extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			selectedItem: undefined,
-			selected1: 'key1',
-			results: {
-				items: []
-			},
-
 			form: this.props.data,
 
 			// form: {
@@ -74,12 +68,12 @@ export default class SellerEdit extends Component {
 	valid() {
 		if(this.state.form.name && this.state.form.surname && this.state.form.middleName && this.state.form.email){
 			if(this.state.form.email.indexOf('@') == -1){
-				Alert.alert(t.error, t.errorEmail);
+				Alert.alert(t.error.error, t.error.email);
 				return false;
 			}
 			return true;
 		}else{
-			Alert.alert(t.error, t.errorEmptyField);
+			Alert.alert(t.error.error, t.error.empty);
 			return false;
 		}
 	}
@@ -101,7 +95,7 @@ export default class SellerEdit extends Component {
 				if(data.status == "success"){
 					this.props.navigator.pop();
 				}else{
-					Alert.alert(t.error, data.message);
+					Alert.alert(t.error.error, data.message);
 				}
 			})
 			.done();
@@ -118,7 +112,7 @@ export default class SellerEdit extends Component {
 							style={styles.btn}
 							onPress={() => this.props.navigator.pop()}>
 							<Icon style={[styles.btnIcon, styles.primary]} size={20} name="arrow-back"/>
-							<Text style={[styles.textSM, styles.primary]}>{t.back}</Text>
+							<Text style={[styles.textSM, styles.primary]}>{t.btn.back}</Text>
 						</TouchableOpacity>
 					</View>
 					<View style={styles.headerCenter}>
@@ -133,13 +127,13 @@ export default class SellerEdit extends Component {
 
 					<View style={styles.container}>
 
-						<Text style={[styles.inputLabel, styles.textCenter]}>{t.edit_profile}</Text>
+						<Text style={[styles.inputLabel, styles.textCenter]}>{t.title.editProfile}</Text>
 
 						<View style={[styles.textInput, styles.inputDefault, styles.inputOffsetB]}>
 							<TextInput
 								style={[ styles.textInputInput ]}
 								underlineColorAndroid='transparent'
-								placeholder={t.name}
+								placeholder={t.form.name}
 								onChangeText={(value) => this.setForm('name', value)}
 								value={this.state.form.name}
 							/>
@@ -149,7 +143,7 @@ export default class SellerEdit extends Component {
 							<TextInput
 								style={[ styles.textInputInput ]}
 								underlineColorAndroid='transparent'
-								placeholder={t.surname}
+								placeholder={t.form.surname}
 								onChangeText={(value) => this.setForm('surname', value)}
 								value={this.state.form.surname}
 							/>
@@ -159,7 +153,7 @@ export default class SellerEdit extends Component {
 							<TextInput
 								style={[ styles.textInputInput ]}
 								underlineColorAndroid='transparent'
-								placeholder={t.middleName}
+								placeholder={t.form.middleName}
 								onChangeText={(value) => this.setForm('middleName', value)}
 								value={this.state.form.middleName}
 							/>
@@ -169,7 +163,7 @@ export default class SellerEdit extends Component {
 							<TextInput
 								style={[ styles.textInputInput ]}
 								underlineColorAndroid='transparent'
-								placeholder={t.email}
+								placeholder={t.form.email}
 								onChangeText={(value) => this.setForm('email', value)}
 								value={this.state.form.email}
 							/>
@@ -179,7 +173,7 @@ export default class SellerEdit extends Component {
 							<TextInput
 								style={[ styles.textInputInput ]}
 								underlineColorAndroid='transparent'
-								placeholder={t.tradePoint}
+								placeholder={t.form.tradePoint}
 								onChangeText={(value) => this.setForm('tradePoint', value)}
 								value={this.state.form.tradePoint}
 							/>
@@ -189,7 +183,7 @@ export default class SellerEdit extends Component {
 							<TextInput
 								style={[ styles.textInputInput ]}
 								underlineColorAndroid='transparent'
-								placeholder={t.phoneNumber}
+								placeholder={t.form.phoneNumber}
 								onChangeText={(value) => this.setForm('phone', value)}
 								value={this.state.form.phone}
 							/>
@@ -201,9 +195,9 @@ export default class SellerEdit extends Component {
 								selectedValue={this.state.form.sertifiсate}
 								onValueChange={(value) => this.setForm('sertifiсate', value)}
 								mode="dropdown">
-									<Picker.Item label="Sertificate 1" value={0} />
-									<Picker.Item label="Sertificate 2" value={1} />
-									<Picker.Item label="Sertificate 3" value={2} />
+								{data.sertificates.map((item, index) => {
+									return (<Picker.Item key={index} label={item} value={index} />);
+								}, this)}
 							</Picker>
 						</View>
 
@@ -211,12 +205,12 @@ export default class SellerEdit extends Component {
 							<TouchableOpacity
 								style={[styles.btn, styles.btnDefault, styles.btnPrimary]}
 								onPress={() => this._submit()}>
-								<Text style={[styles.white, styles.inputText]}>{t.save}</Text>
+								<Text style={[styles.white, styles.inputText]}>{t.btn.save}</Text>
 							</TouchableOpacity>
 						</View>
 
 						<View style={[styles.center, styles.last]}>
-							<Text style={styles.textMD}>* {t.requiredFields}</Text>
+							<Text style={styles.textMD}>* {t.form.requiredFields}</Text>
 						</View>
 
 					</View>

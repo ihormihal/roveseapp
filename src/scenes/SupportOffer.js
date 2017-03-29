@@ -59,7 +59,7 @@ export default class SupportOffer extends Component {
 		if(this.state.form.subject && this.state.form.message){
 			return true;
 		}
-		Alert.alert(t.error, t.errorEmptyField);
+		Alert.alert(t.error.error, t.error.empty);
 		return false;
 	}
 
@@ -78,9 +78,9 @@ export default class SupportOffer extends Component {
 			.then((response) => response.json())
 			.then((data) => {
 				if(data.status == "success"){
-					Alert('Success',"Message sent");
+					Alert(t.message.done, t.message.messageSent);
 				}else{
-					Alert(t.error, data.message);
+					Alert(t.error.error, data.message);
 				}
 			})
 			.done();
@@ -98,7 +98,7 @@ export default class SupportOffer extends Component {
 							style={styles.btn}
 							onPress={() => this.props.navigator.pop()}>
 							<Icon style={[styles.btnIcon, styles.primary]} size={20} name="arrow-back"/>
-							<Text style={[styles.textSM, styles.primary]}>{t.back}</Text>
+							<Text style={[styles.textSM, styles.primary]}>{t.btn.back}</Text>
 						</TouchableOpacity>
 					</View>
 					<View style={styles.headerCenter}>
@@ -111,7 +111,7 @@ export default class SupportOffer extends Component {
 					</View>
 				</View>
 				<View style={styles.pageHeader}>
-					<Text style={[styles.white, styles.textMD]}>{t.submitFeedbackTitle}</Text>
+					<Text style={[styles.white, styles.textMD]}>{t.title.feedback}</Text>
 				</View>
 				<View style={[styles.container, styles.whiteBg]}>
 
@@ -119,7 +119,7 @@ export default class SupportOffer extends Component {
 						<TextInput
 							style={[ styles.textInputInput ]}
 							underlineColorAndroid='transparent'
-							placeholder={t.letterSubject}
+							placeholder={t.form.subject}
 							onChangeText={(value) => this.setForm('subject', value)}
 							value={this.state.form.subject}
 						/>
@@ -131,7 +131,7 @@ export default class SupportOffer extends Component {
 							multiline = {true}
 							numberOfLines = {4}
 							underlineColorAndroid='transparent'
-							placeholder={t.comment}
+							placeholder={t.form.comment}
 							onChangeText={(value) => this.setForm('comment', value)}
 							value={this.state.form.comment}
 						/>
@@ -141,7 +141,7 @@ export default class SupportOffer extends Component {
 						<TouchableOpacity
 							style={[styles.btn, styles.btnDefault, styles.btnPrimary]}
 							onPress={() => this._submit()}>
-							<Text style={[styles.white, styles.inputText]}>{t.submit}</Text>
+							<Text style={[styles.white, styles.inputText]}>{t.btn.submit}</Text>
 						</TouchableOpacity>
 					</View>
 

@@ -27,20 +27,20 @@ var slides = [
 	{
 		image: require('./../images/presentation/image_1.jpg'),
 		imageBg: require('./../images/presentation/bg_1.jpg'),
-		title: 'Продажа',
-		description: 'За каждую проданную единицу со специальным кодом продавец получает бонусное вознаграждение',
+		title: t.presentation.title1,
+		description: t.presentation.description1,
 	},
 	{
 		image: require('./../images/presentation/image_2.jpg'),
 		imageBg: require('./../images/presentation/bg_2.jpg'),
-		title: 'Отправка SMS',
-		description: 'Продавец осуществляет продажи и отправляет SMS c индивидуальным кодом упаковки на специальный номер Rovese',
+		title:  t.presentation.title2,
+		description: t.presentation.description2,
 	},
 	{
 		image: require('./../images/presentation/image_3.jpg'),
 		imageBg: require('./../images/presentation/bg_3.jpg'),
-		title: 'Бонусы',
-		description: 'Все бонусы суммируются на протяжении установленного периода и в конце каждый продавец получает сертификат на сумму бонусов',
+		title:  t.presentation.title3,
+		description: t.presentation.description3,
 	},
 ];
 
@@ -94,12 +94,13 @@ export default class Presentation extends Component {
 			backgroundColor: '#ffffff',
 
 			position: 'absolute',
-			bottom: 0,
+			bottom: 2,
 			left: this.state.tabOffset+'%'
 		};
 
 		return (
-			<View style={styles.scene}>
+			<View style={[styles.scene, styles.relative]}>
+
 				<View style={styles.presentationsHeader}>
 					<View style={[styles.header, styles.opacityDark]}>
 						<View style={styles.headerLeft}>
@@ -107,7 +108,7 @@ export default class Presentation extends Component {
 								style={styles.btn}
 								onPress={() => this.props.navigator.pop()}>
 								<Icon style={[styles.btnIcon, styles.textSM, styles.white]} size={20} name="arrow-back"/>
-								<Text style={[styles.textSM, styles.white]}>{t.back}</Text>
+								<Text style={[styles.textSM, styles.white]}>{t.btn.back}</Text>
 							</TouchableOpacity>
 						</View>
 						<View style={styles.headerCenter}>
@@ -119,18 +120,19 @@ export default class Presentation extends Component {
 						<View style={styles.headerRight}>
 						</View>
 					</View>
+				</View>
 
-					<View style={styles.tabs}>
+				<View style={styles.tabsContainer}>
+					<View style={[styles.tabs, styles.opacityBlue]}>
 						{slides.map((item, index) => {
 							return (
 								<TouchableOpacity key={index} style={styles.tab} onPress={() => this.viewPager.setPage(index)}>
-									<Text style={styles.tabText}>{item.title}</Text>
+									<Text style={styles.tabText}>{item.title.toUpperCase()}</Text>
 								</TouchableOpacity>
 							)
 						})}
 					</View>
 					<Animated.View style={tabIndicator} />
-
 				</View>
 
 				<ViewPagerAndroid

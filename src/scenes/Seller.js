@@ -33,17 +33,31 @@ export default class Seller extends Component {
 			seller: {},
 			month: 0,
 			total: 0,
-			chart: []
+			chart: [],
+			bonuses: {
+				total: 0,
+				monthly: [{
+					total: 0,
+					status: "disabled"
+				}]
+			},
+			selectedMonth: 0
 		};
 	};
 
 	componentDidMount() {
+		AsyncStorage.getItem('access_token',(error, result) => {
+			this.fetch(result);
+		});
+	}
 
+	fetch(token){
 		fetch(settings.api.seller, {
 			method: "GET",
 			headers: {
 				'Accept': 'application/json',
-				'Content-Type': 'application/json'
+				'Content-Type': 'application/json',
+				'Authorization': 'Bearer ' + token
 			}
 		})
 		.then((response) => response.json())
@@ -53,7 +67,7 @@ export default class Seller extends Component {
 					seller: data.data
 				});
 			}else{
-				//Alert(t.error, data.message);
+				//Alert(t.error.error, data.message);
 			}
 		})
 		.done();
@@ -62,26 +76,27 @@ export default class Seller extends Component {
 			method: "GET",
 			headers: {
 				'Accept': 'application/json',
-				'Content-Type': 'application/json'
+				'Content-Type': 'application/json',
+				'Authorization': 'Bearer ' + token
 			}
 		})
 		.then((response) => response.json())
 		.then((data) => {
 			if(data.status == "success"){
 				this.setState({
-					month: data.data.month,
-					total: data.data.total
+					bonuses: data.data
 				});
-				this.prepareChart(data.data.all);
+				this.prepareChart(this.state.selectedMonth);
 			}else{
-				//Alert(t.error, data.message);
+				//Alert(t.error.error, data.message);
 			}
 		})
 		.done();
-
 	}
 
-	prepareChart(data){
+
+	prepareChart(index){
+		var data = this.state.bonuses.monthly[index].daily;
 		var normalize = 100;
 		var chartData = [];
 		var maxValue = 1;
@@ -112,18 +127,40 @@ export default class Seller extends Component {
 		});
 	}
 
+
+	_selectMonth(index){
+		this.setState({
+			selectedMonth: index
+		});
+		this.prepareChart(index);
+	}
+
+	_payMonth(month){
+		var monthName = d.months[parseInt(month)];
+		Alert.alert(
+		  'Подтвердите действие',
+		  'Вы подтверждаете списание бонусов за '+monthName+'?',
+		  [
+		    {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+		    {text: 'OK', onPress: () => console.log('OK Pressed')},
+		  ],
+		  { cancelable: false }
+		)
+	}
+
+
+
 	render() {
+		var selectedMonth = this.state.bonuses.monthly[this.state.selectedMonth];
 		return (
-			<Image
-				style={[styles.scene, styles.background]}
-				source={backgroundImage}>
+			<View style={styles.scene}>
 				<View style={[styles.header, styles.shadow]}>
 					<View style={styles.headerLeft}>
 						<TouchableOpacity
 							style={styles.btn}
 							onPress={() => this.props.navigator.pop()}>
 							<Icon style={[styles.btnIcon, styles.primary]} size={20} name="arrow-back"/>
-							<Text style={[styles.textSM, styles.primary]}>{t.back}</Text>
+							<Text style={[styles.textSM, styles.primary]}>{t.btn.back}</Text>
 						</TouchableOpacity>
 					</View>
 					<View style={styles.headerCenter}>
@@ -135,61 +172,105 @@ export default class Seller extends Component {
 					<View style={styles.headerRight}>
 					</View>
 				</View>
-				<TouchableOpacity activeOpacity={90} style={[styles.pageHeader, styles.center]} onPress={() => this.navigate('seller-edit', this.state.seller)}>
-					<Text style={[styles.white, styles.textLG]}>{this.state.seller.name} {this.state.seller.surname}</Text>
-					<View style={[styles.sellerInfo, styles.center]}>
-						<Text style={[styles.white, styles.textMD]}>{this.state.seller.phone}</Text>
-						<Text style={[styles.white, styles.textSM]}>{this.state.seller.tradePoint}</Text>
-					</View>
-					<Text style={[styles.white, styles.textSM]}>{this.state.seller.registered}</Text>
-				</TouchableOpacity>
-				<View style={[styles.section, styles.whiteBg]}>
 
-					<View style={[styles.cols, styles.middle]}>
-						<View style={[styles.bonusCircle]}>
-							<Text style={styles.textSM}>Май</Text>
-							<Text style={ styles.bonusText }>{this.state.month}</Text>
-							<Text style={styles.textSM}>Бонусы</Text>
+				<ScrollView style={styles.scroll}>
+
+					<Image
+						style={{height: null, width: null}}
+						source={backgroundImage}>
+						<TouchableOpacity activeOpacity={90} style={[styles.pageHeader, styles.center]} onPress={() => this.navigate('seller-edit', this.state.seller)}>
+							<Text style={[styles.white, styles.textLG]}>{this.state.seller.name} {this.state.seller.surname}</Text>
+							<View style={[styles.sellerInfo, styles.center]}>
+								<Text style={[styles.white, styles.textMD]}>{this.state.seller.phone}</Text>
+								<Text style={[styles.white, styles.textSM]}>{this.state.seller.tradePoint}</Text>
+							</View>
+							<Text style={[styles.white, styles.textSM]}>{t.registrationDate}: {this.state.seller.registered}</Text>
+						</TouchableOpacity>
+					</Image>
+					<View style={[styles.section, styles.whiteBg]}>
+
+						<View style={[styles.cols, styles.middle]}>
+							<View style={[styles.bonusCircle]}>
+								<Text style={styles.textSM}>{d.months[selectedMonth.month]}</Text>
+								<Text style={ styles.bonusText }>{selectedMonth.total}</Text>
+								<Text style={styles.textSM}>{t.bonuses}</Text>
+							</View>
+
+							<View style={[styles.bonusCircle]}>
+								<Text style={styles.textSM}>{t.allTime}</Text>
+								<Text style={ styles.bonusText }>{this.state.bonuses.total}</Text>
+								<Text style={styles.textSM}>{t.bonuses}</Text>
+							</View>
 						</View>
 
-						<View style={[styles.bonusCircle]}>
-							<Text style={styles.textSM}>За все время</Text>
-							<Text style={ styles.bonusText }>{this.state.total}</Text>
-							<Text style={styles.textSM}>Бонусы</Text>
-						</View>
-					</View>
+						<ScrollView style={styles.chartScroll} horizontal={true}>
+							<View style={styles.chart}>
+								<View style={styles.chartArea}>
+									{this.state.chart.map((item, index) => {
+										return (
+											<View key={index} style={styles.chartBar}>
+												<Text style={styles.chartBarText}>{item.value}</Text>
+												<View style={styles.chartBarBar}>
+													<View style={[styles.chartBarValue, {height: item.height} ]} />
+													<View style={[styles.chartBarShadow, {height: item.height-5} ]} />
+												</View>
+											</View>
+										)
+									})}
+								</View>
+								<View style={styles.chartX}>
+									{this.state.chart.map((item, index) => {
+										return (
+											<View key={index} style={styles.chartXitem}>
+												<Text style={styles.axisText}>{item.dayName}</Text>
+												<Text style={styles.axisText}>{item.dayNumber}</Text>
+											</View>
+										)
+									})}
+								</View>
+							</View>
+						</ScrollView>
 
-					<ScrollView style={styles.chartScroll} horizontal={true}>
-						<View style={styles.chart}>
-
-							<View style={styles.chartArea}>
-								{this.state.chart.map((item, index) => {
+						<View style={styles.selectSection}>
+							{this.state.bonuses.monthly.map((item, index) => {
+								var rowStyle = (index == this.state.selectedMonth) ? [styles.pickerRow, styles.pickerRowSelected] : styles.pickerRow;
+								if(item.status == 'topay'){
 									return (
-										<View key={index} style={styles.chartBar}>
-											<Text style={styles.chartBarText}>{item.value}</Text>
-											<View style={styles.chartBarBar}>
-												<View style={[styles.chartBarValue, {height: item.height} ]} />
-												<View style={[styles.chartBarShadow, {height: item.height-5} ]} />
+										<View key={index} style={rowStyle}>
+											<Text onPress={() => this._selectMonth(index)} style={[styles.pickerCol, styles.textMD, styles.primary]}>{d.months[item.month]}</Text>
+											<Text style={[styles.pickerCol, styles.textMD]}>{item.total}</Text>
+											<View>
+												<TouchableOpacity
+													style={[styles.btn, styles.btnDefault, styles.btnPrimary]}
+													onPress={() => this._payMonth(item.month)}>
+													<Text style={[styles.white, styles.inputText]}>{t.btn.pay}</Text>
+												</TouchableOpacity>
 											</View>
 										</View>
-									)
-								})}
-							</View>
-							<View style={styles.chartX}>
-								{this.state.chart.map((item, index) => {
+									);
+								}
+								if(item.status == 'paid'){
 									return (
-										<View key={index} style={styles.chartXitem}>
-											<Text style={styles.axisText}>{item.dayName}</Text>
-											<Text style={styles.axisText}>{item.dayNumber}</Text>
+										<View key={index} style={rowStyle}>
+											<Text onPress={() => this._selectMonth(index)} style={[styles.pickerCol, styles.textMD, styles.primary]}>{d.months[item.month]}</Text>
+											<Text style={[styles.pickerCol, styles.textMD]}>{item.total}</Text>
+											<View>
+												<View
+													style={[styles.btn, styles.btnDefault, styles.btnDisabled]}>
+													<Text style={[styles.white, styles.inputText]}>{t.btn.paid}</Text>
+												</View>
+											</View>
 										</View>
-									)
-								})}
-							</View>
+									);
+								}
+							}, this)}
 						</View>
-					</ScrollView>
 
-				</View>
-			</Image>
+					</View>
+
+				</ScrollView>
+
+			</View>
 		);
 	}
 

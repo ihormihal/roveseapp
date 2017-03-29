@@ -1,0 +1,12 @@
+<View style={[styles.cols, styles.lngButtons]}>
+  <TouchableOpacity
+    onPress={() => {}}
+    style={[]}>
+    <Text style={[styles.white, styles.textMD]}>RU</Text>
+  </TouchableOpacity>
+  <TouchableOpacity
+    onPress={() => {}}
+    style={[]}>
+    <Text style={[styles.white, styles.textMD, styles.opacity50]}>UA</Text>
+  </TouchableOpacity>
+</View>

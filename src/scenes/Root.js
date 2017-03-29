@@ -31,26 +31,26 @@ var rippleBg = TouchableNativeFeedback.Ripple(variables.colorRipple);
 var slides = [
 	{
 		image: require('./../images/slides/presentation.jpg'),
-		title: 'Презентация программы мотивации',
-		description: 'В данном разделе региональный представитель может кратко презентовать условия программы новому участнику',
+		title: t.main.title1,
+		description: t.main.description1,
 		route: 'presentation'
 	},
 	{
 		image: require('./../images/slides/registration.jpg'),
-		title: 'Регистрация продавца',
-		description: 'В данном разделе региональный представитель может зарегистрировать нового участника программы Retail Club',
+		title: t.main.title2,
+		description: t.main.description2,
 		route: 'seller-registration'
 	},
 	{
 		image:  require('./../images/slides/statistics.jpg'),
-		title: 'Статистика',
-		description: 'В данном разделесодержится детальная информация о всех зарегистрированных участниках программы Retail Club',
+		title: t.main.title3,
+		description: t.main.description3,
 		route: 'statistics'
 	},
 	{
 		image: require('./../images/slides/support.jpg'),
-		title: 'Техническая поддержка',
-		description: '',
+		title: t.main.title4,
+		description: t.main.description4,
 		route: 'support'
 	}
 ];
@@ -72,22 +72,22 @@ export default class Root extends Component {
 					data: null
 				},
 				{
-					title: t.menu_statistics,
+					title: t.menu.statistics,
 					route: 'statistics',
 					data: null
 				},
 				{
-					title: t.menu_sellerRegistration,
+					title: t.menu.sellerRegistration,
 					route: 'seller-registration',
 					data: null
 				},
 				{
-					title: t.menu_settings,
+					title: t.menu.settings,
 					route: 'settings',
 					data: null
 				},
 				{
-					title: t.menu_support,
+					title: t.menu.support,
 					route: 'support',
 					data: null
 				}
@@ -95,10 +95,9 @@ export default class Root extends Component {
 		};
 	};
 
-	navigate(routeName, routeData) {
-		this.props.navigator.push({
-			name: routeName,
-			data: routeData
+	componentDidMount() {
+		AsyncStorage.getItem('access_token',(error, result) => {
+			this.fetch(result);
 		});
 	}
 
@@ -121,20 +120,21 @@ export default class Root extends Component {
 					menu: this.state.menu,
 				})
 			}else{
-				Alert(t.error, data.message);
+				Alert(t.error.error, data.message);
 			}
 		})
 		.done();
 	}
 
-	componentDidMount() {
-		AsyncStorage.getItem('access_token',(error, result) => {
-			this.fetch(result);
-		});
-	}
-
 	openDrawer() {
 		this.refs['DRAWER'].openDrawer()
+	}
+
+	navigate(routeName, routeData) {
+		this.props.navigator.push({
+			name: routeName,
+			data: routeData
+		});
 	}
 
 	_logout() {
@@ -192,7 +192,7 @@ export default class Root extends Component {
 						background={rippleBg}
 						onPress={() => this._logout()}>
 						<View style={styles.btnDrawerBottom}>
-							<Text style={[styles.menuItemText, styles.textCenter]}>{t.logout}</Text>
+							<Text style={[styles.menuItemText, styles.textCenter]}>{t.btn.logout}</Text>
 						</View>
 					</TouchableNativeFeedback>
 				</View>
@@ -213,6 +213,8 @@ export default class Root extends Component {
 				drawerPosition={DrawerLayoutAndroid.positions.Left}
 				renderNavigationView={() => Drawer}
 				ref={'DRAWER'}>
+
+				<StatusBar backgroundColor={variables.colorPrimaryDark} />
 
 				<Image
 					style={[styles.scene, styles.background]}

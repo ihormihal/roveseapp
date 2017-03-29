@@ -72,6 +72,12 @@ export default class Login extends Component {
 		return true;
 	}
 
+	// _setLanguage(lang){
+	// 	AsyncStorage.setItem('lang', lang, () => {
+	// 		this.forceUpdate();
+	// 	});
+	// }
+
 	_submit() {
 		if(this.valid()){
 			fetch(settings.api.login, {
@@ -91,7 +97,7 @@ export default class Login extends Component {
 						this.navigate('root');
 					});
 				}else{
-					Alert.alert(t.error, data.message);
+					Alert.alert(t.error.error, data.message);
 				}
 			})
 			.done();
@@ -105,7 +111,7 @@ export default class Login extends Component {
 			<Image
 				style={[styles.scene, styles.background, styles.container, styles.center]}
 				source={backgroundImage}>
-				<StatusBar backgroundColor={variables.colorPrimary} />
+				<StatusBar backgroundColor={variables.colorPrimaryDark} />
 
 				<View style={styles.section}>
 					<Animated.Image
@@ -117,7 +123,7 @@ export default class Login extends Component {
 				<View style={[styles.section, styles.middle]}>
 					<Animated.View style={[styles.sectionLogin, this.fadeIn(500, 20)]}>
 
-						<Text style={[styles.white, styles.textLG, styles.textCenter]}>{t.login.toUpperCase()}</Text>
+						<Text style={[styles.white, styles.textLG, styles.textCenter]}>{t.title.login.toUpperCase()}</Text>
 
 						<View style={[styles.textInput, styles.inputWhite, styles.mt2]}>
 							<TextInput
@@ -125,7 +131,7 @@ export default class Login extends Component {
 								underlineColorAndroid='transparent'
 								placeholderTextColor="#ffffff"
 								selectionColor={variables.colorPrimaryRGBA}
-								placeholder={t.email}
+								placeholder={t.form.email}
 								onChangeText={(value) => this.setFrom('email', value)}
 								value={this.state.form.email}
 							/>
@@ -135,7 +141,7 @@ export default class Login extends Component {
 							<TextInput
 								style={[ styles.textInputInput, styles.textCenter, styles.white ]}
 								underlineColorAndroid='transparent'
-								placeholder={t.password}
+								placeholder={t.form.password}
 								placeholderTextColor="#ffffff"
 								secureTextEntry={true}
 								onChangeText={(value) => this.setFrom('password', value)}
@@ -145,24 +151,12 @@ export default class Login extends Component {
 
 						<TouchableOpacity
 							onPress={() => this.navigate('password-reset')}>
-							<Text style={[ styles.white, styles.opacity50, styles.textSM, styles.textCenter ]}>{t.forgotPassword}</Text>
+							<Text style={[ styles.white, styles.opacity50, styles.textSM, styles.textCenter ]}>{t.btn.forgotPassword}</Text>
 						</TouchableOpacity>
 
 					</Animated.View>
 
 					<Animated.View style={[styles.center, styles.mt1, this.fadeIn(1500, 20)]}>
-						<View style={[styles.cols, styles.lngButtons]}>
-							<TouchableOpacity
-								onPress={() => {}}
-								style={[]}>
-								<Text style={[styles.white, styles.textMD]}>RU</Text>
-							</TouchableOpacity>
-							<TouchableOpacity
-								onPress={() => {}}
-								style={[]}>
-								<Text style={[styles.white, styles.textMD, styles.opacity50]}>UA</Text>
-							</TouchableOpacity>
-						</View>
 						<TouchableOpacity
 							onPress={() => this._submit()}
 							style={[styles.buttonCircle, styles.mt2]}>
@@ -180,7 +174,7 @@ export default class Login extends Component {
 						<TouchableOpacity
 							onPress={() => this.navigate('registration')}
 							style={[styles.btn, styles.btnDefault, styles.btnTransparent]}>
-							<Text style={[styles.inputText, styles.white]}>{t.registration}</Text>
+							<Text style={[styles.inputText, styles.white]}>{t.btn.registration}</Text>
 						</TouchableOpacity>
 					</Animated.View>
 				</View>

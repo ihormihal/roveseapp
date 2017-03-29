@@ -31,17 +31,8 @@ export default class Settings extends Component {
 
 	constructor(props) {
 		super(props);
-
-		var form = this.props.data;
 		this.state = {
-			results: {
-				items: []
-			},
-
-			form: Object.assign(form, {
-				language: 'ru'
-			})
-
+			form: this.props.data
 			/*form: {
 				name: '',
 				surname: '',
@@ -54,7 +45,6 @@ export default class Settings extends Component {
 				password: '',
 				passwordConfirm: '',
 			}*/
-
 		}
 	}
 
@@ -77,15 +67,15 @@ export default class Settings extends Component {
 	valid() {
 		if(this.state.form.name && this.state.form.surname && this.state.form.middleName && this.state.form.email && this.state.form.phone && this.state.form.oldPassword && this.state.form.password && this.state.form.passwordConfirm){
 			if(this.state.form.email.indexOf('@') == -1){
-				Alert.alert(t.error, t.errorEmail);
+				Alert.alert(t.error.error, t.error.email);
 				return false;
 			}else if(this.state.form.password !== this.state.form.passwordConfirm){
-				Alert.alert(t.error, t.errorPasswordConfirm);
+				Alert.alert(t.error.error, t.error.passwordConfirm);
 				return false;
 			}
 			return true;
 		}else{
-			Alert.alert(t.error, t.errorEmptyField);
+			Alert.alert(t.error.error, t.error.empty);
 			return false;
 		}
 	}
@@ -105,7 +95,7 @@ export default class Settings extends Component {
 				if(data.status == 'success'){
 					Alert.alert(t.done, 'success', [{text: 'OK', onPress: () => this.navigate('root')}]);
 				}else{
-					Alert(t.error, data.message);
+					Alert(t.error.error, data.message);
 				}
 			})
 			.done();
@@ -122,7 +112,7 @@ export default class Settings extends Component {
 							style={styles.btn}
 							onPress={() => this.props.navigator.pop()}>
 							<Icon style={[styles.btnIcon, styles.primary]} size={20} name="arrow-back"/>
-							<Text style={[styles.textSM, styles.primary]}>{t.back}</Text>
+							<Text style={[styles.textSM, styles.primary]}>{t.btn.back}</Text>
 						</TouchableOpacity>
 					</View>
 					<View style={styles.headerCenter}>
@@ -139,13 +129,13 @@ export default class Settings extends Component {
 
 					<View style={styles.container}>
 
-						<Text style={[styles.inputLabel, styles.textCenter]}>Редактировать профиль</Text>
+						<Text style={[styles.inputLabel, styles.textCenter]}>{t.title.editProfile}</Text>
 
 						<View style={[styles.textInput, styles.inputDefault, styles.inputOffsetB]}>
 							<TextInput
 								style={[ styles.textInputInput ]}
 								underlineColorAndroid='transparent'
-								placeholder={t.name}
+								placeholder={t.form.name}
 								onChangeText={(value) => this.setForm('name', value)}
 								value={this.state.form.name}
 							/>
@@ -155,7 +145,7 @@ export default class Settings extends Component {
 							<TextInput
 								style={[ styles.textInputInput ]}
 								underlineColorAndroid='transparent'
-								placeholder={t.surname}
+								placeholder={t.form.surname}
 								onChangeText={(value) => this.setForm('surname', value)}
 								value={this.state.form.surname}
 							/>
@@ -165,12 +155,23 @@ export default class Settings extends Component {
 							<TextInput
 								style={[ styles.textInputInput ]}
 								underlineColorAndroid='transparent'
-								placeholder={t.middleName}
+								placeholder={t.form.middleName}
 								onChangeText={(value) => this.setForm('middleName', value)}
 								value={this.state.form.middleName}
 							/>
 						</View>
 
+						<View style={[styles.textInput, styles.inputDefault, styles.inputOffsetB]}>
+							<TextInput
+								style={[ styles.textInputInput ]}
+								underlineColorAndroid='transparent'
+								placeholder={t.form.phoneNumber}
+								onChangeText={(value) => this.setForm('phone', value)}
+								value={this.state.form.phone}
+							/>
+						</View>
+
+						<Text style={styles.inputLabel}>{t.form.region}</Text>
 						<View style={[styles.textInput, styles.inputPickerDefault, styles.inputOffsetB]}>
 							<Picker
 								style={styles.picker}
@@ -178,54 +179,31 @@ export default class Settings extends Component {
 								onValueChange={(value) => this.setForm('region', value)}
 								mode="dropdown">
 								{data.regions.map((item, index) => {
-									return (<Picker.Item key={index} label={item} value={item} />);
+									return (<Picker.Item key={index} label={item} value={index} />);
 								}, this)}
 							</Picker>
 						</View>
-
+	
+						<Text style={styles.inputLabel}>{t.form.position}</Text>
 						<View style={[styles.textInput, styles.inputPickerDefault, styles.inputOffsetB]}>
 							<Picker
 								style={styles.picker}
 								selectedValue={this.state.form.position}
 								onValueChange={(value) => this.setForm('position', value)}
 								mode="dropdown">
-									<Picker.Item label="Position 1" value={0} />
-									<Picker.Item label="Position 2" value={1} />
-									<Picker.Item label="Position 3" value={2} />
+								{data.positions.map((item, index) => {
+									return (<Picker.Item key={index} label={item} value={index} />);
+								}, this)}
 							</Picker>
 						</View>
+
+						<Text style={[styles.inputLabel, styles.textCenter]}>{t.form.passwordEdit}</Text>
 
 						<View style={[styles.textInput, styles.inputDefault, styles.inputOffsetB]}>
 							<TextInput
 								style={[ styles.textInputInput ]}
 								underlineColorAndroid='transparent'
-								placeholder={t.phoneNumber}
-								onChangeText={(value) => this.setForm('phone', value)}
-								value={this.state.form.phone}
-							/>
-						</View>
-
-						<Text style={[styles.inputLabel, styles.textCenter]}>{t.selectLanguage}</Text>
-
-						<View style={[styles.textInput, styles.inputPickerDefault, styles.inputOffsetB]}>
-							<Picker
-								style={styles.picker}
-								selectedValue={this.state.form.language}
-								onValueChange={(value) => this.setForm('language', value)}
-								mode="dropdown">
-								<Picker.Item label="English" value="en" />
-								<Picker.Item label="Русский" value="ru" />
-								<Picker.Item label="Украинский" value="uk" />
-							</Picker>
-						</View>
-
-						<Text style={[styles.inputLabel, styles.textCenter]}>{t.passwordEdit}</Text>
-
-						<View style={[styles.textInput, styles.inputDefault, styles.inputOffsetB]}>
-							<TextInput
-								style={[ styles.textInputInput ]}
-								underlineColorAndroid='transparent'
-								placeholder={t.oldPassword}
+								placeholder={t.form.oldPassword}
 								secureTextEntry={true}
 								onChangeText={(value) => this.setForm('oldPassword', value)}
 								value={this.state.form.oldPassword}
@@ -236,7 +214,7 @@ export default class Settings extends Component {
 							<TextInput
 								style={[ styles.textInputInput ]}
 								underlineColorAndroid='transparent'
-								placeholder={t.newPassword}
+								placeholder={t.form.newPassword}
 								secureTextEntry={true}
 								onChangeText={(value) => this.setForm('password', value)}
 								value={this.state.form.password}
@@ -247,7 +225,7 @@ export default class Settings extends Component {
 							<TextInput
 								style={[ styles.textInputInput ]}
 								underlineColorAndroid='transparent'
-								placeholder={t.passwordConfirm}
+								placeholder={t.form.passwordConfirm}
 								secureTextEntry={true}
 								onChangeText={(value) => this.setForm('passwordConfirm', value)}
 								value={this.state.form.passwordConfirm}
@@ -258,7 +236,7 @@ export default class Settings extends Component {
 							<TouchableOpacity
 								onPress={() => this._submit()}
 								style={[styles.btn, styles.btnDefault, styles.btnPrimary]}>
-								<Text style={[styles.white, styles.inputText]}>{t.save}</Text>
+								<Text style={[styles.white, styles.inputText]}>{t.btn.save}</Text>
 							</TouchableOpacity>
 						</View>
 

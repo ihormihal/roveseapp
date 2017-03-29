@@ -59,11 +59,11 @@ export default class PasswordReset extends Component {
 			if(this.state.form.email.indexOf('@') !== -1){
 				return true;
 			}else{
-				Alert.alert(t.error, t.errorEmail);
+				Alert.alert(t.error.error, t.error.email);
 				return false;
 			}
 		}else{
-			Alert.alert(t.error, t.errorEmptyField);
+			Alert.alert(t.error.error, t.error.empty);
 			return false;
 		}
 	}
@@ -85,11 +85,11 @@ export default class PasswordReset extends Component {
 				if(data.status == 'success'){
 					Alert.alert(
 						'',
-						t.passwordResetSuccess,
+						t.message.passwordResetSuccess,
 						[{text: 'OK', onPress: () => this.props.navigator.pop() }]
 					);
 				}else{
-					Alert.alert(t.error, data.message);
+					Alert.alert(t.error.error, data.message);
 				}
 			})
 			.done();
@@ -105,7 +105,7 @@ export default class PasswordReset extends Component {
 							style={styles.btn}
 							onPress={() => this.props.navigator.pop()}>
 							<Icon style={[styles.btnIcon, styles.primary]} size={20} name="arrow-back"/>
-							<Text style={[styles.textSM, styles.primary]}>{t.back}</Text>
+							<Text style={[styles.textSM, styles.primary]}>{t.btn.back}</Text>
 						</TouchableOpacity>
 					</View>
 					<View style={styles.headerCenter}>
@@ -119,10 +119,10 @@ export default class PasswordReset extends Component {
 				</View>
 				<View style={styles.container}>
 					<View style={styles.center}>
-						<Text style={styles.sceneTitle}>{t.passwordRecovery.toUpperCase()}</Text>
+						<Text style={styles.sceneTitle}>{t.title.passwordRecovery.toUpperCase()}</Text>
 					</View>
 
-					<Text style={styles.inputLabel}>{t.enterEmail}</Text>
+					<Text style={styles.inputLabel}>{t.form.enterYourEmail}</Text>
 					<View style={[styles.textInput, styles.inputDefault, styles.inputOffsetB]}>
 						<TextInput
 							style={[ styles.textInputInput ]}
@@ -136,7 +136,7 @@ export default class PasswordReset extends Component {
 						<TouchableOpacity
 							onPress={() => this._submit()}
 							style={[styles.btn, styles.btnDefault, styles.btnPrimary]}>
-							<Text style={[styles.white, styles.inputText]}>{t.change}</Text>
+							<Text style={[styles.white, styles.inputText]}>{t.btn.change}</Text>
 						</TouchableOpacity>
 					</View>
 
