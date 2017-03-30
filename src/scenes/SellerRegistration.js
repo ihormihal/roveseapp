@@ -19,7 +19,8 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 //import variables from './../theme/variables.js';
 import styles from './../theme/styles.js';
 import t from './../Translations';
-import data from './../Data';
+import d from './../Data';
+import settings from './../Settings';
 
 
 export default class SellerRegistration extends Component {
@@ -35,7 +36,7 @@ export default class SellerRegistration extends Component {
 				email: '',
 				phone: '',
 				tradePoint: '',
-				sertifiсate: 0,
+				certificate: 0,
 			}
 		}
 	}
@@ -59,9 +60,12 @@ export default class SellerRegistration extends Component {
 	}
 
 	valid() {
-		if(this.state.form.name && this.state.form.surname && this.state.form.middleName && this.state.form.email){
+		if(this.state.form.name && this.state.form.surname && this.state.form.email && this.state.form.phone && this.state.form.tradePoint){
 			if(this.state.form.email.indexOf('@') == -1){
 				Alert.alert(t.error.error, t.error.email);
+				return false;
+			}else if(this.state.form.phone.length !== 12){
+				Alert.alert(t.error.error, t.error.phone);
 				return false;
 			}
 			return true;
@@ -71,23 +75,49 @@ export default class SellerRegistration extends Component {
 		}
 	}
 
+	fetch(token){
+		var formData = {
+			phone: this.state.form.phone,
+			email: this.state.form.email,
+			firstName: this.state.form.name,
+			lastName: this.state.form.surname,
+			middleName: this.state.form.middleName,
+			tradePoint: this.state.form.tradePoint,
+			certificate: this.state.form.certificate
+		};
+		//console.log(formData);
+		fetch(settings.domain+'/api/sellers', {
+			method: "POST",
+			headers: {
+				'Authorization': 'Bearer '+token,
+				'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
+			},
+			body: settings.serialize(formData)
+		})
+		.then((response) => response.json())
+		.then((data) => {
+			if(data.status == "success"){
+				if(data.data && data.data.id){
+					this.navigate('seller', {id: parseInt(data.data.id)});
+				}else{
+					this.navigate('statistics');
+				}
+			}else{
+				if(data.code && data.message){
+					Alert.alert(t.error.error, t.message.errorCode+': '+data.code+'\n'+t.message.errorDescription+': '+data.message);
+				}else{
+					Alert.alert(t.error.error, t.error.serverError);
+				}
+			}
+		})
+		.done();
+	}
+
 	_submit() {
-		if(this.valid){
-			fetch('http://rovese.jaya-test.com/api/seller_registration', {
-				method: "POST",
-				headers: {
-					'Authorization': token,
-					'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
-				},
-				body: settings.serialize(this.state.form)
-			})
-			.then((response) => response.json())
-			.then((data) => {
-				Alert.alert(JSON.stringify(data));
-				//AsyncStorage.setItem(item, selectedValue);
-				//this.navigate('root');
-			})
-			.done();
+		if(this.valid()){
+			AsyncStorage.getItem('access_token',(error, result) => {
+				this.fetch(result);
+			});
 		}
 	}
 
@@ -124,6 +154,7 @@ export default class SellerRegistration extends Component {
 						</View>
 
 						<View style={[styles.textInput, styles.inputDefault, styles.inputOffsetB]}>
+							<Text style={styles.required}>*</Text>
 							<TextInput
 								style={[ styles.textInputInput ]}
 								underlineColorAndroid='transparent'
@@ -134,6 +165,7 @@ export default class SellerRegistration extends Component {
 						</View>
 
 						<View style={[styles.textInput, styles.inputDefault, styles.inputOffsetB]}>
+							<Text style={styles.required}>*</Text>
 							<TextInput
 								style={[ styles.textInputInput ]}
 								underlineColorAndroid='transparent'
@@ -154,6 +186,7 @@ export default class SellerRegistration extends Component {
 						</View>
 
 						<View style={[styles.textInput, styles.inputDefault, styles.inputOffsetB]}>
+							<Text style={styles.required}>*</Text>
 							<TextInput
 								style={[ styles.textInputInput ]}
 								underlineColorAndroid='transparent'
@@ -164,6 +197,7 @@ export default class SellerRegistration extends Component {
 						</View>
 
 						<View style={[styles.textInput, styles.inputDefault, styles.inputOffsetB]}>
+							<Text style={styles.required}>*</Text>
 							<TextInput
 								style={[ styles.textInputInput ]}
 								underlineColorAndroid='transparent'
@@ -174,6 +208,7 @@ export default class SellerRegistration extends Component {
 						</View>
 
 						<View style={[styles.textInput, styles.inputDefault, styles.inputOffsetB]}>
+							<Text style={styles.required}>*</Text>
 							<TextInput
 								style={[ styles.textInputInput ]}
 								underlineColorAndroid='transparent'
@@ -185,12 +220,13 @@ export default class SellerRegistration extends Component {
 
 						<Text style={styles.inputLabel}>{t.form.desiredCertificate}</Text>
 						<View style={[styles.textInput, styles.inputPickerDefault, styles.inputOffsetB]}>
+							<Text style={styles.required}>*</Text>
 							<Picker
 								style={styles.picker}
-								selectedValue={this.state.form.sertifiсate}
-								onValueChange={(value) => this.setForm('sertifiсate', value)}
+								selectedValue={this.state.form.certificate}
+								onValueChange={(value) => this.setForm('certificate', value)}
 								mode="dropdown">
-								{data.sertificates.map((item, index) => {
+								{d.certificates.map((item, index) => {
 									return (<Picker.Item key={index} label={item} value={index} />);
 								}, this)}
 							</Picker>

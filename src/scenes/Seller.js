@@ -22,6 +22,7 @@ import settings from './../Settings';
 
 var backgroundImage = require('./../images/bg/root.jpg');
 
+var currentDate = new Date();
 export default class Seller extends Component {
 
 	constructor(props) {
@@ -50,25 +51,51 @@ export default class Seller extends Component {
 	}
 
 	fetch(token){
-		fetch(settings.api.seller, {
+		var sellerID = parseInt(this.props.data.id);
+		fetch(settings.domain+'/api/seller?id='+sellerID, {
 			method: "GET",
 			headers: {
-				'Authorization': token
+				'Authorization': 'Bearer '+token,
 			}
 		})
 		.then((response) => response.json())
 		.then((data) => {
 			if(data.status == "success"){
+
+				var dt = data.data.created_at.substring(0, 10).split('-');
+				var date = dt[2]+' '+d.months[parseInt(dt[1])-1]+' '+dt[0];
+				
+				//Alert.alert('',date.getFullYear());
+				var seller = {
+					registered: date,
+					balance: data.data.balance,
+					id: data.data.id,
+					phone: data.data.phone,
+					email: data.data.email,
+					name: data.data.first_name,
+					surname: data.data.last_name,
+					middleName: data.data.middle_name,
+					tradePoint: data.data.trade_point,
+					certificate: data.data.certificate
+				}
 				this.setState({
-					seller: data.data
+					seller: seller,
+					bonuses: data.data.balance_per_months
 				});
+				if(this.state.bonuses.monthly.length){
+					this.prepareChart(this.state.selectedMonth);
+				}
 			}else{
-				//Alert(t.error.error, data.message);
+				if(data.code && data.message){
+					Alert.alert(t.error.error, t.message.errorCode+': '+data.code+'\n'+t.message.errorDescription+': '+data.message);
+				}else{
+					Alert.alert(t.error.error, t.error.serverError);
+				}
 			}
 		})
 		.done();
 
-		fetch(settings.api.bonuses, {
+		/*fetch(settings.api.bonuses, {
 			method: "GET",
 			headers: {
 				'Authorization': token
@@ -82,15 +109,18 @@ export default class Seller extends Component {
 				});
 				this.prepareChart(this.state.selectedMonth);
 			}else{
-				//Alert(t.error.error, data.message);
+				Alert.alert(t.error.error, JSON.stringify(data));
 			}
 		})
-		.done();
+		.done();*/
 	}
 
 
 	prepareChart(index){
 		var data = this.state.bonuses.monthly[index].daily;
+		if(data === undefined){
+			return false;
+		}
 		var normalize = 100;
 		var chartData = [];
 		var maxValue = 1;
@@ -122,12 +152,13 @@ export default class Seller extends Component {
 	}
 
 	_payMonth(index){
-		fetch(settings.api.success, {
+		fetch(settings.domain+'/api/pay', {
 			method: "POST",
 			headers: {
-				'Authorization': token
+				'Authorization': 'Bearer '+token
 			},
 			body: settings.serialize({
+				sellerId: this.state.seller.id,
 				month: this.state.bonuses.monthly[index].month,
 			})
 		})
@@ -171,8 +202,13 @@ export default class Seller extends Component {
 
 
 	render() {
-		
-		var selectedMonth = this.state.bonuses.monthly[this.state.selectedMonth];
+		var selectedMonth = {
+			month: currentDate.getMonth(),
+			total: 0
+		};
+		if(this.state.bonuses.monthly.length){
+			selectedMonth = this.state.bonuses.monthly[this.state.selectedMonth];
+		}
 		return (
 			<View style={styles.scene}>
 				<View style={[styles.header, styles.shadow]}>

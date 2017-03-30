@@ -19,7 +19,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 //import variables from './../theme/variables.js';
 import styles from './../theme/styles.js';
 import t from './../Translations';
-import data from './../Data';
+import d from './../Data';
 import settings from './../Settings';
 
 
@@ -40,7 +40,7 @@ export default class SellerEdit extends Component {
 			// 	email: 'zlata@tets.com',
 			// 	phone: '+380509999999',
 			// 	tradePoint: '',
-			// 	sertifiсate: 0,
+			// 	certificate: 0,
 			// }
 		}
 	}
@@ -64,40 +64,59 @@ export default class SellerEdit extends Component {
 	}
 
 	valid() {
-		if(this.state.form.name && this.state.form.surname && this.state.form.middleName && this.state.form.email){
+		if(this.state.form.name && this.state.form.surname && this.state.form.email && this.state.form.phone && this.state.form.tradePoint){
 			if(this.state.form.email.indexOf('@') == -1){
 				Alert.alert(t.error.error, t.error.email);
+				return false;
+			}else if(this.state.form.phone.length !== 12){
+				Alert.alert(t.error.error, t.error.phone);
 				return false;
 			}
 			return true;
 		}else{
+			console.log(this.state.form);
 			Alert.alert(t.error.error, t.error.empty);
 			return false;
 		}
 	}
 
 	fetch(token){
-		fetch(settings.api.success, {
-			method: "POST",
+		var sellerID = parseInt(this.props.data.id);
+		var formData = {
+			phone: this.state.form.phone,
+			email: this.state.form.email,
+			firstName: this.state.form.name,
+			lastName: this.state.form.surname,
+			middleName: this.state.form.middleName,
+			tradePoint: this.state.form.tradePoint,
+			certificate: this.state.form.certificate
+		};
+		fetch(settings.domain+'/api/sellers/'+sellerID, {
+			method: "PATCH",
 			headers: {
-				'Authorization': token,
+				'Authorization': 'Bearer '+token,
 				'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
 			},
-			body: settings.serialize(this.state.form)
+			body: settings.serialize(formData)
 		})
 		.then((response) => response.json())
 		.then((data) => {
+			//console.log(data);
 			if(data.status == "success"){
 				this.props.navigator.pop();
 			}else{
-				Alert.alert(t.error.error, data.message);
+				if(data.code && data.message){
+					Alert.alert(t.error.error, t.message.errorCode+': '+data.code+'\n'+t.message.errorDescription+': '+data.message);
+				}else{
+					Alert.alert(t.error.error, t.error.serverError);
+				}
 			}
 		})
 		.done();
 	}
 
 	_submit() {
-		if(this.valid){
+		if(this.valid()){
 			AsyncStorage.getItem('access_token',(error, result) => {
 				this.fetch(result);
 			});
@@ -132,6 +151,7 @@ export default class SellerEdit extends Component {
 						<Text style={[styles.inputLabel, styles.textCenter]}>{t.title.editProfile}</Text>
 
 						<View style={[styles.textInput, styles.inputDefault, styles.inputOffsetB]}>
+							<Text style={styles.required}>*</Text>
 							<TextInput
 								style={[ styles.textInputInput ]}
 								underlineColorAndroid='transparent'
@@ -142,6 +162,7 @@ export default class SellerEdit extends Component {
 						</View>
 
 						<View style={[styles.textInput, styles.inputDefault, styles.inputOffsetB]}>
+							<Text style={styles.required}>*</Text>
 							<TextInput
 								style={[ styles.textInputInput ]}
 								underlineColorAndroid='transparent'
@@ -162,6 +183,7 @@ export default class SellerEdit extends Component {
 						</View>
 
 						<View style={[styles.textInput, styles.inputDefault, styles.inputOffsetB]}>
+							<Text style={styles.required}>*</Text>
 							<TextInput
 								style={[ styles.textInputInput ]}
 								underlineColorAndroid='transparent'
@@ -172,6 +194,7 @@ export default class SellerEdit extends Component {
 						</View>
 
 						<View style={[styles.textInput, styles.inputDefault, styles.inputOffsetB]}>
+							<Text style={styles.required}>*</Text>
 							<TextInput
 								style={[ styles.textInputInput ]}
 								underlineColorAndroid='transparent'
@@ -182,6 +205,7 @@ export default class SellerEdit extends Component {
 						</View>
 
 						<View style={[styles.textInput, styles.inputDefault, styles.inputOffsetB]}>
+							<Text style={styles.required}>*</Text>
 							<TextInput
 								style={[ styles.textInputInput ]}
 								underlineColorAndroid='transparent'
@@ -192,12 +216,13 @@ export default class SellerEdit extends Component {
 						</View>
 
 						<View style={[styles.textInput, styles.inputPickerDefault, styles.inputOffsetB]}>
+							<Text style={styles.required}>*</Text>
 							<Picker
 								style={styles.picker}
-								selectedValue={this.state.form.sertifiсate}
-								onValueChange={(value) => this.setForm('sertifiсate', value)}
+								selectedValue={parseInt(this.state.form.certificate)}
+								onValueChange={(value) => this.setForm('certificate', value)}
 								mode="dropdown">
-								{data.sertificates.map((item, index) => {
+								{d.certificates.map((item, index) => {
 									return (<Picker.Item key={index} label={item} value={index} />);
 								}, this)}
 							</Picker>

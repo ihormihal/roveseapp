@@ -28,6 +28,7 @@ export default class SupportError extends Component {
 		this.state = {
 			language: this.props.lang,
 			form: {
+				type: 'error',
 				subject: '',
 				message: ''
 			}
@@ -61,10 +62,10 @@ export default class SupportError extends Component {
 	}
 
 	fetch(token){
-		fetch(settings.api.success, {
+		fetch(settings.domain+'/api/support', {
 			method: "POST",
 			headers: {
-				'Authorization': token,
+				'Authorization': 'Bearer '+token,
 				'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
 			},
 			body: settings.serialize(this.state.form)
@@ -72,16 +73,20 @@ export default class SupportError extends Component {
 		.then((response) => response.json())
 		.then((data) => {
 			if(data.status == "success"){
-				Alert(t.message.done, t.message.messageSent);
+				Alert.alert(t.message.done, t.message.messageSent);
 			}else{
-				Alert(t.error.error, data.message);
+				if(data.code && data.message){
+					Alert.alert(t.error.error, t.message.errorCode+': '+data.code+'\n'+t.message.errorDescription+': '+data.message);
+				}else{
+					Alert.alert(t.error.error, t.error.serverError);
+				}
 			}
 		})
 		.done();
 	}
 
 	_submit() {
-		if(this.valid){
+		if(this.valid()){
 			AsyncStorage.getItem('access_token',(error, result) => {
 				this.fetch(result);
 			});
@@ -89,7 +94,7 @@ export default class SupportError extends Component {
 	}
 
 	render() {
-		
+
 		return (
 			<Image
 				style={[styles.scene, styles.background]}
@@ -118,6 +123,7 @@ export default class SupportError extends Component {
 				<View style={[styles.container, styles.whiteBg]}>
 
 					<View style={[styles.textInput, styles.inputDefault, styles.inputOffsetB]}>
+						<Text style={styles.required}>*</Text>
 						<TextInput
 							style={[ styles.textInputInput ]}
 							underlineColorAndroid='transparent'
@@ -128,6 +134,7 @@ export default class SupportError extends Component {
 					</View>
 
 					<View style={[styles.textInput, styles.inputDefault, styles.inputOffsetB]}>
+						<Text style={styles.required}>*</Text>
 						<TextInput
 							style={[ styles.textAreaInput ]}
 							multiline = {true}

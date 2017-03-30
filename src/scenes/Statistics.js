@@ -28,7 +28,8 @@ export default class Statistics extends Component {
 		super(props);
 		this.state = {
 			language: this.props.lang,
-			sellers: dataset.cloneWithRows([])
+			sellers: dataset.cloneWithRows([]),
+			months: []
 		};
 	};
 
@@ -39,7 +40,7 @@ export default class Statistics extends Component {
 	}
 
 	fetch(token) {
-		fetch(settings.api.statistics, {
+		fetch(settings.domain+'/api/sellers', {
 			method: "GET",
 			headers: {
 				'Authorization': 'Bearer '+token
@@ -48,26 +49,45 @@ export default class Statistics extends Component {
 		.then((response) => response.json())
 		.then((data) => {
 			if(data.status == "success"){
-
-				var array = data.data;
-				var sellers = [];
-				for (var i = 0; i < array.length; i++) {
-					let t = array[i].created_at.split('+');
-					var date = new Date(t[0]);
-					sellers.push({
-						id: array[i].id,
-						name: array[i].first_name+" "+array[i].last_name,
-						registered: date.getDate()+' '+d.months[date.getMonth()]+' '+date.getFullYear()
-					});
-				}
-				this.setState({
-					sellers: dataset.cloneWithRows(sellers)
-				});
+				this.prepareData(data.data);
 			}else{
-				//Alert(t.error.error, data.message);
+				if(data.code && data.message){
+					Alert.alert(t.error.error, t.message.errorCode+': '+data.code+'\n'+t.message.errorDescription+': '+data.message);
+				}else{
+					Alert.alert(t.error.error, t.error.serverError);
+				}
 			}
 		})
 		.done();
+	}
+
+	prepareData(array){
+		var sellers = [];
+		var months_indexes = {};
+
+		var sellers = array.map((item, index) => {
+			var monthly = item.balance_per_months.monthly;
+			for (var i = 0; i < monthly.length; i++) {
+				months_indexes[monthly[i].month] = 1;
+			}
+			//var date = new Date(item.created_at);
+			//(date.getDate()+' '+d.months[date.getMonth()]+' '+date.getFullYear())
+			//console.log(date);
+			var dt = item.created_at.substring(0, 10).split('-');
+			var date = dt[2]+' '+d.months[parseInt(dt[1])-1]+' '+dt[0];
+
+			return {
+				id: item.id,
+				name: item.first_name+" "+item.last_name,
+				registered: date,
+				total: item.balance,
+				monthly: monthly
+			}
+		});
+		this.setState({
+			sellers: dataset.cloneWithRows(sellers),
+			months: Object.keys(months_indexes)
+		});
 	}
 
 	navigate(routeName, routeData) {
@@ -80,10 +100,12 @@ export default class Statistics extends Component {
 	renderListItem(item) {
 		return (
 			<TouchableOpacity style={styles.tr} onPress={() => this.navigate('seller', {id: item.id})}>
-				<Text style={styles.td}>{item.name}</Text>
-				<Text style={styles.tdb}>{item.registered}</Text>
-				<Text style={styles.tdb}>{item.month}</Text>
-				<Text style={styles.tdb}>{item.total}</Text>
+				<Text style={[styles.td, {flex: 0.5}]}>{item.name}</Text>
+				<Text style={[styles.tdb, {flex: 0.4}]}>{item.registered}</Text>
+				{this.state.months.map((item,index) => {
+					return <Text key={index} style={[styles.tdb, {flex: 0.25}]}>{item.monthly[index].total}</Text>;
+				})}
+				<Text style={[styles.tdb, {flex: 0.25}]}>{item.total}</Text>
 			</TouchableOpacity>
 		)
 	}
@@ -115,6 +137,16 @@ export default class Statistics extends Component {
 						<Text style={[styles.textMD, styles.primary, styles.textCenter]}>{t.title.sellerBase}</Text>
 						<View style={styles.hr} />
 					</View>
+
+					<View style={styles.tr}>
+						<Text style={[styles.th, {flex: 0.5, textAlign: 'left'}]}>{t.form.name}</Text>
+						<Text style={[styles.th, {flex: 0.4}]}>{t.regDate}</Text>
+						{this.state.months.map((item,index) => {
+							return <Text key={index} style={[styles.th, {flex: 0.25}]}>{d.months[item]}</Text>;
+						})}
+						<Text style={[styles.th, {flex: 0.25}]}>{t.bonuses}</Text>
+					</View>
+
 					<ListView
 						enableEmptySections={true}
 						dataSource={this.state.sellers}

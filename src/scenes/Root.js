@@ -100,7 +100,7 @@ export default class Root extends Component {
 	}
 
 	fetch(token) {
-		fetch(settings.api.profile, {
+		fetch(settings.domain+'/api/profile', {
 			method: "GET",
 			headers: {
 				'Authorization': 'Bearer '+token
@@ -114,6 +114,7 @@ export default class Root extends Component {
 					email: data.data.email,
 					name: data.data.first_name,
 					surname: data.data.last_name,
+					middleName: data.data.middle_name,
 					phone: data.data.phone_number,
 					region: parseInt(data.data.region),
 					position: parseInt(data.data.position)
@@ -125,7 +126,11 @@ export default class Root extends Component {
 					menu: this.state.menu,
 				})
 			}else{
-				Alert.alert(t.error.error, JSON.stringify(data));
+				if(data.code && data.message){
+					Alert.alert(t.error.error, t.message.errorCode+': '+data.code+'\n'+t.message.errorDescription+': '+data.message);
+				}else{
+					Alert.alert(t.error.error, t.error.serverError);
+				}
 			}
 		})
 		.done();

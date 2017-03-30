@@ -17,7 +17,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 //import variables from './../theme/variables.js';
 import styles from './../theme/styles.js';
 import t from './../Translations';
-import data from './../Data';
+import d from './../Data';
 import settings from './../Settings';
 
 
@@ -67,8 +67,11 @@ export default class Registration extends Component {
 			if(this.state.form.email.indexOf('@') == -1){
 				Alert.alert(t.error.error, t.error.email);
 				return false;
-			}else if(this.state.form.phone.length < 12){
+			}else if(this.state.form.phone.length !== 12){
 				Alert.alert(t.error.error, t.error.phone);
+				return false;
+			}else if(this.state.form.password.length < 6){
+				Alert.alert(t.error.error, t.error.password);
 				return false;
 			}else if(this.state.form.password !== this.state.form.passwordConfirm){
 				Alert.alert(t.error.error, t.error.passwordConfirm);
@@ -93,7 +96,7 @@ export default class Registration extends Component {
 				position: this.state.form.position,
 				phoneNumber: this.state.form.phone,
 			};
-			fetch(settings.api.registration, {
+			fetch(settings.domain+'/api/register', {
 				method: "POST",
 				headers: {
 					'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
@@ -103,10 +106,14 @@ export default class Registration extends Component {
 			.then((response) => response.json())
 			.then((data) => {
 				//{msg, token}
-				if(data.status == "success"){
+				if(data.token){
 					Alert.alert(t.message.done, t.message.dataSent, [{text: 'OK', onPress: () => this.navigate('login')}]);
 				}else{
-					Alert.alert(t.error.error, JSON.stringify(data));
+					if(data.code && data.message){
+						Alert.alert(t.error.error, t.message.errorCode+': '+data.code+'\n'+t.message.errorDescription+': '+data.message);
+					}else{
+						Alert.alert(t.error.error, t.error.serverError);
+					}
 				}
 			})
 			.done();
@@ -147,6 +154,7 @@ export default class Registration extends Component {
 
 						<View style={[styles.cols, styles.inputOffsetB]}>
 							<View style={[styles.col, styles.textInput, styles.inputDefault, styles.inputOffsetR]}>
+								<Text style={styles.required}>*</Text>
 								<TextInput
 									style={[ styles.textInputInput ]}
 									underlineColorAndroid='transparent'
@@ -156,6 +164,7 @@ export default class Registration extends Component {
 								/>
 							</View>
 							<View style={[styles.col, styles.textInput, styles.inputDefault]}>
+								<Text style={styles.required}>*</Text>
 								<TextInput
 									style={[ styles.textInputInput ]}
 									underlineColorAndroid='transparent'
@@ -183,6 +192,7 @@ export default class Registration extends Component {
 						</View>
 
 						<View style={[styles.textInput, styles.inputDefault, styles.inputOffsetB]}>
+							<Text style={styles.required}>*</Text>
 							<TextInput
 								style={[ styles.textInputInput ]}
 								underlineColorAndroid='transparent'
@@ -193,6 +203,7 @@ export default class Registration extends Component {
 						</View>
 
 						<View style={[styles.textInput, styles.inputDefault, styles.inputOffsetB]}>
+							<Text style={styles.required}>*</Text>
 							<TextInput
 								style={[ styles.textInputInput ]}
 								underlineColorAndroid='transparent'
@@ -204,6 +215,7 @@ export default class Registration extends Component {
 						</View>
 
 						<View style={[styles.textInput, styles.inputDefault, styles.inputOffsetB]}>
+							<Text style={styles.required}>*</Text>
 							<TextInput
 								style={[ styles.textInputInput ]}
 								underlineColorAndroid='transparent'
@@ -218,6 +230,7 @@ export default class Registration extends Component {
 						<View style={styles.formHR} />
 
 						<View style={[styles.textInput, styles.inputDefault, styles.inputOffsetB]}>
+							<Text style={styles.required}>*</Text>
 							<TextInput
 								style={[ styles.textInputInput ]}
 								underlineColorAndroid='transparent'
@@ -229,12 +242,13 @@ export default class Registration extends Component {
 
 						<Text style={styles.inputLabel}>{t.form.region}</Text>
 						<View style={[styles.textInput, styles.inputPickerDefault, styles.inputOffsetB]}>
+							<Text style={styles.required}>*</Text>
 							<Picker
 								style={styles.picker}
 								selectedValue={this.state.form.region}
 								onValueChange={(value) => this.setForm('region', value)}
 								mode="dropdown">
-								{data.regions.map((item, index) => {
+								{d.regions.map((item, index) => {
 									return (<Picker.Item key={index} label={item} value={index} />);
 								}, this)}
 							</Picker>
@@ -242,12 +256,13 @@ export default class Registration extends Component {
 
 						<Text style={styles.inputLabel}>{t.form.position}</Text>
 						<View style={[styles.textInput, styles.inputPickerDefault, styles.inputOffsetB]}>
+							<Text style={styles.required}>*</Text>
 							<Picker
 								style={styles.picker}
 								selectedValue={this.state.form.position}
 								onValueChange={(value) => this.setForm('position', value)}
 								mode="dropdown">
-								{data.positions.map((item, index) => {
+								{d.positions.map((item, index) => {
 									return (<Picker.Item key={index} label={item} value={index} />);
 								}, this)}
 							</Picker>

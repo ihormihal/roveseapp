@@ -14,6 +14,7 @@ translations.ru = {
 	regRulesAgreement_1: "Регистрируясь в Retail Club, вы принимаете",
 	regRulesAgreement_2: "Правила пользования и зашиты информации",
 	registrationDate: "Дата регистрации",
+	regDate: "Дата рег.",
 
 
 	title: {
@@ -82,20 +83,26 @@ translations.ru = {
 		error: "Ошибка",
 		email: "Неверный формат E-mail",
 		empty: "Заполните обязательные поля",
+		password: "Пароль должен состоять минимум из 6 символов",
 		passwordConfirm: "Пароли не совпадают",
-		phone: "Номер телефона должен состоять минимум из 12 символов"
+		phone: "Номер телефона должен состоять из 12 символов",
+		serverError: "Серверная ошибка"
 	},
 
 	message: {
 		done: "Готово!",
-		dataSent: "Ваши данные отправлены на валидацию.",
+		dataUpdated: "Ваши данные обновлены",
+		dataSent: "Ваши данные отправлены на валидацию",
 		messageSent: "Ваше сообщение отправлено!",
 		passwordResetSuccess: "На Ваш почтовый ящик отправлено письмо с новым паролем!",
 		success: "" ,
 		confirmAction: "Подтвердите операцию",
 		payConfirm: "Вы подтверждаете списание бонусов за",
 		yes: "Да",
-		no: "Нет"
+		no: "Нет",
+		login: "Проверьте Ваш E-mail и пароль",
+		errorCode: "Код ошибки",
+		errorDescription: "Текст ошибки"
 	},
 
 	menu: {
@@ -164,6 +171,7 @@ translations.uk = {
 	regRulesAgreement_1: "Реєструючись в Retail Club, ви приймаєте",
 	regRulesAgreement_2: "Правила користування і захисту інформації",
 	registrationDate: "Дата реєстрації",
+	regDate: "Дата реєстр.",
 
 	title: {
 		about: "Про програму",
@@ -231,20 +239,26 @@ translations.uk = {
 		error: "Помилка",
 		email: "Неправильний формат E-mail",
 		empty: "Заповніть обов'язкові поля",
+		password: "Пароль повинен містити мінімум 6 символів",
 		passwordConfirm: "Паролі не збігаються",
-		phone: "Номер телефона повинен містити мінімум 12 символів"
+		phone: "Номер телефона повинен містити 12 символів",
+		serverError: "Серверна помилка"
 	},
 
 	message: {
 		done: "Готово!",
-		dataSent: "Ваші дані відправлені на валідацію.",
+		dataUpdated: "Ваші дані оновлені",
+		dataSent: "Ваші дані відправлені на валідацію",
 		messageSent: "Ваше повідомлення надіслано!",
 		passwordResetSuccess: "На Вашу поштову скриньку відправлено лист з новим паролем!",
 		success: "",
 		confirmAction: "Підтвердіть операцію",
 		payConfirm: "Ви підтверджуєте списання бонусів за",
 		yes: "Так",
-		no: "Ні"
+		no: "Ні",
+		login: "Перевірте Ваш E-mail и пароль",
+		errorCode: "Код ошибки",
+		errorDescription: "Текст помилки"
 	},
 
 	menu: {

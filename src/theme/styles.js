@@ -77,17 +77,23 @@ const dimentions = {
 		borderBottomWidth: 1,
 		borderColor: variables.colorGreyLight
 	},
+	th: {
+		marginVertical: 5,
+		paddingHorizontal: 5,
+		textAlign: 'center',
+		color: '#000',
+		fontWeight: '600'
+	},
 	td: {
-		//flex: 1,
 		marginVertical: 5,
 		paddingHorizontal: 5,
 	},
 	tdb: {
-		//flex: 1,
 		borderLeftWidth: 1,
 		borderColor: variables.colorGreyLight,
 		marginVertical: 5,
 		paddingHorizontal: 5,
+		textAlign: 'center',
 	},
 	middle: {
 		justifyContent: 'center',

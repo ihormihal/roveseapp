@@ -8,6 +8,13 @@ export default {
 	},
 	textInput: {
 		alignSelf: 'stretch',
+		position: 'relative'
+	},
+	required: {
+		position: 'absolute',
+		right: 5,
+		top: 0,
+		color: '#f00'
 	},
 	inputDefault: {
 		borderWidth: 1,

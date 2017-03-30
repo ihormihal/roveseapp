@@ -79,7 +79,11 @@ export default class PasswordReset extends Component {
 						[{text: 'OK', onPress: () => this.props.navigator.pop() }]
 					);
 				}else{
-					Alert.alert(t.error.error, data.message);
+					if(data.code && data.message){
+						Alert.alert(t.error.error, t.message.errorCode+': '+data.code+'\n'+t.message.errorDescription+': '+data.message);
+					}else{
+						Alert.alert(t.error.error, t.error.serverError);
+					}
 				}
 			})
 			.done();

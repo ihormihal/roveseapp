@@ -24,7 +24,6 @@ export default class Support extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-      language: this.props.lang,
 			email: '',
 			phone: ''
 		};

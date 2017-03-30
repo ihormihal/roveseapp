@@ -19,7 +19,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 //import variables from './../theme/variables.js';
 import styles from './../theme/styles.js';
 import t from './../Translations';
-import data from './../Data';
+import d from './../Data';
 import settings from './../Settings';
 
 
@@ -28,20 +28,7 @@ export default class Settings extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			language: this.props.lang,
 			form: this.props.data
-			/*form: {
-				name: '',
-				surname: '',
-				middleName: '',
-				region: 0,
-				position: 0,
-				phone: '',
-				language: 'en',
-				oldPassword: '',
-				password: '',
-				passwordConfirm: '',
-			}*/
 		}
 	}
 
@@ -62,10 +49,18 @@ export default class Settings extends Component {
 	}
 
 	valid() {
-		if(this.state.form.name && this.state.form.surname && this.state.form.middleName && this.state.form.email && this.state.form.phone && this.state.form.oldPassword && this.state.form.password && this.state.form.passwordConfirm){
+		if(this.state.form.name && this.state.form.surname && this.state.form.email && this.state.form.phone){
 			if(this.state.form.email.indexOf('@') == -1){
 				Alert.alert(t.error.error, t.error.email);
 				return false;
+			}else if(this.state.form.phone.length !== 12){
+				Alert.alert(t.error.error, t.error.phone);
+				return false;
+			}else if(this.state.form.password){
+				if(this.state.form.password.length < 6){
+					Alert.alert(t.error.error, t.error.password);
+					return false;
+				}
 			}else if(this.state.form.password !== this.state.form.passwordConfirm){
 				Alert.alert(t.error.error, t.error.passwordConfirm);
 				return false;
@@ -78,27 +73,43 @@ export default class Settings extends Component {
 	}
 
 	fetch(token){
-		fetch(settings.api.success, {
-			method: "POST",
+		var formData = {
+			firstName: this.state.form.name,
+			lastName: this.state.form.surname,
+			middleName: this.state.form.middleName,
+			region: this.state.form.region,
+			position: this.state.form.position,
+			phoneNumber: this.state.form.phone,
+			current_password: this.state.form.oldPassword,
+			plain_password: this.state.form.password
+		};
+		//console.log(settings.serialize(formData));
+		fetch(settings.domain+'/api/profile', {
+			method: 'PATCH',
 			headers: {
-				'Authorization': token,
+				'Authorization': 'Bearer '+token,
 				'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
 			},
-			body: settings.serialize(this.state.form)
+			body: settings.serialize(formData)
 		})
 		.then((response) => response.json())
 		.then((data) => {
+			//console.log(data);
 			if(data.status == 'success'){
-				Alert.alert(t.done, 'success', [{text: 'OK', onPress: () => this.navigate('root')}]);
+				Alert.alert(t.message.done, t.message.dataUpdated, [{text: 'OK', onPress: () => this.navigate('root')}]);
 			}else{
-				Alert(t.error.error, data.message);
+				if(data.code && data.message){
+					Alert.alert(t.error.error, t.message.errorCode+': '+data.code+'\n'+t.message.errorDescription+': '+data.message);
+				}else{
+					Alert.alert(t.error.error, t.error.serverError);
+				}
 			}
 		})
 		.done();
 	}
 
 	_submit() {
-		if(this.valid){
+		if(this.valid()){
 			AsyncStorage.getItem('access_token',(error, result) => {
 				this.fetch(result);
 			});
@@ -135,6 +146,7 @@ export default class Settings extends Component {
 						<Text style={[styles.inputLabel, styles.textCenter]}>{t.title.editProfile}</Text>
 
 						<View style={[styles.textInput, styles.inputDefault, styles.inputOffsetB]}>
+							<Text style={styles.required}>*</Text>
 							<TextInput
 								style={[ styles.textInputInput ]}
 								underlineColorAndroid='transparent'
@@ -145,6 +157,7 @@ export default class Settings extends Component {
 						</View>
 
 						<View style={[styles.textInput, styles.inputDefault, styles.inputOffsetB]}>
+							<Text style={styles.required}>*</Text>
 							<TextInput
 								style={[ styles.textInputInput ]}
 								underlineColorAndroid='transparent'
@@ -165,6 +178,7 @@ export default class Settings extends Component {
 						</View>
 
 						<View style={[styles.textInput, styles.inputDefault, styles.inputOffsetB]}>
+							<Text style={styles.required}>*</Text>
 							<TextInput
 								style={[ styles.textInputInput ]}
 								underlineColorAndroid='transparent'
@@ -176,12 +190,13 @@ export default class Settings extends Component {
 
 						<Text style={styles.inputLabel}>{t.form.region}</Text>
 						<View style={[styles.textInput, styles.inputPickerDefault, styles.inputOffsetB]}>
+							<Text style={styles.required}>*</Text>
 							<Picker
 								style={styles.picker}
-								selectedValue={this.state.form.region}
+								selectedValue={parseInt(this.state.form.region)}
 								onValueChange={(value) => this.setForm('region', value)}
 								mode="dropdown">
-								{data.regions.map((item, index) => {
+								{d.regions.map((item, index) => {
 									return (<Picker.Item key={index} label={item} value={index} />);
 								}, this)}
 							</Picker>
@@ -189,12 +204,13 @@ export default class Settings extends Component {
 
 						<Text style={styles.inputLabel}>{t.form.position}</Text>
 						<View style={[styles.textInput, styles.inputPickerDefault, styles.inputOffsetB]}>
+							<Text style={styles.required}>*</Text>
 							<Picker
 								style={styles.picker}
-								selectedValue={this.state.form.position}
+								selectedValue={parseInt(this.state.form.position)}
 								onValueChange={(value) => this.setForm('position', value)}
 								mode="dropdown">
-								{data.positions.map((item, index) => {
+								{d.positions.map((item, index) => {
 									return (<Picker.Item key={index} label={item} value={index} />);
 								}, this)}
 							</Picker>

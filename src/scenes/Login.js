@@ -30,12 +30,14 @@ export default class Login extends Component {
 			setlang: this.props.setlang,
 			anim: new Animated.Value(0),
 			form: {
-				email: 'zlata@tits.com',
-				password: 'Pass1234'
+				email: '',
+				password: ''
 			}
 		};
-		//this._setLanguage = this.props.setlang;
 	};
+	// email: 'zlata@tits.com',
+	// password: 'Pass1234'
+
 
 	setForm(key, value) {
 		var form = this.state.form;
@@ -81,15 +83,9 @@ export default class Login extends Component {
 		return true;
 	}
 
-	// _setLanguage(lang){
-	// 	AsyncStorage.setItem('lang', lang, () => {
-	// 		this.forceUpdate();
-	// 	});
-	// }
-
 	_submit() {
 		if(this.valid()){
-			fetch(settings.api.login, {
+			fetch(settings.domain+'/api/login', {
 				method: "POST",
 				headers: {
 					'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
@@ -104,7 +100,7 @@ export default class Login extends Component {
 						this.navigate('root');
 					});
 				}else{
-					Alert.alert(t.error.error, JSON.stringify(data));
+					Alert.alert(t.error.error, t.message.login);
 				}
 			})
 			.done();
@@ -140,7 +136,7 @@ export default class Login extends Component {
 								placeholderTextColor="#ffffff"
 								selectionColor={variables.colorPrimaryRGBA}
 								placeholder={t.form.email}
-								onChangeText={(value) => this.setFrom('email', value)}
+								onChangeText={(value) => this.setForm('email', value)}
 								value={this.state.form.email}
 							/>
 						</View>
@@ -152,7 +148,7 @@ export default class Login extends Component {
 								placeholder={t.form.password}
 								placeholderTextColor="#ffffff"
 								secureTextEntry={true}
-								onChangeText={(value) => this.setFrom('password', value)}
+								onChangeText={(value) => this.setForm('password', value)}
 								value={this.state.form.password}
 							/>
 						</View>
@@ -165,18 +161,6 @@ export default class Login extends Component {
 					</Animated.View>
 
 					<Animated.View style={[styles.center, styles.mt1, this.fadeIn(1500, 20)]}>
-						<View style={[styles.cols, styles.lngButtons]}>
-						  <TouchableOpacity
-						    onPress={() => this._setLanguage('ru')}
-						    style={[]}>
-						    <Text style={[styles.white, styles.textMD, this.state.language == 'ru' ? {} : styles.opacity50]}>RU</Text>
-						  </TouchableOpacity>
-						  <TouchableOpacity
-						    onPress={() => this._setLanguage('uk')}
-						    style={[]}>
-						    <Text style={[styles.white, styles.textMD, this.state.language == 'uk' ? {} : styles.opacity50]}>UA</Text>
-						  </TouchableOpacity>
-						</View>
 
 						<TouchableOpacity
 							onPress={() => this._submit()}
