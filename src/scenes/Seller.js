@@ -1,9 +1,5 @@
 import React, { Component } from 'react';
 import {
-	Platform,
-	BackAndroid,
-	Linking,
-	Dimensions,
 	AsyncStorage,
 	View,
 	Text,
@@ -23,6 +19,7 @@ import t from './../Translations';
 import d from './../Data';
 import settings from './../Settings';
 
+
 var backgroundImage = require('./../images/bg/root.jpg');
 
 export default class Seller extends Component {
@@ -30,6 +27,7 @@ export default class Seller extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+			language: this.props.lang,
 			seller: {},
 			month: 0,
 			total: 0,
@@ -55,9 +53,7 @@ export default class Seller extends Component {
 		fetch(settings.api.seller, {
 			method: "GET",
 			headers: {
-				'Accept': 'application/json',
-				'Content-Type': 'application/json',
-				'Authorization': 'Bearer ' + token
+				'Authorization': token
 			}
 		})
 		.then((response) => response.json())
@@ -75,9 +71,7 @@ export default class Seller extends Component {
 		fetch(settings.api.bonuses, {
 			method: "GET",
 			headers: {
-				'Accept': 'application/json',
-				'Content-Type': 'application/json',
-				'Authorization': 'Bearer ' + token
+				'Authorization': token
 			}
 		})
 		.then((response) => response.json())
@@ -127,6 +121,31 @@ export default class Seller extends Component {
 		});
 	}
 
+	_payMonth(index){
+		fetch(settings.api.success, {
+			method: "POST",
+			headers: {
+				'Authorization': token
+			},
+			body: settings.serialize({
+				month: this.state.bonuses.monthly[index].month,
+			})
+		})
+		.then((response) => response.json())
+		.then((data) => {
+			if(data.status == "success"){
+				var bonuses = this.state.bonuses;
+				bonuses.monthly[index].status = "paid";
+				this.setState({
+					bonuses: bonuses
+				});
+			}else{
+				Alert.alert(t.error.error, JSON.stringify(data));
+			}
+		})
+		.done();
+	}
+
 
 	_selectMonth(index){
 		this.setState({
@@ -135,14 +154,15 @@ export default class Seller extends Component {
 		this.prepareChart(index);
 	}
 
-	_payMonth(month){
+	_payMonthAction(index){
+		var month = this.state.bonuses.monthly[index].month;
 		var monthName = d.months[parseInt(month)];
 		Alert.alert(
-		  'Подтвердите действие',
-		  'Вы подтверждаете списание бонусов за '+monthName+'?',
+		  t.message.confirmAction,
+		  t.message.payConfirm+" "+monthName+"?",
 		  [
-		    {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
-		    {text: 'OK', onPress: () => console.log('OK Pressed')},
+		    {text: t.message.no, onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+		    {text: t.message.yes, onPress: () => this._payMonth(month)},
 		  ],
 		  { cancelable: false }
 		)
@@ -151,6 +171,7 @@ export default class Seller extends Component {
 
 
 	render() {
+		
 		var selectedMonth = this.state.bonuses.monthly[this.state.selectedMonth];
 		return (
 			<View style={styles.scene}>
@@ -242,7 +263,7 @@ export default class Seller extends Component {
 											<View>
 												<TouchableOpacity
 													style={[styles.btn, styles.btnDefault, styles.btnPrimary]}
-													onPress={() => this._payMonth(item.month)}>
+													onPress={() => this._payMonthAction(index)}>
 													<Text style={[styles.white, styles.inputText]}>{t.btn.pay}</Text>
 												</TouchableOpacity>
 											</View>

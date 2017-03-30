@@ -1,9 +1,5 @@
 import React, { Component } from 'react';
 import {
-	Platform,
-	BackAndroid,
-	Linking,
-	Dimensions,
 	AsyncStorage,
 	ScrollView,
 	View,
@@ -20,7 +16,7 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
-import variables from './../theme/variables.js';
+//import variables from './../theme/variables.js';
 import styles from './../theme/styles.js';
 import t from './../Translations';
 import data from './../Data';
@@ -32,6 +28,7 @@ export default class Settings extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+			language: this.props.lang,
 			form: this.props.data
 			/*form: {
 				name: '',
@@ -80,30 +77,36 @@ export default class Settings extends Component {
 		}
 	}
 
+	fetch(token){
+		fetch(settings.api.success, {
+			method: "POST",
+			headers: {
+				'Authorization': token,
+				'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
+			},
+			body: settings.serialize(this.state.form)
+		})
+		.then((response) => response.json())
+		.then((data) => {
+			if(data.status == 'success'){
+				Alert.alert(t.done, 'success', [{text: 'OK', onPress: () => this.navigate('root')}]);
+			}else{
+				Alert(t.error.error, data.message);
+			}
+		})
+		.done();
+	}
+
 	_submit() {
-		if(this.valid()){
-			fetch(settings.api.success, {
-				method: "POST",
-				headers: {
-					'Accept': 'application/json',
-					'Content-Type': 'application/json'
-				},
-				body: JSON.stringify(this.state.form)
-			})
-			.then((response) => response.json())
-			.then((data) => {
-				if(data.status == 'success'){
-					Alert.alert(t.done, 'success', [{text: 'OK', onPress: () => this.navigate('root')}]);
-				}else{
-					Alert(t.error.error, data.message);
-				}
-			})
-			.done();
+		if(this.valid){
+			AsyncStorage.getItem('access_token',(error, result) => {
+				this.fetch(result);
+			});
 		}
 	}
 
 	render() {
-
+		
 		return (
 			<View style={styles.scene}>
 				<View style={[styles.header, styles.shadow]}>
@@ -183,7 +186,7 @@ export default class Settings extends Component {
 								}, this)}
 							</Picker>
 						</View>
-	
+
 						<Text style={styles.inputLabel}>{t.form.position}</Text>
 						<View style={[styles.textInput, styles.inputPickerDefault, styles.inputOffsetB]}>
 							<Picker

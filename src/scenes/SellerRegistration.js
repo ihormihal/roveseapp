@@ -1,9 +1,5 @@
 import React, { Component } from 'react';
 import {
-	Platform,
-	BackAndroid,
-	Linking,
-	Dimensions,
 	AsyncStorage,
 	ScrollView,
 	View,
@@ -13,7 +9,6 @@ import {
 	StatusBar,
 	Animated,
 	TextInput,
-	TouchableHighlight,
 	TouchableOpacity,
 	Picker,
 	Item,
@@ -21,16 +16,18 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
-import variables from './../theme/variables.js';
+//import variables from './../theme/variables.js';
 import styles from './../theme/styles.js';
 import t from './../Translations';
 import data from './../Data';
+
 
 export default class SellerRegistration extends Component {
 
 	constructor(props) {
 		super(props);
 		this.state = {
+			language: this.props.lang,
 			form: {
 				name: '',
 				surname: '',
@@ -79,12 +76,10 @@ export default class SellerRegistration extends Component {
 			fetch('http://rovese.jaya-test.com/api/seller_registration', {
 				method: "POST",
 				headers: {
-					'Accept': 'application/json',
-					'Content-Type': 'application/json'
+					'Authorization': token,
+					'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
 				},
-				body: JSON.stringify({
-					email: this.state.form.reset
-				})
+				body: settings.serialize(this.state.form)
 			})
 			.then((response) => response.json())
 			.then((data) => {
@@ -97,7 +92,7 @@ export default class SellerRegistration extends Component {
 	}
 
 	render() {
-
+		
 		return (
 			<View style={styles.scene}>
 				<View style={[styles.header, styles.shadow]}>

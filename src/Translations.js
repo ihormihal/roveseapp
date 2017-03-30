@@ -14,7 +14,7 @@ translations.ru = {
 	regRulesAgreement_1: "Регистрируясь в Retail Club, вы принимаете",
 	regRulesAgreement_2: "Правила пользования и зашиты информации",
 	registrationDate: "Дата регистрации",
-	
+
 
 	title: {
 		about: "О приложении",
@@ -83,6 +83,7 @@ translations.ru = {
 		email: "Неверный формат E-mail",
 		empty: "Заполните обязательные поля",
 		passwordConfirm: "Пароли не совпадают",
+		phone: "Номер телефона должен состоять минимум из 12 символов"
 	},
 
 	message: {
@@ -90,7 +91,11 @@ translations.ru = {
 		dataSent: "Ваши данные отправлены на валидацию.",
 		messageSent: "Ваше сообщение отправлено!",
 		passwordResetSuccess: "На Ваш почтовый ящик отправлено письмо с новым паролем!",
-		success: ""
+		success: "" ,
+		confirmAction: "Подтвердите операцию",
+		payConfirm: "Вы подтверждаете списание бонусов за",
+		yes: "Да",
+		no: "Нет"
 	},
 
 	menu: {
@@ -227,6 +232,7 @@ translations.uk = {
 		email: "Неправильний формат E-mail",
 		empty: "Заповніть обов'язкові поля",
 		passwordConfirm: "Паролі не збігаються",
+		phone: "Номер телефона повинен містити мінімум 12 символів"
 	},
 
 	message: {
@@ -234,7 +240,11 @@ translations.uk = {
 		dataSent: "Ваші дані відправлені на валідацію.",
 		messageSent: "Ваше повідомлення надіслано!",
 		passwordResetSuccess: "На Вашу поштову скриньку відправлено лист з новим паролем!",
-		success: ""
+		success: "",
+		confirmAction: "Підтвердіть операцію",
+		payConfirm: "Ви підтверджуєте списання бонусів за",
+		yes: "Так",
+		no: "Ні"
 	},
 
 	menu: {
@@ -292,5 +302,19 @@ translations.uk = {
 };
 
 translations.en = translations.ru;
+
+// var language = 'ru';
+
+// async function getLang(){
+//     try{
+//         language = await AsyncStorage.getItem('language');
+//         return language;
+//     }
+//     catch(error){
+//         // Handle exceptions
+//     }
+// }
+
+// export default translations[language];
 
 export default new LocalizedStrings(translations);

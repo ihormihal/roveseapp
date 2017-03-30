@@ -1,9 +1,5 @@
 import React, { Component } from 'react';
 import {
-	Platform,
-	BackAndroid,
-	Linking,
-	Dimensions,
 	AsyncStorage,
 	ScrollView,
 	View,
@@ -13,7 +9,6 @@ import {
 	StatusBar,
 	Animated,
 	TextInput,
-	TouchableHighlight,
 	TouchableOpacity,
 	Picker,
 	Item,
@@ -21,17 +16,20 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
-import variables from './../theme/variables.js';
+//import variables from './../theme/variables.js';
 import styles from './../theme/styles.js';
 import t from './../Translations';
 import data from './../Data';
 import settings from './../Settings';
+
+
 
 export default class SellerEdit extends Component {
 
 	constructor(props) {
 		super(props);
 		this.state = {
+			language: this.props.lang,
 			form: this.props.data,
 
 			// form: {
@@ -78,32 +76,36 @@ export default class SellerEdit extends Component {
 		}
 	}
 
+	fetch(token){
+		fetch(settings.api.success, {
+			method: "POST",
+			headers: {
+				'Authorization': token,
+				'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
+			},
+			body: settings.serialize(this.state.form)
+		})
+		.then((response) => response.json())
+		.then((data) => {
+			if(data.status == "success"){
+				this.props.navigator.pop();
+			}else{
+				Alert.alert(t.error.error, data.message);
+			}
+		})
+		.done();
+	}
+
 	_submit() {
 		if(this.valid){
-			fetch(settings.api.success, {
-				method: "POST",
-				headers: {
-					'Accept': 'application/json',
-					'Content-Type': 'application/json'
-				},
-				body: JSON.stringify({
-					email: this.state.form.reset
-				})
-			})
-			.then((response) => response.json())
-			.then((data) => {
-				if(data.status == "success"){
-					this.props.navigator.pop();
-				}else{
-					Alert.alert(t.error.error, data.message);
-				}
-			})
-			.done();
+			AsyncStorage.getItem('access_token',(error, result) => {
+				this.fetch(result);
+			});
 		}
 	}
 
 	render() {
-
+		
 		return (
 			<View style={styles.scene}>
 				<View style={[styles.header, styles.shadow]}>

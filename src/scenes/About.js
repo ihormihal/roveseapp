@@ -1,26 +1,18 @@
 import React, { Component } from 'react';
 import {
-	Platform,
-	BackAndroid,
-	Linking,
-	Dimensions,
 	AsyncStorage,
 	View,
 	Text,
-	Alert,
 	Image,
-	StatusBar,
-	Animated,
-	TextInput,
-	TouchableHighlight,
 	TouchableOpacity,
 	Keyboard
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
-import variables from './../theme/variables.js';
+//import variables from './../theme/variables.js';
 import styles from './../theme/styles.js';
 import t from './../Translations';
+
 
 var backgroundImage = require('./../images/bg/service.jpg');
 
@@ -28,6 +20,9 @@ export default class About extends Component {
 
 	constructor(props) {
 		super(props);
+		this.state = {
+			language: this.props.lang,
+		}
 	};
 
 	navigate(routeName, routeData) {
@@ -39,6 +34,7 @@ export default class About extends Component {
 	}
 
 	render() {
+		
 		return (
 			<Image
 				style={[styles.scene, styles.background]}

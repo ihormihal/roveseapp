@@ -1,18 +1,14 @@
 import React, { Component } from 'react';
 import {
-	Platform,
-	BackAndroid,
-	Linking,
-	Dimensions,
 	AsyncStorage,
+	StatusBar,
+	Animated,
 	View,
 	ScrollView,
 	ViewPagerAndroid,
 	Text,
 	Alert,
 	Image,
-	StatusBar,
-	Animated,
 	TextInput,
 	TouchableNativeFeedback,
 	TouchableOpacity,
@@ -25,6 +21,7 @@ import variables from './../theme/variables.js';
 import styles from './../theme/styles.js';
 import t from './../Translations';
 import settings from './../Settings';
+
 
 var rippleBg = TouchableNativeFeedback.Ripple(variables.colorRipple);
 
@@ -62,6 +59,7 @@ export default class Root extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+			language: this.props.lang,
 			pagOffset: 0,
 			pagWidth: variables.pagSize,
 			user: {id: null, name: "", surname: ""},
@@ -102,25 +100,32 @@ export default class Root extends Component {
 	}
 
 	fetch(token) {
-		fetch(settings.api.user, {
+		fetch(settings.api.profile, {
 			method: "GET",
 			headers: {
-				'Accept': 'application/json',
-				'Content-Type': 'application/json',
-				'Authorization': 'Bearer ' + token
+				'Authorization': 'Bearer '+token
 			}
 		})
 		.then((response) => response.json())
 		.then((data) => {
 			if(data.status == "success"){
+				var profile = {
+					id: data.data.id,
+					email: data.data.email,
+					name: data.data.first_name,
+					surname: data.data.last_name,
+					phone: data.data.phone_number,
+					region: parseInt(data.data.region),
+					position: parseInt(data.data.position)
+				};
 				var menu = this.state.menu;
-				menu[3].data = data.data;
+				menu[3].data = profile; //bind user data to settings
 				this.setState({
-					user: data.data,
+					user: profile,
 					menu: this.state.menu,
 				})
 			}else{
-				Alert(t.error.error, data.message);
+				Alert.alert(t.error.error, JSON.stringify(data));
 			}
 		})
 		.done();
@@ -164,6 +169,7 @@ export default class Root extends Component {
 	};
 
 	render() {
+		
 		var Drawer = (
 			<View style={styles.drawer}>
 				<View style={[styles.drawerSection, styles.drawerSectionTop]}>
@@ -214,7 +220,7 @@ export default class Root extends Component {
 				renderNavigationView={() => Drawer}
 				ref={'DRAWER'}>
 
-				<StatusBar backgroundColor={variables.colorPrimaryDark} />
+				<StatusBar translucent={false} backgroundColor={variables.colorPrimaryDark} />
 
 				<Image
 					style={[styles.scene, styles.background]}

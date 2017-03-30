@@ -1,23 +1,18 @@
 import React, { Component } from 'react';
 import {
-	Platform,
-	BackAndroid,
-	Linking,
-	Dimensions,
 	AsyncStorage,
+	Animated,
 	View,
 	Text,
 	Alert,
 	Image,
-	StatusBar,
-	Animated,
 	TextInput,
 	TouchableOpacity,
 	ViewPagerAndroid,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
-import variables from './../theme/variables.js';
+//import variables from './../theme/variables.js';
 import styles from './../theme/styles.js';
 import t from './../Translations';
 
@@ -51,6 +46,7 @@ export default class Presentation extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+			language: this.props.lang,
 			activeTab: 0,
 			tabWidth: 100/slides.length,
 			tabOffset: 0,
@@ -87,7 +83,7 @@ export default class Presentation extends Component {
 	}
 
 	render() {
-
+		
 		var tabIndicator = {
 			width: this.state.tabWidth + '%',
 			height: 2,

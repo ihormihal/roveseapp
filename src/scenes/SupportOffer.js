@@ -1,9 +1,5 @@
 import React, { Component } from 'react';
 import {
-	Platform,
-	BackAndroid,
-	Linking,
-	Dimensions,
 	AsyncStorage,
 	View,
 	Text,
@@ -12,16 +8,16 @@ import {
 	StatusBar,
 	Animated,
 	TextInput,
-	TouchableHighlight,
 	TouchableOpacity,
 	Keyboard
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
-import variables from './../theme/variables.js';
+//import variables from './../theme/variables.js';
 import styles from './../theme/styles.js';
 import t from './../Translations';
 import settings from './../Settings';
+
 
 var backgroundImage = require('./../images/bg/root.jpg');
 
@@ -30,6 +26,7 @@ export default class SupportOffer extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+			language: this.props.lang,
 			form: {
 				subject: '',
 				message: ''
@@ -63,31 +60,36 @@ export default class SupportOffer extends Component {
 		return false;
 	}
 
-	_submit(){
-		if(this.valid()){
-			fetch(settings.api.success, {
-				method: "POST",
-				headers: {
-					'Accept': 'application/json',
-					'Content-Type': 'application/json'
-				},
-				body: JSON.stringify({
-					email: this.state.form.reset
-				})
-			})
-			.then((response) => response.json())
-			.then((data) => {
-				if(data.status == "success"){
-					Alert(t.message.done, t.message.messageSent);
-				}else{
-					Alert(t.error.error, data.message);
-				}
-			})
-			.done();
+	fetch(token){
+		fetch(settings.api.success, {
+			method: "POST",
+			headers: {
+				'Authorization': token,
+				'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
+			},
+			body: settings.serialize(this.state.form)
+		})
+		.then((response) => response.json())
+		.then((data) => {
+			if(data.status == "success"){
+				Alert(t.message.done, t.message.messageSent);
+			}else{
+				Alert(t.error.error, data.message);
+			}
+		})
+		.done();
+	}
+
+	_submit() {
+		if(this.valid){
+			AsyncStorage.getItem('access_token',(error, result) => {
+				this.fetch(result);
+			});
 		}
 	}
 
 	render() {
+		
 		return (
 			<Image
 				style={[styles.scene, styles.background]}

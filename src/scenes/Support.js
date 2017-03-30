@@ -1,9 +1,5 @@
 import React, { Component } from 'react';
 import {
-	Platform,
-	BackAndroid,
-	Linking,
-	Dimensions,
 	AsyncStorage,
 	View,
 	Text,
@@ -12,14 +8,14 @@ import {
 	StatusBar,
 	Animated,
 	TextInput,
-	TouchableHighlight,
 	TouchableOpacity,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
-import variables from './../theme/variables.js';
+//import variables from './../theme/variables.js';
 import styles from './../theme/styles.js';
 import t from './../Translations';
+
 
 var backgroundImage = require('./../images/bg/service.jpg');
 
@@ -28,6 +24,7 @@ export default class Support extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+      language: this.props.lang,
 			email: '',
 			phone: ''
 		};
@@ -41,6 +38,7 @@ export default class Support extends Component {
 	}
 
 	render() {
+		
 		return (
 			<Image
 				style={[styles.scene, styles.background]}

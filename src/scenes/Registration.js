@@ -1,19 +1,12 @@
 import React, { Component } from 'react';
 import {
-	Platform,
-	BackAndroid,
-	Linking,
-	Dimensions,
 	AsyncStorage,
 	ScrollView,
 	View,
 	Text,
 	Alert,
 	Image,
-	StatusBar,
-	Animated,
 	TextInput,
-	TouchableHighlight,
 	TouchableOpacity,
 	Picker,
 	Item,
@@ -21,16 +14,19 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
-import variables from './../theme/variables.js';
+//import variables from './../theme/variables.js';
 import styles from './../theme/styles.js';
 import t from './../Translations';
 import data from './../Data';
+import settings from './../Settings';
+
 
 export default class Registration extends Component {
 
 	constructor(props) {
 		super(props);
 		this.state = {
+			language: this.props.lang,
 			form: {
 				name: '',
 				surname: '',
@@ -71,6 +67,9 @@ export default class Registration extends Component {
 			if(this.state.form.email.indexOf('@') == -1){
 				Alert.alert(t.error.error, t.error.email);
 				return false;
+			}else if(this.state.form.phone.length < 12){
+				Alert.alert(t.error.error, t.error.phone);
+				return false;
 			}else if(this.state.form.password !== this.state.form.passwordConfirm){
 				Alert.alert(t.error.error, t.error.passwordConfirm);
 				return false;
@@ -84,20 +83,30 @@ export default class Registration extends Component {
 
 	_submit() {
 		if(this.valid()){
-			fetch('https://raw.githubusercontent.com/ihormihal/roveseapp/master/api/success.json', {
+			var formData = {
+				firstName: this.state.form.name,
+				lastName: this.state.form.surname,
+				middleName: this.state.form.middleName,
+				email: this.state.form.email,
+				plainPassword: this.state.form.password,
+				region: this.state.form.region,
+				position: this.state.form.position,
+				phoneNumber: this.state.form.phone,
+			};
+			fetch(settings.api.registration, {
 				method: "POST",
 				headers: {
-					'Accept': 'application/json',
-					'Content-Type': 'application/json'
+					'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
 				},
-				body: JSON.stringify(this.state.form)
+				body: settings.serialize(formData)
 			})
 			.then((response) => response.json())
 			.then((data) => {
+				//{msg, token}
 				if(data.status == "success"){
 					Alert.alert(t.message.done, t.message.dataSent, [{text: 'OK', onPress: () => this.navigate('login')}]);
 				}else{
-					Alert(t.error.error, data.message);
+					Alert.alert(t.error.error, JSON.stringify(data));
 				}
 			})
 			.done();
@@ -105,7 +114,7 @@ export default class Registration extends Component {
 	}
 
 	render() {
-
+		
 		return (
 			<View style={styles.scene}>
 				<View style={[styles.header, styles.shadow]}>

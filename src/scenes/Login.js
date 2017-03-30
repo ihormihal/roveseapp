@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
 import {
-	Platform,
 	BackAndroid,
-	Linking,
-	Dimensions,
 	AsyncStorage,
 	View,
 	Text,
@@ -13,7 +10,6 @@ import {
 	StatusBar,
 	Animated,
 	TextInput,
-	TouchableHighlight,
 	TouchableOpacity,
 } from 'react-native'
 
@@ -27,15 +23,18 @@ var backgroundImage = require('./../images/bg/login.jpg');
 
 export default class Login extends Component {
 
-	constructor() {
-		super();
+	constructor(props) {
+		super(props);
 		this.state = {
+			language: this.props.lang,
+			setlang: this.props.setlang,
 			anim: new Animated.Value(0),
 			form: {
-				email: 'testuser',
+				email: 'zlata@tits.com',
 				password: 'Pass1234'
 			}
 		};
+		//this._setLanguage = this.props.setlang;
 	};
 
 	setForm(key, value) {
@@ -68,6 +67,16 @@ export default class Login extends Component {
 		});
 	}
 
+	_setLanguage(lng){
+		this.setState({
+			language: lng
+		});
+		AsyncStorage.setItem('language', lng, () => {
+			//success
+			//this.forceUpdate();
+		});
+	}
+
 	valid() {
 		return true;
 	}
@@ -83,21 +92,19 @@ export default class Login extends Component {
 			fetch(settings.api.login, {
 				method: "POST",
 				headers: {
-					'Accept': 'application/json',
-					'Content-Type': 'application/json'
+					'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
 				},
-				body: JSON.stringify(this.state.form)
+				body: settings.serialize(this.state.form)
 			})
 			.then((response) => response.json())
 			.then((data) => {
-				if(data.status == "success"){
+				if(data.token){
 					//save token
-					var token = data.data.token;
-					AsyncStorage.setItem('access_token', token, () => {
+					AsyncStorage.setItem('access_token', data.token, () => {
 						this.navigate('root');
 					});
 				}else{
-					Alert.alert(t.error.error, data.message);
+					Alert.alert(t.error.error, JSON.stringify(data));
 				}
 			})
 			.done();
@@ -107,11 +114,12 @@ export default class Login extends Component {
 	//http://192.168.1.11:3001/sessions/create
 
 	render() {
+		
 		return (
 			<Image
 				style={[styles.scene, styles.background, styles.container, styles.center]}
 				source={backgroundImage}>
-				<StatusBar backgroundColor={variables.colorPrimaryDark} />
+				<StatusBar translucent={false} backgroundColor={variables.colorPrimaryDark} />
 
 				<View style={styles.section}>
 					<Animated.Image
@@ -157,6 +165,19 @@ export default class Login extends Component {
 					</Animated.View>
 
 					<Animated.View style={[styles.center, styles.mt1, this.fadeIn(1500, 20)]}>
+						<View style={[styles.cols, styles.lngButtons]}>
+						  <TouchableOpacity
+						    onPress={() => this._setLanguage('ru')}
+						    style={[]}>
+						    <Text style={[styles.white, styles.textMD, this.state.language == 'ru' ? {} : styles.opacity50]}>RU</Text>
+						  </TouchableOpacity>
+						  <TouchableOpacity
+						    onPress={() => this._setLanguage('uk')}
+						    style={[]}>
+						    <Text style={[styles.white, styles.textMD, this.state.language == 'uk' ? {} : styles.opacity50]}>UA</Text>
+						  </TouchableOpacity>
+						</View>
+
 						<TouchableOpacity
 							onPress={() => this._submit()}
 							style={[styles.buttonCircle, styles.mt2]}>

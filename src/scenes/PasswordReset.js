@@ -1,35 +1,28 @@
 import React, { Component } from 'react';
 import {
-	Platform,
-	BackAndroid,
-	Linking,
-	Dimensions,
 	AsyncStorage,
 	View,
 	Text,
 	Alert,
 	Image,
-	StatusBar,
-	Animated,
 	TextInput,
-	TouchableHighlight,
 	TouchableOpacity,
 	Keyboard
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
-import variables from './../theme/variables.js';
+//import variables from './../theme/variables.js';
 import styles from './../theme/styles.js';
 import t from './../Translations';
 import settings from './../Settings';
 
-import { InputText } from './../components/Form';
 
 export default class PasswordReset extends Component {
 
 	constructor(props) {
 		super(props);
 		this.state = {
+			language: this.props.lang,
 			form: {
 				email: ''
 			}
@@ -73,12 +66,9 @@ export default class PasswordReset extends Component {
 			fetch(settings.api.success, {
 				method: "POST",
 				headers: {
-					'Accept': 'application/json',
-					'Content-Type': 'application/json'
+					'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
 				},
-				body: JSON.stringify({
-					email: this.state.form.reset
-				})
+				body: settings.serialize(this.state.form)
 			})
 			.then((response) => response.json())
 			.then((data) => {
@@ -97,6 +87,7 @@ export default class PasswordReset extends Component {
 	}
 
 	render() {
+		
 		return (
 			<View style={styles.scene}>
 				<View style={[styles.header, styles.shadow]}>

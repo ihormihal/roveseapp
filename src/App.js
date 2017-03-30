@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { AppRegistry, AsyncStorage, Alert, View, Navigator, TouchableOpacity, Text } from 'react-native';
 
+import Splash from './scenes/Splash';
 import Login from './scenes/Login';
 import PasswordReset from './scenes/PasswordReset';
 import Registration from './scenes/Registration';
@@ -23,35 +24,40 @@ export default class App extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+			language: 'uk',
 			initialRoute: 'login',
 			isLoading: true
 		}
 	};
+
+	setLng(value){
+		this.setState({language: 'ru'});
+	}
 
 	navScene(route, navigator) {
 		if(route.name == 'login'){
 			return (<Login navigator={navigator} />);
 		}
 		if(route.name == 'password-reset'){
-			return (<PasswordReset navigator={navigator} data={route.data} />);
+			return (<PasswordReset navigator={navigator} />);
 		}
 		if(route.name == 'registration'){
-			return (<Registration navigator={navigator} data={route.data} />);
+			return (<Registration navigator={navigator} />);
 		}
 		if(route.name == 'rules'){
-			return (<Rules navigator={navigator} data={route.data} />);
+			return (<Rules navigator={navigator} />);
 		}
 		if(route.name == 'root'){
-			return (<Root navigator={navigator} />);
+			return (<Root navigator={navigator} lang={'ru'} />);
 		}
 		if(route.name == 'presentation'){
-			return (<Presentation navigator={navigator} data={route.data} />);
+			return (<Presentation navigator={navigator} />);
 		}
 		if(route.name == 'seller-registration'){
-			return (<SellerRegistration navigator={navigator} data={route.data} />);
+			return (<SellerRegistration navigator={navigator} />);
 		}
 		if(route.name == 'statistics'){
-			return (<Statistics navigator={navigator} data={route.data} />);
+			return (<Statistics navigator={navigator} />);
 		}
 		if(route.name == 'seller'){
 			return (<Seller navigator={navigator} data={route.data} />);
@@ -60,16 +66,16 @@ export default class App extends Component {
 			return (<SellerEdit navigator={navigator} data={route.data} />);
 		}
 		if(route.name == 'support'){
-			return (<Support navigator={navigator} data={route.data} />);
+			return (<Support navigator={navigator} />);
 		}
 		if(route.name == 'support-offer'){
-			return (<SupportOffer navigator={navigator} data={route.data} />);
+			return (<SupportOffer navigator={navigator} />);
 		}
 		if(route.name == 'support-error'){
-			return (<SupportError navigator={navigator} data={route.data} />);
+			return (<SupportError navigator={navigator} />);
 		}
 		if(route.name == 'about'){
-			return (<About navigator={navigator} data={route.data} />);
+			return (<About navigator={navigator} />);
 		}
 		if(route.name == 'settings'){
 			return (<Settings navigator={navigator} data={route.data} />);
@@ -77,11 +83,16 @@ export default class App extends Component {
 	}
 
 	componentWillMount() {
+		AsyncStorage.getItem('language', (error, language) => {
+			this.setState({language: language});
+		});
 		AsyncStorage.getItem('access_token', (error, token) => {
-			this.setState({
-				initialRoute: (token ? 'root' : 'login'),
-				isLoading: false
-			});
+			setTimeout(() => {
+				this.setState({
+					initialRoute: (token ? 'root' : 'login'),
+					isLoading: false
+				});
+			},1000);
 		})
 	}
 
@@ -98,7 +109,7 @@ export default class App extends Component {
 
 	render() {
 		if(this.state.isLoading) {
-			return <View><Text>Loading...</Text></View>;
+			return <Splash/>;
 		}
 		return (
 			<Navigator
