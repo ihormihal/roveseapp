@@ -1,3 +1,9 @@
+<TouchableOpacity
+              onPress={() => this.navigate('password-reset')}>
+              <Text style={[ styles.white, styles.opacity50, styles.textSM, styles.textCenter ]}>{t.btn.forgotPassword}</Text>
+            </TouchableOpacity>
+
+
 <View style={[styles.cols, styles.lngButtons]}>
   <TouchableOpacity
     onPress={() => {}}
@@ -10,3 +16,7 @@
     <Text style={[styles.white, styles.textMD, styles.opacity50]}>UA</Text>
   </TouchableOpacity>
 </View>
+
+
+
+

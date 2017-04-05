@@ -43,8 +43,7 @@ export default class About extends Component {
 					<View style={styles.headerLeft}>
 						<TouchableOpacity
 							style={styles.btn}
-							onPress={() => this.props.navigator.pop()}
-							activeOpacity={75 / 50}>
+							onPress={() => this.props.navigator.pop()}>
 							<Icon style={[styles.btnIcon, styles.primary]} size={20} name="arrow-back"/>
 							<Text style={[styles.textSM, styles.primary]}>{t.btn.back}</Text>
 						</TouchableOpacity>
@@ -63,7 +62,7 @@ export default class About extends Component {
 				</View>
 				<View style={[styles.container, styles.center, styles.whiteBg]}>
 					<Text style={[styles.textLG, styles.mb1]}>ROVESE RETAIL CLUB</Text>
-					<Text style={styles.textXS}>Version: 1.0.0</Text>
+					<Text style={styles.textXS}>Version: 0.2.9</Text>
 					<View style={styles.hr} />
 					<Text style={styles.textSM}><Icon name="copyright" /> {t.copyright}</Text>
 				</View>

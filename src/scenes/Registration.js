@@ -63,8 +63,8 @@ export default class Registration extends Component {
 	//http://192.168.1.11:3001/sessions/create
 
 	valid() {
-		if(this.state.form.name && this.state.form.surname && this.state.form.middleName && this.state.form.email && this.state.form.phone && this.state.form.password && this.state.form.passwordConfirm){
-			if(this.state.form.email.indexOf('@') == -1){
+		if(this.state.form.name && this.state.form.surname && this.state.form.email && this.state.form.phone && this.state.form.password && this.state.form.passwordConfirm){
+			if(!settings.valid.email(this.state.form.email)){
 				Alert.alert(t.error.error, t.error.email);
 				return false;
 			}else if(this.state.form.phone.length !== 12){
@@ -96,15 +96,18 @@ export default class Registration extends Component {
 				position: this.state.form.position,
 				phoneNumber: this.state.form.phone,
 			};
+			//console.log(settings.serialize(formData));
 			fetch(settings.domain+'/api/register', {
 				method: "POST",
 				headers: {
-					'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
+					'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8',
+					'Cookie': null
 				},
 				body: settings.serialize(formData)
 			})
 			.then((response) => response.json())
 			.then((data) => {
+				//console.log(data);
 				//{msg, token}
 				if(data.token){
 					Alert.alert(t.message.done, t.message.dataSent, [{text: 'OK', onPress: () => this.navigate('login')}]);
@@ -112,11 +115,20 @@ export default class Registration extends Component {
 					if(data.code && data.message){
 						Alert.alert(t.error.error, t.message.errorCode+': '+data.code+'\n'+t.message.errorDescription+': '+data.message);
 					}else{
-						Alert.alert(t.error.error, t.error.serverError);
+						let errors = data.data.children;
+						if(errors.phone && errors.phone.errors){
+							Alert.alert(t.error.error, t.error.phoneUsed);
+						}else if(errors.email && errors.email.errors){
+							Alert.alert(t.error.error, t.error.emailUsed);
+						}else{
+							Alert.alert(t.error.error, t.error.serverError);
+						}
 					}
 				}
 			})
-			.done();
+			.catch((error) => {
+				Alert.alert(t.error.error, t.error.offline);
+			});
 		}
 	}
 
@@ -159,6 +171,7 @@ export default class Registration extends Component {
 									style={[ styles.textInputInput ]}
 									underlineColorAndroid='transparent'
 									placeholder={t.form.name}
+									autoCorrect={false}
 									onChangeText={(value) => this.setForm('name', value)}
 									value={this.state.form.name}
 								/>
@@ -180,6 +193,7 @@ export default class Registration extends Component {
 								style={[ styles.textInputInput ]}
 								underlineColorAndroid='transparent'
 								placeholder={t.form.middleName}
+								autoCorrect={false}
 								onChangeText={(value) => this.setForm('middleName', value)}
 								value={this.state.form.middleName}
 							/>
@@ -197,6 +211,7 @@ export default class Registration extends Component {
 								style={[ styles.textInputInput ]}
 								underlineColorAndroid='transparent'
 								placeholder={t.form.email}
+								keyboardType="email-address"
 								onChangeText={(value) => this.setForm('email', value)}
 								value={this.state.form.email}
 							/>
@@ -235,6 +250,7 @@ export default class Registration extends Component {
 								style={[ styles.textInputInput ]}
 								underlineColorAndroid='transparent'
 								placeholder={t.form.phoneNumber}
+								keyboardType='phone-pad'
 								onChangeText={(value) => this.setForm('phone', value)}
 								value={this.state.form.phone}
 							/>
@@ -269,7 +285,7 @@ export default class Registration extends Component {
 						</View>
 
 
-						<View style={[styles.center]}>
+						<View style={[styles.center, styles.last]}>
 							<TouchableOpacity
 								onPress={() => this._submit()}
 								style={[styles.btn, styles.btnDefault, styles.btnPrimary]}>

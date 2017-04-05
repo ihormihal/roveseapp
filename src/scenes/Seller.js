@@ -60,6 +60,7 @@ export default class Seller extends Component {
 		})
 		.then((response) => response.json())
 		.then((data) => {
+
 			if(data.status == "success"){
 
 				var dt = data.data.created_at.substring(0, 10).split('-');
@@ -78,11 +79,18 @@ export default class Seller extends Component {
 					tradePoint: data.data.trade_point,
 					certificate: data.data.certificate
 				}
+				var bonuses = {total: 0, monthly: []};
+				bonuses.total = data.data.balance_per_months.total;
+				bonuses.monthly = data.data.balance_per_months.monthly;
+				/*for(var m in this.state.bonuses.monthly){
+					bonuses.monthly.push(this.state.bonuses.monthly[m]);
+				}*/
+				console.log(bonuses);
 				this.setState({
 					seller: seller,
-					bonuses: data.data.balance_per_months
+					bonuses: bonuses
 				});
-				if(this.state.bonuses.monthly.length){
+				if(bonuses.monthly.length){
 					this.prepareChart(this.state.selectedMonth);
 				}
 			}else{
@@ -93,7 +101,9 @@ export default class Seller extends Component {
 				}
 			}
 		})
-		.done();
+		.catch((error) => {
+				Alert.alert(t.error.error, t.error.offline);
+			});
 
 		/*fetch(settings.api.bonuses, {
 			method: "GET",
@@ -112,7 +122,9 @@ export default class Seller extends Component {
 				Alert.alert(t.error.error, JSON.stringify(data));
 			}
 		})
-		.done();*/
+		.catch((error) => {
+				Alert.alert(t.error.error, t.error.offline);
+			});*/
 	}
 
 
@@ -174,7 +186,9 @@ export default class Seller extends Component {
 				Alert.alert(t.error.error, JSON.stringify(data));
 			}
 		})
-		.done();
+		.catch((error) => {
+				Alert.alert(t.error.error, t.error.offline);
+			});
 	}
 
 
@@ -297,11 +311,10 @@ export default class Seller extends Component {
 											<Text onPress={() => this._selectMonth(index)} style={[styles.pickerCol, styles.textMD, styles.primary]}>{d.months[item.month]}</Text>
 											<Text style={[styles.pickerCol, styles.textMD]}>{item.total}</Text>
 											<View>
-												<TouchableOpacity
-													style={[styles.btn, styles.btnDefault, styles.btnPrimary]}
-													onPress={() => this._payMonthAction(index)}>
+												<View
+													style={[styles.btn, styles.btnDefault, styles.btnDisabled]}>
 													<Text style={[styles.white, styles.inputText]}>{t.btn.pay}</Text>
-												</TouchableOpacity>
+												</View>
 											</View>
 										</View>
 									);

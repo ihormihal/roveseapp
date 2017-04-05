@@ -10,7 +10,7 @@ import {
 	StatusBar,
 	Animated,
 	TextInput,
-	TouchableOpacity,
+	TouchableOpacity
 } from 'react-native'
 
 import variables from './../theme/variables.js';
@@ -29,6 +29,7 @@ export default class Login extends Component {
 			language: this.props.lang,
 			setlang: this.props.setlang,
 			anim: new Animated.Value(0),
+			online: false,
 			form: {
 				email: '',
 				password: ''
@@ -73,10 +74,6 @@ export default class Login extends Component {
 		this.setState({
 			language: lng
 		});
-		AsyncStorage.setItem('language', lng, () => {
-			//success
-			//this.forceUpdate();
-		});
 	}
 
 	valid() {
@@ -88,12 +85,15 @@ export default class Login extends Component {
 			fetch(settings.domain+'/api/login', {
 				method: "POST",
 				headers: {
-					'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
+					'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8',
+					//'Cookie': null
+					credentials: 'omit',
 				},
 				body: settings.serialize(this.state.form)
 			})
 			.then((response) => response.json())
 			.then((data) => {
+				console.log(data);
 				if(data.token){
 					//save token
 					AsyncStorage.setItem('access_token', data.token, () => {
@@ -103,7 +103,9 @@ export default class Login extends Component {
 					Alert.alert(t.error.error, t.message.login);
 				}
 			})
-			.done();
+			.catch((error) => {
+				Alert.alert(t.error.error, t.error.offline);
+			});
 		}
 	}
 
@@ -136,12 +138,13 @@ export default class Login extends Component {
 								placeholderTextColor="#ffffff"
 								selectionColor={variables.colorPrimaryRGBA}
 								placeholder={t.form.email}
+								keyboardType="email-address"
 								onChangeText={(value) => this.setForm('email', value)}
 								value={this.state.form.email}
 							/>
 						</View>
 
-						<View style={[styles.textInput, styles.inputWhite, styles.mt1]}>
+						<View style={[styles.textInput, styles.inputWhite, styles.mt2]}>
 							<TextInput
 								style={[ styles.textInputInput, styles.textCenter, styles.white ]}
 								underlineColorAndroid='transparent'
@@ -152,11 +155,12 @@ export default class Login extends Component {
 								value={this.state.form.password}
 							/>
 						</View>
-
+						
 						<TouchableOpacity
-							onPress={() => this.navigate('password-reset')}>
-							<Text style={[ styles.white, styles.opacity50, styles.textSM, styles.textCenter ]}>{t.btn.forgotPassword}</Text>
+						  onPress={() => this.navigate('password-reset')}>
+						  <Text style={[ styles.white, styles.opacity50, styles.textSM, styles.textCenter ]}>{t.btn.forgotPassword}</Text>
 						</TouchableOpacity>
+						
 
 					</Animated.View>
 

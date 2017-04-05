@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { AppRegistry, AsyncStorage, Alert, View, Navigator, TouchableOpacity, Text } from 'react-native';
+import { AppRegistry, AsyncStorage, Navigator } from 'react-native';
 
 import Splash from './scenes/Splash';
 import Login from './scenes/Login';
@@ -24,7 +24,7 @@ export default class App extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			language: 'uk',
+			online: false,
 			initialRoute: 'login',
 			isLoading: true
 		}
@@ -48,7 +48,7 @@ export default class App extends Component {
 			return (<Rules navigator={navigator} />);
 		}
 		if(route.name == 'root'){
-			return (<Root navigator={navigator} lang={'ru'} />);
+			return (<Root navigator={navigator} />);
 		}
 		if(route.name == 'presentation'){
 			return (<Presentation navigator={navigator} />);
@@ -82,10 +82,12 @@ export default class App extends Component {
 		}
 	}
 
+
+
 	componentWillMount() {
-		AsyncStorage.getItem('language', (error, language) => {
-			this.setState({language: language});
-		});
+		// AsyncStorage.getItem('language', (error, language) => {
+		// 	this.setState({language: language});
+		// });
 		AsyncStorage.getItem('access_token', (error, token) => {
 			setTimeout(() => {
 				this.setState({
@@ -93,8 +95,9 @@ export default class App extends Component {
 					isLoading: false
 				});
 			},1000);
-		})
+		});
 	}
+
 
 	navigatorConfig(route) {
 		if(route.name == 'login' || route.name == 'root'){

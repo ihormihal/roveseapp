@@ -13,7 +13,7 @@ export default {
 		height: variables.BUTTON_CIRCLE_SIZE,
 		width: variables.BUTTON_CIRCLE_SIZE,
 		borderRadius: variables.BUTTON_CIRCLE_SIZE,
-		backgroundColor: variables.colorPrimaryDark
+		backgroundColor: 'rgba(0,91,159,1)'
 	},
 	buttonCircleImg: {
 		height: 30,

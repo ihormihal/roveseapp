@@ -65,7 +65,7 @@ export default class SellerEdit extends Component {
 
 	valid() {
 		if(this.state.form.name && this.state.form.surname && this.state.form.email && this.state.form.phone && this.state.form.tradePoint){
-			if(this.state.form.email.indexOf('@') == -1){
+			if(!settings.valid.email(this.state.form.email)){
 				Alert.alert(t.error.error, t.error.email);
 				return false;
 			}else if(this.state.form.phone.length !== 12){
@@ -101,18 +101,27 @@ export default class SellerEdit extends Component {
 		})
 		.then((response) => response.json())
 		.then((data) => {
-			//console.log(data);
+			console.log(data);
 			if(data.status == "success"){
 				this.props.navigator.pop();
 			}else{
 				if(data.code && data.message){
 					Alert.alert(t.error.error, t.message.errorCode+': '+data.code+'\n'+t.message.errorDescription+': '+data.message);
 				}else{
-					Alert.alert(t.error.error, t.error.serverError);
+					let errors = data.data.children;
+					if(errors.phone && errors.phone.errors){
+						Alert.alert(t.error.error, t.error.phoneUsed);
+					}else if(errors.email && errors.email.errors){
+						Alert.alert(t.error.error, t.error.emailUsed);
+					}else{
+						Alert.alert(t.error.error, t.error.serverError);
+					}
 				}
 			}
 		})
-		.done();
+		.catch((error) => {
+				Alert.alert(t.error.error, t.error.offline);
+			});
 	}
 
 	_submit() {
@@ -156,6 +165,7 @@ export default class SellerEdit extends Component {
 								style={[ styles.textInputInput ]}
 								underlineColorAndroid='transparent'
 								placeholder={t.form.name}
+								autoCorrect={false}
 								onChangeText={(value) => this.setForm('name', value)}
 								value={this.state.form.name}
 							/>
@@ -167,6 +177,7 @@ export default class SellerEdit extends Component {
 								style={[ styles.textInputInput ]}
 								underlineColorAndroid='transparent'
 								placeholder={t.form.surname}
+								autoCorrect={false}
 								onChangeText={(value) => this.setForm('surname', value)}
 								value={this.state.form.surname}
 							/>
@@ -177,6 +188,7 @@ export default class SellerEdit extends Component {
 								style={[ styles.textInputInput ]}
 								underlineColorAndroid='transparent'
 								placeholder={t.form.middleName}
+								autoCorrect={false}
 								onChangeText={(value) => this.setForm('middleName', value)}
 								value={this.state.form.middleName}
 							/>
@@ -188,6 +200,7 @@ export default class SellerEdit extends Component {
 								style={[ styles.textInputInput ]}
 								underlineColorAndroid='transparent'
 								placeholder={t.form.email}
+								keyboardType="email-address"
 								onChangeText={(value) => this.setForm('email', value)}
 								value={this.state.form.email}
 							/>
@@ -199,6 +212,7 @@ export default class SellerEdit extends Component {
 								style={[ styles.textInputInput ]}
 								underlineColorAndroid='transparent'
 								placeholder={t.form.tradePoint}
+								autoCorrect={false}
 								onChangeText={(value) => this.setForm('tradePoint', value)}
 								value={this.state.form.tradePoint}
 							/>
@@ -210,6 +224,7 @@ export default class SellerEdit extends Component {
 								style={[ styles.textInputInput ]}
 								underlineColorAndroid='transparent'
 								placeholder={t.form.phoneNumber}
+								keyboardType='phone-pad'
 								onChangeText={(value) => this.setForm('phone', value)}
 								value={this.state.form.phone}
 							/>

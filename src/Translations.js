@@ -5,6 +5,7 @@ var translations = {};
 translations.ru = {
 	allTime: "За все время",
 	bonuses: "Бонусы",
+	summ: "Сумма",
 	copyright: "2017 JayaDigital. All rights reserved.",
 	describeTheProblem: "Максимально подробно опишите возникшую проблему",
 	errorUserNotFound: "Пользователя не найдено",
@@ -24,7 +25,7 @@ translations.ru = {
 		login: "Войти",
 		passwordRecovery: "Восстановление пароля",
 		reportAnError: "Сообщить об ошибке",
-		rules: "Правила користування та захисту інформації",
+		rules: "Правила пользования и защиты информации",
 		sellerBase: "База продавцов-участников программы",
 		techSupport: "Техническая поддержка",
 		byMonth: "Бонусы по месяцам"
@@ -86,7 +87,9 @@ translations.ru = {
 		password: "Пароль должен состоять минимум из 6 символов",
 		passwordConfirm: "Пароли не совпадают",
 		phone: "Номер телефона должен состоять из 12 символов",
-		serverError: "Серверная ошибка"
+		emailUsed: "Этот E-mail уже используется",
+		serverError: "Ошибка сервера",
+		offline: "Проверьте подключение интернету"
 	},
 
 	message: {
@@ -119,7 +122,7 @@ translations.ru = {
 		title2: "Регистрация продавца",
 		description2: "В данном разделе региональный представитель может зарегистрировать нового участника программы Retail Club",
 		title3: "Статистика",
-		description3: "В данном разделе содержится детальная информация о всех зарегистрированных участниках программы Retail Clu",
+		description3: "В данном разделе содержится детальная информация о всех зарегистрированных участниках программы Retail Club",
 		title4: "Техническая поддержка",
 		description4: ""
 	},
@@ -162,6 +165,7 @@ translations.ru = {
 translations.uk = {
 	allTime: "За весь час",
 	bonuses: "Бонуси",
+	summ: "Сума",
 	copyright: "2017 JayaDigital. All rights reserved.",
 	describeTheProblem: "Максимально докладно опишіть виниклу проблему",
 	errorUserNotFound: "Користувача, не знайдено",
@@ -242,7 +246,9 @@ translations.uk = {
 		password: "Пароль повинен містити мінімум 6 символів",
 		passwordConfirm: "Паролі не збігаються",
 		phone: "Номер телефона повинен містити 12 символів",
-		serverError: "Серверна помилка"
+		serverError: "Помилка сервера",
+		emailUsed: "Цей E-mail уже використовується",
+		offline: "Перевірте інтернет з`єднання"
 	},
 
 	message: {
@@ -275,7 +281,7 @@ translations.uk = {
 		title2: "Реєстрація продавця",
 		description2: "В даному розділі регіональний представник може зареєструвати нового учасника програми Retail Club",
 		title3: "Статистика",
-		description3: "В даному розділі міститься детальна інформація про всіх зареєстрованих учасників програми Retail Clu",
+		description3: "В даному розділі міститься детальна інформація про всіх зареєстрованих учасників програми Retail Club",
 		title4: "Технічна підтримка",
 		description4: ""
 	},

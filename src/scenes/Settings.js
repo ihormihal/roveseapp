@@ -49,11 +49,8 @@ export default class Settings extends Component {
 	}
 
 	valid() {
-		if(this.state.form.name && this.state.form.surname && this.state.form.email && this.state.form.phone){
-			if(this.state.form.email.indexOf('@') == -1){
-				Alert.alert(t.error.error, t.error.email);
-				return false;
-			}else if(this.state.form.phone.length !== 12){
+		if(this.state.form.name && this.state.form.surname && this.state.form.phone){
+			if(this.state.form.phone.length !== 12){
 				Alert.alert(t.error.error, t.error.phone);
 				return false;
 			}else if(this.state.form.password){
@@ -80,8 +77,8 @@ export default class Settings extends Component {
 			region: this.state.form.region,
 			position: this.state.form.position,
 			phoneNumber: this.state.form.phone,
-			current_password: this.state.form.oldPassword,
-			plain_password: this.state.form.password
+			currentPassword: this.state.form.oldPassword,
+			password: this.state.form.password
 		};
 		//console.log(settings.serialize(formData));
 		fetch(settings.domain+'/api/profile', {
@@ -92,20 +89,32 @@ export default class Settings extends Component {
 			},
 			body: settings.serialize(formData)
 		})
+		// .then((response) => {
+		// 	console.log(response);
+		// })
 		.then((response) => response.json())
 		.then((data) => {
 			//console.log(data);
 			if(data.status == 'success'){
-				Alert.alert(t.message.done, t.message.dataUpdated, [{text: 'OK', onPress: () => this.navigate('root')}]);
+				Alert.alert(t.message.done, t.message.dataUpdated, [{text: 'OK', onPress: () => this.props.navigator.pop()}]);
 			}else{
 				if(data.code && data.message){
 					Alert.alert(t.error.error, t.message.errorCode+': '+data.code+'\n'+t.message.errorDescription+': '+data.message);
 				}else{
-					Alert.alert(t.error.error, t.error.serverError);
+					let errors = data.data.children;
+					if(errors.phone && errors.phone.errors){
+						Alert.alert(t.error.error, t.error.phoneUsed);
+					}else if(errors.email && errors.email.errors){
+						Alert.alert(t.error.error, t.error.emailUsed);
+					}else{
+						Alert.alert(t.error.error, t.error.serverError);
+					}
 				}
 			}
 		})
-		.done();
+		.catch((error) => {
+				Alert.alert(t.error.error, t.error.offline);
+			});
 	}
 
 	_submit() {
@@ -151,6 +160,7 @@ export default class Settings extends Component {
 								style={[ styles.textInputInput ]}
 								underlineColorAndroid='transparent'
 								placeholder={t.form.name}
+								autoCorrect={false}
 								onChangeText={(value) => this.setForm('name', value)}
 								value={this.state.form.name}
 							/>
@@ -162,6 +172,7 @@ export default class Settings extends Component {
 								style={[ styles.textInputInput ]}
 								underlineColorAndroid='transparent'
 								placeholder={t.form.surname}
+								autoCorrect={false}
 								onChangeText={(value) => this.setForm('surname', value)}
 								value={this.state.form.surname}
 							/>
@@ -172,6 +183,7 @@ export default class Settings extends Component {
 								style={[ styles.textInputInput ]}
 								underlineColorAndroid='transparent'
 								placeholder={t.form.middleName}
+								autoCorrect={false}
 								onChangeText={(value) => this.setForm('middleName', value)}
 								value={this.state.form.middleName}
 							/>
@@ -183,6 +195,7 @@ export default class Settings extends Component {
 								style={[ styles.textInputInput ]}
 								underlineColorAndroid='transparent'
 								placeholder={t.form.phoneNumber}
+								keyboardType='phone-pad'
 								onChangeText={(value) => this.setForm('phone', value)}
 								value={this.state.form.phone}
 							/>

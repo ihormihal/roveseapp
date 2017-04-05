@@ -10,6 +10,7 @@ import {
 	TextInput,
 	ListView,
 	TouchableOpacity,
+	Keyboard
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
@@ -27,8 +28,10 @@ export default class Statistics extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			language: this.props.lang,
-			sellers: dataset.cloneWithRows([]),
+			//language: this.props.lang,
+			search: '',
+			data: [],
+			sellersRows: dataset.cloneWithRows([]),
 			months: []
 		};
 	};
@@ -48,8 +51,12 @@ export default class Statistics extends Component {
 		})
 		.then((response) => response.json())
 		.then((data) => {
+			//console.log(data);
 			if(data.status == "success"){
-				this.prepareData(data.data);
+				this.setState({
+					data: data.data
+				});
+				this.parseSellers();
 			}else{
 				if(data.code && data.message){
 					Alert.alert(t.error.error, t.message.errorCode+': '+data.code+'\n'+t.message.errorDescription+': '+data.message);
@@ -58,36 +65,51 @@ export default class Statistics extends Component {
 				}
 			}
 		})
-		.done();
+		.catch((error) => {
+			Alert.alert(t.error.error, t.error.offline);
+		});
 	}
 
-	prepareData(array){
-		var sellers = [];
+	parseSellers(){
 		var months_indexes = {};
+		var sellers = [];
 
-		var sellers = array.map((item, index) => {
+		for (var index = 0, item; item = this.state.data[index]; index++){
 			var monthly = item.balance_per_months.monthly;
 			for (var i = 0; i < monthly.length; i++) {
-				months_indexes[monthly[i].month] = 1;
+				months_indexes[monthly[i].month] = parseInt(monthly[i].month);
 			}
-			//var date = new Date(item.created_at);
-			//(date.getDate()+' '+d.months[date.getMonth()]+' '+date.getFullYear())
-			//console.log(date);
-			var dt = item.created_at.substring(0, 10).split('-');
-			var date = dt[2]+' '+d.months[parseInt(dt[1])-1]+' '+dt[0];
+			var name = item.first_name+" "+item.last_name;
 
-			return {
+			if(this.state.search.length > 2){
+				if(name.indexOf(this.state.search) == -1){
+					continue;
+				}
+			}
+
+			sellers.push({
 				id: item.id,
-				name: item.first_name+" "+item.last_name,
-				registered: date,
+				name: name,
+				registered: settings.dateConv(item.created_at),
 				total: item.balance,
 				monthly: monthly
-			}
-		});
+			});
+		}
+
+		var months = [];
+		for(var monthIndex in months_indexes){
+			months.push(months_indexes[monthIndex]);
+		}
+
 		this.setState({
-			sellers: dataset.cloneWithRows(sellers),
-			months: Object.keys(months_indexes)
+			sellersRows: dataset.cloneWithRows(sellers),
+			months: months
 		});
+	}
+
+	search(value){
+		this.setState({search: value});
+		this.parseSellers();
 	}
 
 	navigate(routeName, routeData) {
@@ -100,12 +122,15 @@ export default class Statistics extends Component {
 	renderListItem(item) {
 		return (
 			<TouchableOpacity style={styles.tr} onPress={() => this.navigate('seller', {id: item.id})}>
-				<Text style={[styles.td, {flex: 0.5}]}>{item.name}</Text>
-				<Text style={[styles.tdb, {flex: 0.4}]}>{item.registered}</Text>
-				{this.state.months.map((item,index) => {
-					return <Text key={index} style={[styles.tdb, {flex: 0.25}]}>{item.monthly[index].total}</Text>;
+				<Text style={[styles.td, {flex: 0.5, textAlign: 'center'}]}>{item.name}</Text>
+				<Text style={[styles.td, styles.tdb, {flex: 0.4, textAlign: 'center'}]}>{item.registered}</Text>
+				{this.state.months.map((number,index) => {
+					return (<View key={index} style={[styles.td, styles.tdb, {flex: 0.25}]}>
+						<Text key={index}>{item.monthly[index].total}</Text>
+						<View style={styles.checkbox}></View>
+					</View>);
 				})}
-				<Text style={[styles.tdb, {flex: 0.25}]}>{item.total}</Text>
+				<Text style={[styles.td, styles.tdb, {flex: 0.25, textAlign: 'center'}]}>{item.total}</Text>
 			</TouchableOpacity>
 		)
 	}
@@ -132,27 +157,39 @@ export default class Statistics extends Component {
 					<View style={styles.headerRight}>
 					</View>
 				</View>
-				<View style={[styles.container]}>
+				<View style={[styles.box]}>
 					<View style={styles.center}>
 						<Text style={[styles.textMD, styles.primary, styles.textCenter]}>{t.title.sellerBase}</Text>
 						<View style={styles.hr} />
 					</View>
 
-					<View style={styles.tr}>
-						<Text style={[styles.th, {flex: 0.5, textAlign: 'left'}]}>{t.form.name}</Text>
-						<Text style={[styles.th, {flex: 0.4}]}>{t.regDate}</Text>
-						{this.state.months.map((item,index) => {
-							return <Text key={index} style={[styles.th, {flex: 0.25}]}>{d.months[item]}</Text>;
-						})}
-						<Text style={[styles.th, {flex: 0.25}]}>{t.bonuses}</Text>
+					<View style={[styles.textInput, styles.inputDefault, styles.inputOffsetB]}>
+						<TextInput
+							style={[ styles.textInputInput ]}
+							underlineColorAndroid='transparent'
+							placeholder={t.form.name}
+							autoCorrect={false}
+							onChangeText={(value) => this.search(value)}
+							value={this.state.search}
+							returnKeyType="search"
+						/>
 					</View>
-
-					<ListView
-						enableEmptySections={true}
-						dataSource={this.state.sellers}
-						renderRow={(rowData) => this.renderListItem(rowData)}
-					/>
 				</View>
+
+				<View style={styles.tr}>
+					<Text style={[styles.th, {flex: 0.5}]}>{t.form.name}</Text>
+					<Text style={[styles.th, {flex: 0.4}]}>{t.regDate}</Text>
+					{this.state.months.map((item,index) => {
+						return <Text key={index} style={[styles.th, {flex: 0.25}]}>{d.months[item]}</Text>;
+					})}
+					<Text style={[styles.th, {flex: 0.25}]}>{t.summ}</Text>
+				</View>
+
+				<ListView
+					enableEmptySections={true}
+					dataSource={this.state.sellersRows}
+					renderRow={(rowData) => this.renderListItem(rowData)}
+				/>
 			</View>
 		);
 	}

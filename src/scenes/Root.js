@@ -133,7 +133,9 @@ export default class Root extends Component {
 				}
 			}
 		})
-		.done();
+		.catch((error) => {
+				Alert.alert(t.error.error, t.error.offline);
+			});
 	}
 
 	openDrawer() {

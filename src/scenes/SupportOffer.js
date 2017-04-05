@@ -82,7 +82,9 @@ export default class SupportOffer extends Component {
 				}
 			}
 		})
-		.done();
+		.catch((error) => {
+				Alert.alert(t.error.error, t.error.offline);
+			});
 	}
 
 	_submit() {
@@ -141,8 +143,8 @@ export default class SupportOffer extends Component {
 							numberOfLines = {4}
 							underlineColorAndroid='transparent'
 							placeholder={t.form.comment}
-							onChangeText={(value) => this.setForm('comment', value)}
-							value={this.state.form.comment}
+							onChangeText={(value) => this.setForm('message', value)}
+							value={this.state.form.message}
 						/>
 					</View>
 

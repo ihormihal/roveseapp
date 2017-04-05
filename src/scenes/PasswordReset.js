@@ -49,7 +49,7 @@ export default class PasswordReset extends Component {
 
 	valid() {
 		if(this.state.form.email){
-			if(this.state.form.email.indexOf('@') !== -1){
+			if(settings.valid.email(this.state.form.email)){
 				return true;
 			}else{
 				Alert.alert(t.error.error, t.error.email);
@@ -63,7 +63,7 @@ export default class PasswordReset extends Component {
 
 	_submit(){
 		if(this.valid()){
-			fetch(settings.api.success, {
+			fetch(settings.domain+'/api/password/reset', {
 				method: "POST",
 				headers: {
 					'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
@@ -86,7 +86,9 @@ export default class PasswordReset extends Component {
 					}
 				}
 			})
-			.done();
+			.catch((error) => {
+				Alert.alert(t.error.error, t.error.offline);
+			});
 		}
 	}
 
@@ -122,6 +124,7 @@ export default class PasswordReset extends Component {
 						<TextInput
 							style={[ styles.textInputInput ]}
 							underlineColorAndroid='transparent'
+							keyboardType="email-address"
 							onChangeText={(value) => this.setForm('email', value)}
 							value={this.state.form.email}
 						/>

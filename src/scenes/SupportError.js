@@ -82,7 +82,9 @@ export default class SupportError extends Component {
 				}
 			}
 		})
-		.done();
+		.catch((error) => {
+				Alert.alert(t.error.error, t.error.offline);
+			});
 	}
 
 	_submit() {

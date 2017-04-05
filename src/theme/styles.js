@@ -87,13 +87,20 @@ const dimentions = {
 	td: {
 		marginVertical: 5,
 		paddingHorizontal: 5,
+		flexDirection: 'row',
+		justifyContent: 'center',
+		alignItems: 'center'
 	},
 	tdb: {
 		borderLeftWidth: 1,
 		borderColor: variables.colorGreyLight,
-		marginVertical: 5,
-		paddingHorizontal: 5,
-		textAlign: 'center',
+	},
+	checkbox: {
+		height: variables.TEXT_SM,
+		width: variables.TEXT_SM,
+		marginLeft: 5,
+		borderRadius: 4,
+		backgroundColor: variables.colorGreyLight,
 	},
 	middle: {
 		justifyContent: 'center',
@@ -368,7 +375,7 @@ const elements = {
 	},
 	presentationTopWrapper: {
 		flex: 1,
-		justifyContent: 'flex-end',
+		justifyContent: 'center',
 	},
 	presentationBottom: {
 		width: screen.w,
