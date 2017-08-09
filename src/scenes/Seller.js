@@ -40,12 +40,14 @@ export default class Seller extends Component {
 					status: "disabled"
 				}]
 			},
-			selectedMonth: 0
+			selectedMonth: 0,
+			token: ''
 		};
 	};
 
 	componentDidMount() {
 		AsyncStorage.getItem('access_token',(error, result) => {
+			this.setState({token: result});
 			this.fetch(result);
 		});
 	}
@@ -85,7 +87,7 @@ export default class Seller extends Component {
 				/*for(var m in this.state.bonuses.monthly){
 					bonuses.monthly.push(this.state.bonuses.monthly[m]);
 				}*/
-				console.log(bonuses);
+
 				this.setState({
 					seller: seller,
 					bonuses: bonuses
@@ -164,13 +166,13 @@ export default class Seller extends Component {
 	}
 
 	_payMonth(index){
-		fetch(settings.domain+'/api/pay', {
+		fetch(settings.domain+'/api/paids/sellers/set', {
 			method: "POST",
 			headers: {
-				'Authorization': 'Bearer '+token
+				'Authorization': 'Bearer '+this.state.token
 			},
 			body: settings.serialize({
-				sellerId: this.state.seller.id,
+				id: this.state.seller.id,
 				month: this.state.bonuses.monthly[index].month,
 			})
 		})
@@ -187,8 +189,8 @@ export default class Seller extends Component {
 			}
 		})
 		.catch((error) => {
-				Alert.alert(t.error.error, t.error.offline);
-			});
+			Alert.alert(t.error.error, t.error.offline);
+		});
 	}
 
 
@@ -202,12 +204,19 @@ export default class Seller extends Component {
 	_payMonthAction(index){
 		var month = this.state.bonuses.monthly[index].month;
 		var monthName = d.months[parseInt(month)];
+
+		var m = (new Date()).getMonth();
+		if(month >= m+1){
+			Alert.alert(t.error.error, t.error.month);
+			return false;
+		}
+		
 		Alert.alert(
 		  t.message.confirmAction,
 		  t.message.payConfirm+" "+monthName+"?",
 		  [
-		    {text: t.message.no, onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
-		    {text: t.message.yes, onPress: () => this._payMonth(month)},
+		    { text: t.message.no, onPress: () => console.log('Cancel Pressed'), style: 'cancel' },
+		    { text: t.message.yes, onPress: () => this._payMonth(index) },
 		  ],
 		  { cancelable: false }
 		)
@@ -305,16 +314,16 @@ export default class Seller extends Component {
 						<View style={styles.selectSection}>
 							{this.state.bonuses.monthly.map((item, index) => {
 								var rowStyle = (index == this.state.selectedMonth) ? [styles.pickerRow, styles.pickerRowSelected] : styles.pickerRow;
-								if(item.status == 'topay'){
+								if(item.status == 'not_paid'){
 									return (
 										<View key={index} style={rowStyle}>
 											<Text onPress={() => this._selectMonth(index)} style={[styles.pickerCol, styles.textMD, styles.primary]}>{d.months[item.month]}</Text>
 											<Text style={[styles.pickerCol, styles.textMD]}>{item.total}</Text>
 											<View>
-												<View
-													style={[styles.btn, styles.btnDefault, styles.btnDisabled]}>
+												<TouchableOpacity onPress={() => this._payMonthAction(index)}
+													style={[styles.btn, styles.btnDefault, styles.btnSuccess]}>
 													<Text style={[styles.white, styles.inputText]}>{t.btn.pay}</Text>
-												</View>
+												</TouchableOpacity>
 											</View>
 										</View>
 									);

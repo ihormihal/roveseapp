@@ -3,6 +3,7 @@ import LocalizedStrings from "react-native-localization";
 var translations = {};
 
 translations.ru = {
+	lng: 'ru',
 	allTime: "За все время",
 	bonuses: "Бонусы",
 	summ: "Сумма",
@@ -89,7 +90,8 @@ translations.ru = {
 		phone: "Номер телефона должен состоять из 12 символов",
 		emailUsed: "Этот E-mail уже используется",
 		serverError: "Ошибка сервера",
-		offline: "Проверьте подключение интернету"
+		offline: "Проверьте подключение интернету",
+		month: "Выплата бонусов еще не доступна. Выбранный месяц не закончился."
 	},
 
 	message: {
@@ -163,6 +165,7 @@ translations.ru = {
 };
 
 translations.uk = {
+	lng: 'uk',
 	allTime: "За весь час",
 	bonuses: "Бонуси",
 	summ: "Сума",
@@ -248,7 +251,8 @@ translations.uk = {
 		phone: "Номер телефона повинен містити 12 символів",
 		serverError: "Помилка сервера",
 		emailUsed: "Цей E-mail уже використовується",
-		offline: "Перевірте інтернет з`єднання"
+		offline: "Перевірте інтернет з`єднання",
+		month: "Виплата бонусів ще не доступна. Вибраний місяць не закінчився."
 	},
 
 	message: {

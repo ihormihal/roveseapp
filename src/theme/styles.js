@@ -102,6 +102,9 @@ const dimentions = {
 		borderRadius: 4,
 		backgroundColor: variables.colorGreyLight,
 	},
+	checkboxChecked: {
+		backgroundColor: variables.colorSuccess,
+	},
 	middle: {
 		justifyContent: 'center',
 	},

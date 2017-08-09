@@ -32,12 +32,14 @@ export default class Statistics extends Component {
 			search: '',
 			data: [],
 			sellersRows: dataset.cloneWithRows([]),
-			months: []
+			months: [],
+			token: '',
 		};
 	};
 
 	componentDidMount() {
 		AsyncStorage.getItem('access_token',(error, result) => {
+			this.setState({token: result});
 			this.fetch(result);
 		});
 	}
@@ -82,19 +84,42 @@ export default class Statistics extends Component {
 			var name = item.first_name+" "+item.last_name;
 
 			if(this.state.search.length > 2){
-				if(name.indexOf(this.state.search) == -1){
+				if(name.toLowerCase().indexOf(this.state.search.toLowerCase()) == -1){
 					continue;
 				}
+			}
+
+			//var date = new Date(item.created_at);
+			//var registered = (date.getDate()+' '+d.months[date.getMonth()]+' '+date.getFullYear());
+
+			var date = item.created_at;
+			try {
+				var dt = date.substring(0, 10).split('-');
+				date = dt[2]+' '+d.months[parseInt(dt[1])-1]+' '+dt[0];
+			} catch (error) {
+				//console.log(error)
 			}
 
 			sellers.push({
 				id: item.id,
 				name: name,
-				registered: settings.dateConv(item.created_at),
+				created_at: item.created_at,
+				registered: date,
 				total: item.balance,
 				monthly: monthly
 			});
 		}
+
+		function compare(a, b) {
+		    if (a.created_at > b.created_at)
+		        return -1;
+		    if (a.created_at < b.created_at)
+		        return 1;
+		    return 0;
+		}
+
+		sellers.sort(compare);
+
 
 		var months = [];
 		for(var monthIndex in months_indexes){
@@ -119,19 +144,86 @@ export default class Statistics extends Component {
 		});
 	}
 
+	_paidStatus(id, month) {
+		var sellers = this.state.data;
+		for (let i = 0; i < sellers.length; i++) {
+			if(sellers[i].id == id){
+				if(sellers[i].balance_per_months){
+					let monthly = sellers[i].balance_per_months.monthly;
+					for (let j = 0; j < monthly.length; j++) {
+						if(monthly[j].month == month){
+							monthly[j].status = "paid";
+						}
+					}
+					sellers[i].balance_per_months.monthly = monthly;
+				}
+			}	
+		}
+		this.setState({
+			data: sellers
+		});
+		this.parseSellers();
+	}
+
+	_payMonth(id, index){
+		fetch(settings.domain+'/api/paids/sellers/set', {
+			method: "PUT",
+			headers: {
+				'Authorization': 'Bearer '+this.state.token
+			},
+			body: settings.serialize({
+				id: id,
+				month: index,
+			})
+		})
+		.then((response) => response.json())
+		.then((data) => {
+			if(data.status == "success"){
+				//this._paidStatus(id, index);
+			}else{
+				this._paidStatus(id, index);
+				Alert.alert(t.error.error, JSON.stringify(data));
+			}
+		})
+		.catch((error) => {
+			Alert.alert(t.error.error, t.error.offline);
+		});
+	}
+
+	_payMonthAction(id, index){
+		var monthName = d.months[index];
+		var m = (new Date()).getMonth();
+		if(index >= m+1){
+			Alert.alert(t.error.error, t.error.month);
+			return false;
+		}
+		Alert.alert(
+		  t.message.confirmAction,
+		  t.message.payConfirm+" "+monthName+"?",
+		  [
+		    {text: t.message.no, onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+		    {text: t.message.yes, onPress: () => this._payMonth(id, index)},
+		  ],
+		  { cancelable: false }
+		)
+	}
+
 	renderListItem(item) {
 		return (
-			<TouchableOpacity style={styles.tr} onPress={() => this.navigate('seller', {id: item.id})}>
-				<Text style={[styles.td, {flex: 0.5, textAlign: 'center'}]}>{item.name}</Text>
+			<View style={styles.tr} >
+				<TouchableOpacity onPress={() => this.navigate('seller', {id: item.id})} style={[styles.td, {flex: 0.5}]}><Text>{item.name}</Text></TouchableOpacity>
 				<Text style={[styles.td, styles.tdb, {flex: 0.4, textAlign: 'center'}]}>{item.registered}</Text>
 				{this.state.months.map((number,index) => {
+					var month = item.monthly[index];
+					var total = month ? month.total : 0;
+					var checkboxStyle = month.status == 'paid' ? [styles.checkbox, styles.checkboxChecked] : [styles.checkbox];
 					return (<View key={index} style={[styles.td, styles.tdb, {flex: 0.25}]}>
-						<Text key={index}>{item.monthly[index].total}</Text>
-						<View style={styles.checkbox}></View>
+						<Text key={index}>{total}</Text>
+						<TouchableOpacity onPress={() => this._payMonthAction(item.id, month.month)} style={checkboxStyle}></TouchableOpacity>
 					</View>);
 				})}
 				<Text style={[styles.td, styles.tdb, {flex: 0.25, textAlign: 'center'}]}>{item.total}</Text>
-			</TouchableOpacity>
+			</View>
 		)
 	}
 
@@ -163,7 +255,7 @@ export default class Statistics extends Component {
 						<View style={styles.hr} />
 					</View>
 
-					<View style={[styles.textInput, styles.inputDefault, styles.inputOffsetB]}>
+					<View style={[styles.textInput, styles.inputDefault]}>
 						<TextInput
 							style={[ styles.textInputInput ]}
 							underlineColorAndroid='transparent'

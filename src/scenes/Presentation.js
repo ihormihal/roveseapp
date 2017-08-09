@@ -20,19 +20,19 @@ import t from './../Translations';
 
 var slides = [
 	{
-		image: require('./../images/presentation/image_1.jpg'),
+		image: t.lng == 'ru' ? require('./../images/presentation/image_1_ru.jpg') : require('./../images/presentation/image_1.jpg'),
 		imageBg: require('./../images/presentation/bg_1.jpg'),
 		title: t.presentation.title1,
 		description: t.presentation.description1,
 	},
 	{
-		image: require('./../images/presentation/image_2.jpg'),
+		image: t.lng == 'ru' ? require('./../images/presentation/image_2_ru.jpg') : require('./../images/presentation/image_2.jpg'),
 		imageBg: require('./../images/presentation/bg_2.jpg'),
 		title:  t.presentation.title2,
 		description: t.presentation.description2,
 	},
 	{
-		image: require('./../images/presentation/image_3.jpg'),
+		image: t.lng == 'ru' ? require('./../images/presentation/image_3_ru.jpg') : require('./../images/presentation/image_3.jpg'),
 		imageBg: require('./../images/presentation/bg_3.jpg'),
 		title:  t.presentation.title3,
 		description: t.presentation.description3,
