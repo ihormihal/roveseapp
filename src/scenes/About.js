@@ -34,7 +34,7 @@ export default class About extends Component {
 	}
 
 	render() {
-		
+
 		return (
 			<Image
 				style={[styles.scene, styles.background]}
@@ -62,7 +62,7 @@ export default class About extends Component {
 				</View>
 				<View style={[styles.container, styles.center, styles.whiteBg]}>
 					<Text style={[styles.textLG, styles.mb1]}>ROVESE RETAIL CLUB</Text>
-					<Text style={styles.textXS}>Version: 1.0.0</Text>
+					<Text style={styles.textXS}>Version: 1.1.0</Text>
 					<View style={styles.hr} />
 					<Text style={styles.textSM}><Icon name="copyright" /> {t.copyright}</Text>
 				</View>

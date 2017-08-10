@@ -78,11 +78,12 @@ const dimentions = {
 		borderColor: variables.colorGreyLight
 	},
 	th: {
+		fontSize: variables.TEXT_SM,
 		marginVertical: 5,
 		paddingHorizontal: 5,
 		textAlign: 'center',
 		color: '#000',
-		fontWeight: '600'
+		fontWeight: '300'
 	},
 	td: {
 		marginVertical: 5,
@@ -94,6 +95,12 @@ const dimentions = {
 	tdb: {
 		borderLeftWidth: 1,
 		borderColor: variables.colorGreyLight,
+	},
+	inputCheckbox: {
+		flexDirection: 'row'
+	},
+	inputLabelCheckbox: {
+		marginTop: 7
 	},
 	checkbox: {
 		height: variables.TEXT_SM,
@@ -518,6 +525,15 @@ const elements = {
 		paddingHorizontal: variables.INPUT_GAP/2,
 		paddingVertical: variables.BUTTON_V_PADDING+2,
 	},
+
+	programBtn: {
+		width: 50,
+		textAlign: 'center',
+		backgroundColor: variables.colorPrimary,
+		color: 'white',
+		paddingHorizontal: 5,
+		borderRadius: 2
+	}
 
 };
 

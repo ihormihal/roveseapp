@@ -33,6 +33,12 @@ var slides = [
 		route: 'presentation'
 	},
 	{
+		image: require('./../images/slides/presentation_c.jpg'),
+		title: t.main.title1_c,
+		description: t.main.description1_c,
+		route: 'presentation_c'
+	},
+	{
 		image: require('./../images/slides/registration.jpg'),
 		title: t.main.title2,
 		description: t.main.description2,
@@ -176,7 +182,7 @@ export default class Root extends Component {
 	};
 
 	render() {
-		
+
 		var Drawer = (
 			<View style={styles.drawer}>
 				<View style={[styles.drawerSection, styles.drawerSectionTop]}>

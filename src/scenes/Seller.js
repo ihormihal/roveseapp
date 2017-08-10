@@ -67,7 +67,7 @@ export default class Seller extends Component {
 
 				var dt = data.data.created_at.substring(0, 10).split('-');
 				var date = dt[2]+' '+d.months[parseInt(dt[1])-1]+' '+dt[0];
-				
+
 				//Alert.alert('',date.getFullYear());
 				var seller = {
 					registered: date,
@@ -79,8 +79,21 @@ export default class Seller extends Component {
 					surname: data.data.last_name,
 					middleName: data.data.middle_name,
 					tradePoint: data.data.trade_point,
+					program: data.data.program,
+					progText: 'none',
 					certificate: data.data.certificate
 				}
+
+				if(data.data.program){
+					if(data.data.program.BSD && !data.data.program.F){
+						seller.progText = 'a';
+					}else if(!data.data.program.BSD && data.data.program.F){
+						seller.progText = 'c';
+					}else if(data.data.program.BSD && data.data.program.F){
+						seller.progText = 'ac';
+					}
+				}
+
 				var bonuses = {total: 0, monthly: []};
 				bonuses.total = data.data.balance_per_months.total;
 				bonuses.monthly = data.data.balance_per_months.monthly;
@@ -210,7 +223,7 @@ export default class Seller extends Component {
 			Alert.alert(t.error.error, t.error.month);
 			return false;
 		}
-		
+
 		Alert.alert(
 		  t.message.confirmAction,
 		  t.message.payConfirm+" "+monthName+"?",
@@ -265,6 +278,7 @@ export default class Seller extends Component {
 								<Text style={[styles.white, styles.textSM]}>{this.state.seller.tradePoint}</Text>
 							</View>
 							<Text style={[styles.white, styles.textSM]}>{t.registrationDate}: {this.state.seller.registered}</Text>
+							<Text style={[styles.white, styles.textSM]}>{t.programText}: {t.program[this.state.seller.progText]}</Text>
 						</TouchableOpacity>
 					</Image>
 					<View style={[styles.section, styles.whiteBg]}>

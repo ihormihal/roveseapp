@@ -8,6 +8,7 @@ import Registration from './scenes/Registration';
 import Rules from './scenes/Rules';
 import Root from './scenes/Root';
 import Presentation from './scenes/Presentation';
+import Presentation_c from './scenes/Presentation_c';
 import SellerRegistration from './scenes/SellerRegistration';
 import Statistics from './scenes/Statistics';
 import Seller from './scenes/Seller';
@@ -52,6 +53,9 @@ export default class App extends Component {
 		}
 		if(route.name == 'presentation'){
 			return (<Presentation navigator={navigator} />);
+		}
+		if(route.name == 'presentation_c'){
+			return (<Presentation_c navigator={navigator} />);
 		}
 		if(route.name == 'seller-registration'){
 			return (<SellerRegistration navigator={navigator} />);

@@ -100,8 +100,20 @@ export default class Statistics extends Component {
 				//console.log(error)
 			}
 
+			let program = '-';
+			if(item.program){
+				if(item.program.BSD && !item.program.F){
+					program = 'A';
+				}else if(!item.program.BSD && item.program.F){
+					program = 'K';
+				}else if(item.program.BSD && item.program.F){
+					program = 'A+K';
+				}
+			}
+
 			sellers.push({
 				id: item.id,
+				program: program,
 				name: name,
 				created_at: item.created_at,
 				registered: date,
@@ -157,7 +169,7 @@ export default class Statistics extends Component {
 					}
 					sellers[i].balance_per_months.monthly = monthly;
 				}
-			}	
+			}
 		}
 		this.setState({
 			data: sellers
@@ -211,6 +223,7 @@ export default class Statistics extends Component {
 	renderListItem(item) {
 		return (
 			<View style={styles.tr} >
+				<View style={[styles.td, {flex: 0.25}]} ><Text style={[styles.programBtn]}>{item.program}</Text></View>
 				<TouchableOpacity onPress={() => this.navigate('seller', {id: item.id})} style={[styles.td, {flex: 0.5}]}><Text>{item.name}</Text></TouchableOpacity>
 				<Text style={[styles.td, styles.tdb, {flex: 0.4, textAlign: 'center'}]}>{item.registered}</Text>
 				{this.state.months.map((number,index) => {
@@ -228,7 +241,7 @@ export default class Statistics extends Component {
 	}
 
 	render() {
-		
+
 		return (
 			<View style={styles.scene}>
 				<View style={[styles.header, styles.shadow]}>
@@ -269,6 +282,7 @@ export default class Statistics extends Component {
 				</View>
 
 				<View style={styles.tr}>
+					<Text style={[styles.th, {flex: 0.25}]}>{t.programText}</Text>
 					<Text style={[styles.th, {flex: 0.5}]}>{t.form.name}</Text>
 					<Text style={[styles.th, {flex: 0.4}]}>{t.regDate}</Text>
 					{this.state.months.map((item,index) => {

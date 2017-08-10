@@ -16,7 +16,7 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
-//import variables from './../theme/variables.js';
+import variables from './../theme/variables.js';
 import styles from './../theme/styles.js';
 import t from './../Translations';
 import d from './../Data';
@@ -28,9 +28,13 @@ export default class SellerEdit extends Component {
 
 	constructor(props) {
 		super(props);
+		var form = this.props.data;
+		if(!form.program){
+			form.program = {BSD: false, F: false};
+		}
 		this.state = {
 			language: this.props.lang,
-			form: this.props.data,
+			form: form,
 
 			// form: {
 			// 	id: 1,
@@ -53,6 +57,12 @@ export default class SellerEdit extends Component {
 		this.setState({
 			form: form
 		});
+	}
+
+	setProgram(key){
+		var program = this.state.form.program;
+		program[key] = !program[key];
+		this.setForm('program', program);
 	}
 
 	navigate(routeName, routeData) {
@@ -89,7 +99,8 @@ export default class SellerEdit extends Component {
 			lastName: this.state.form.surname,
 			middleName: this.state.form.middleName,
 			tradePoint: this.state.form.tradePoint,
-			certificate: this.state.form.certificate
+			certificate: this.state.form.certificate,
+			program: this.state.form.program,
 		};
 		fetch(settings.domain+'/api/sellers/'+sellerID, {
 			method: "PATCH",
@@ -133,7 +144,7 @@ export default class SellerEdit extends Component {
 	}
 
 	render() {
-		
+
 		return (
 			<View style={styles.scene}>
 				<View style={[styles.header, styles.shadow]}>
@@ -241,6 +252,21 @@ export default class SellerEdit extends Component {
 									return (<Picker.Item key={index} label={item} value={index} />);
 								}, this)}
 							</Picker>
+						</View>
+
+						<View style={[styles.row, styles.inputOffsetB]}>
+							<View style={[styles.col, styles.inputCheckbox]}>
+								<Text style={[styles.inputLabel, styles.inputLabelCheckbox]}>{t.programText}: {t.program.a}</Text>
+								<TouchableOpacity onPress={() => this.setProgram('BSD')}>
+									<Icon style={[styles.primary]} size={variables.INPUT_HEIGHT} name={this.state.form.program.BSD ? 'check-box' : 'check-box-outline-blank'}/>
+								</TouchableOpacity>
+							</View>
+							<View style={[styles.col, styles.inputCheckbox]}>
+								<Text style={[styles.inputLabel, styles.inputLabelCheckbox]}>{t.programText}: {t.program.c}</Text>
+								<TouchableOpacity onPress={() => this.setProgram('F')}>
+									<Icon style={[styles.primary]} size={variables.INPUT_HEIGHT} name={this.state.form.program.F ? 'check-box' : 'check-box-outline-blank'}/>
+								</TouchableOpacity>
+							</View>
 						</View>
 
 						<View style={[styles.center, styles.inputOffsetB]}>
