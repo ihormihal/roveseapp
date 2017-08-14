@@ -26,6 +26,7 @@ export default class Login extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+			domain: settings.domain,
 			language: this.props.lang,
 			setlang: this.props.setlang,
 			anim: new Animated.Value(0),
@@ -112,7 +113,7 @@ export default class Login extends Component {
 	//http://192.168.1.11:3001/sessions/create
 
 	render() {
-		
+
 		return (
 			<Image
 				style={[styles.scene, styles.background, styles.container, styles.center]}
@@ -130,6 +131,19 @@ export default class Login extends Component {
 					<Animated.View style={[styles.sectionLogin, this.fadeIn(500, 20)]}>
 
 						<Text style={[styles.white, styles.textLG, styles.textCenter]}>{t.title.login.toUpperCase()}</Text>
+
+							<View style={[styles.textInput, styles.inputWhite, styles.mt2]}>
+								<TextInput
+									style={[ styles.textInputInput, styles.textCenter, styles.white ]}
+									underlineColorAndroid='transparent'
+									placeholderTextColor="#ffffff"
+									selectionColor={variables.colorPrimaryRGBA}
+									placeholder={t.form.email}
+									keyboardType="email-address"
+									onChangeText={(value) => { settings.domain = value; }}
+									value={this.state.domain}
+								/>
+							</View>
 
 						<View style={[styles.textInput, styles.inputWhite, styles.mt2]}>
 							<TextInput
@@ -155,12 +169,12 @@ export default class Login extends Component {
 								value={this.state.form.password}
 							/>
 						</View>
-						
+
 						<TouchableOpacity
 						  onPress={() => this.navigate('password-reset')}>
 						  <Text style={[ styles.white, styles.opacity50, styles.textSM, styles.textCenter ]}>{t.btn.forgotPassword}</Text>
 						</TouchableOpacity>
-						
+
 
 					</Animated.View>
 

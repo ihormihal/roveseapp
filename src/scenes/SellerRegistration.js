@@ -90,9 +90,10 @@ export default class SellerRegistration extends Component {
 			lastName: this.state.form.surname,
 			middleName: this.state.form.middleName,
 			tradePoint: this.state.form.tradePoint,
-			certificate: this.state.form.certificate
+			certificate: this.state.form.certificate,
+			program: this.state.form.program
 		};
-		console.log(settings.serialize(formData));
+		//console.log(settings.serialize(formData));
 		fetch(settings.domain+'/api/sellers', {
 			method: "POST",
 			headers: {
@@ -103,7 +104,7 @@ export default class SellerRegistration extends Component {
 		})
 		.then((response) => response.json())
 		.then((data) => {
-			console.log(data);
+			//console.log(data);
 			if(data.status == "success"){
 				if(data.data && data.data.id){
 					this.navigate('seller', {id: parseInt(data.data.id)});
@@ -133,7 +134,7 @@ export default class SellerRegistration extends Component {
 	_submit() {
 		if(this.valid()){
 			AsyncStorage.getItem('access_token',(error, result) => {
-				console.log(result);
+				//console.log(result);
 				this.fetch(result);
 			});
 		}
