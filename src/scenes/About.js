@@ -8,6 +8,7 @@ import {
 	Keyboard
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import { Actions } from "react-native-router-flux";
 
 //import variables from './../theme/variables.js';
 import styles from './../theme/styles.js';
@@ -25,14 +26,6 @@ export default class About extends Component {
 		}
 	};
 
-	navigate(routeName, routeData) {
-		Keyboard.dismiss();
-		this.props.navigator.push({
-			name: routeName,
-			data: routeData
-		});
-	}
-
 	render() {
 
 		return (
@@ -43,7 +36,7 @@ export default class About extends Component {
 					<View style={styles.headerLeft}>
 						<TouchableOpacity
 							style={styles.btn}
-							onPress={() => this.props.navigator.pop()}>
+							onPress={() => Actions.pop()}>
 							<Icon style={[styles.btnIcon, styles.primary]} size={20} name="arrow-back"/>
 							<Text style={[styles.textSM, styles.primary]}>{t.btn.back}</Text>
 						</TouchableOpacity>
@@ -62,7 +55,7 @@ export default class About extends Component {
 				</View>
 				<View style={[styles.container, styles.center, styles.whiteBg]}>
 					<Text style={[styles.textLG, styles.mb1]}>ROVESE RETAIL CLUB</Text>
-					<Text style={styles.textXS}>Version: 1.1.7</Text>
+					<Text style={styles.textXS}>Version: 1.2.0</Text>
 					<View style={styles.hr} />
 					<Text style={styles.textSM}><Icon name="copyright" /> {t.copyright}</Text>
 				</View>

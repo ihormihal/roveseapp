@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {
 	AsyncStorage,
+	ScrollView,
 	View,
 	Text,
 	Alert,
@@ -13,6 +14,7 @@ import {
 	Keyboard
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import { Actions } from "react-native-router-flux";
 
 //import variables from './../theme/variables.js';
 import styles from './../theme/styles.js';
@@ -161,13 +163,6 @@ export default class Statistics extends Component {
 		this.parseSellers();
 	}
 
-	navigate(routeName, routeData) {
-		this.props.navigator.push({
-			name: routeName,
-			data: routeData
-		});
-	}
-
 	_paidStatus(id, month) {
 		var sellers = this.state.data;
 		for (let i = 0; i < sellers.length; i++) {
@@ -236,7 +231,7 @@ export default class Statistics extends Component {
 		return (
 			<View style={styles.tr} >
 				<View style={[styles.td, {flex: 0.25}]} ><Text style={[styles.programBtn]}>{item.program}</Text></View>
-				<TouchableOpacity onPress={() => this.navigate('seller', {id: item.id})} style={[styles.td, {flex: 0.5}]}><Text>{item.name}</Text></TouchableOpacity>
+				<TouchableOpacity onPress={() => Actions.seller({id: item.id})} style={[styles.td, {flex: 0.5}]}><Text>{item.name}</Text></TouchableOpacity>
 				<Text style={[styles.td, styles.tdb, {flex: 0.4, textAlign: 'center'}]}>{item.registered}</Text>
 				{this.state.months.map((number,index) => {
 					let m = item.monthly[index]; //object {month: "8", total: 50, status: , daily:}
@@ -258,7 +253,7 @@ export default class Statistics extends Component {
 					<View style={styles.headerLeft}>
 						<TouchableOpacity
 							style={styles.btn}
-							onPress={() => this.props.navigator.pop()}>
+							onPress={() => Actions.pop()}>
 							<Icon style={[styles.btnIcon, styles.primary]} size={20} name="arrow-back"/>
 							<Text style={[styles.textSM, styles.primary]}>{t.btn.back}</Text>
 						</TouchableOpacity>
@@ -291,21 +286,25 @@ export default class Statistics extends Component {
 					</View>
 				</View>
 
-				<View style={styles.tr}>
-					<Text style={[styles.th, {flex: 0.25}]}>{t.programText}</Text>
-					<Text style={[styles.th, {flex: 0.5}]}>{t.form.name}</Text>
-					<Text style={[styles.th, {flex: 0.4}]}>{t.regDate}</Text>
-					{this.state.months.map((item,index) => {
-						return <Text key={index} style={[styles.th, {flex: 0.25}]}>{d.months[item]}</Text>;
-					})}
-					<Text style={[styles.th, {flex: 0.25}]}>{t.summ}</Text>
-				</View>
 
-				<ListView
-					enableEmptySections={true}
-					dataSource={this.state.sellersRows}
-					renderRow={(rowData) => this.renderListItem(rowData)}
-				/>
+					<View>
+						<View style={styles.tr}>
+							<Text style={[styles.th, {flex: 0.25}]}>{t.programText}</Text>
+							<Text style={[styles.th, {flex: 0.5}]}>{t.form.name}</Text>
+							<Text style={[styles.th, {flex: 0.4}]}>{t.regDate}</Text>
+							{this.state.months.map((item,index) => {
+								return <Text key={index} style={[styles.th, {flex: 0.25}]}>{d.months[item]}</Text>;
+							})}
+							<Text style={[styles.th, {flex: 0.25}]}>{t.summ}</Text>
+						</View>
+
+						<ListView
+							enableEmptySections={true}
+							dataSource={this.state.sellersRows}
+							renderRow={(rowData) => this.renderListItem(rowData)}
+						/>
+					</View>
+				
 			</View>
 		);
 	}

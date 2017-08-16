@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-	BackAndroid,
+	BackHandler,
 	AsyncStorage,
 	View,
 	Text,
@@ -12,6 +12,8 @@ import {
 	TextInput,
 	TouchableOpacity
 } from 'react-native'
+
+import { Actions } from "react-native-router-flux";
 
 import variables from './../theme/variables.js';
 import styles from './../theme/styles.js';
@@ -53,22 +55,14 @@ export default class Login extends Component {
 
 	componentDidMount() {
 		Animated.timing(this.state.anim, {toValue: 3000, duration: 3000}).start();
-		BackAndroid.addEventListener('hardwareBackPress', () => {
-			if (this.props.navigator.getCurrentRoutes().length > 1) {
-				this.props.navigator.pop();
-				return true; // do not exit app
-			} else {
-				return false; // exit app
-			}
-		});
-	}
-
-	navigate(routeName, routeData) {
-		Keyboard.dismiss();
-		this.props.navigator.push({
-			name: routeName,
-			data: routeData
-		});
+		// BackHandler.addEventListener('hardwareBackPress', () => {
+		// 	if (this.props.navigator.getCurrentRoutes().length > 1) {
+		// 		this.props.navigator.pop();
+		// 		return true; // do not exit app
+		// 	} else {
+		// 		return false; // exit app
+		// 	}
+		// });
 	}
 
 	_setLanguage(lng){
@@ -87,18 +81,17 @@ export default class Login extends Component {
 				method: "POST",
 				headers: {
 					'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8',
-					//'Cookie': null
 					credentials: 'omit',
 				},
 				body: settings.serialize(this.state.form)
 			})
 			.then((response) => response.json())
 			.then((data) => {
-				console.log(data);
+				Alert.alert(JSON.stringify(data));
 				if(data.token){
 					//save token
 					AsyncStorage.setItem('access_token', data.token, () => {
-						this.navigate('root');
+						Actions.slides();
 					});
 				}else{
 					Alert.alert(t.error.error, t.message.login);
@@ -137,7 +130,7 @@ export default class Login extends Component {
 								style={[ styles.textInputInput, styles.textCenter, styles.white ]}
 								underlineColorAndroid='transparent'
 								placeholderTextColor="#ffffff"
-								selectionColor={variables.colorPrimaryRGBA}
+
 								placeholder={t.form.email}
 								keyboardType="email-address"
 								onChangeText={(value) => this.setForm('email', value)}
@@ -158,7 +151,7 @@ export default class Login extends Component {
 						</View>
 
 						<TouchableOpacity
-						  onPress={() => this.navigate('password-reset')}>
+						  onPress={() => Actions.passwordReset()}>
 						  <Text style={[ styles.white, styles.opacity50, styles.textSM, styles.textCenter ]}>{t.btn.forgotPassword}</Text>
 						</TouchableOpacity>
 
@@ -182,7 +175,7 @@ export default class Login extends Component {
 				<View style={[styles.section, styles.last]}>
 					<Animated.View style={[this.fadeIn(2500, 20)]}>
 						<TouchableOpacity
-							onPress={() => this.navigate('registration')}
+							onPress={() => Actions.registration()}
 							style={[styles.btn, styles.btnDefault, styles.btnTransparent]}>
 							<Text style={[styles.inputText, styles.white]}>{t.btn.registration}</Text>
 						</TouchableOpacity>

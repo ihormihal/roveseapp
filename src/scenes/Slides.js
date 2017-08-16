@@ -15,6 +15,7 @@ import {
 	DrawerLayoutAndroid,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import { Actions } from "react-native-router-flux";
 
 
 import variables from './../theme/variables.js';
@@ -60,7 +61,7 @@ var slides = [
 
 var backgroundImage = require('./../images/bg/root.jpg');
 
-export default class Root extends Component {
+export default class Slides extends Component {
 
 	constructor(props) {
 		super(props);
@@ -148,23 +149,16 @@ export default class Root extends Component {
 		this.refs['DRAWER'].openDrawer()
 	}
 
-	navigate(routeName, routeData) {
-		this.props.navigator.push({
-			name: routeName,
-			data: routeData
-		});
-	}
-
 	_logout() {
 		AsyncStorage.setItem('access_token', '', () => {
-			this.navigate('login');
+			Actions.login();
 		});
 	}
 
 	renderSlide = (item, index) => {
 		return (
 			<View key={index} style={styles.slide}>
-				<TouchableOpacity style={styles.slidePage} onPress={() => this.navigate(item.route)} activeOpacity={100 / 100}>
+				<TouchableOpacity style={styles.slidePage} onPress={() => Actions[item.route]()} activeOpacity={100 / 100}>
 					<Image style={styles.slideImage} source={item.image} />
 					<View style={styles.slideText}>
 						<Text style={styles.slideTitle}>{item.title.toUpperCase()}</Text>
@@ -196,7 +190,7 @@ export default class Root extends Component {
 							<TouchableNativeFeedback
 								key={index}
 								background={rippleBg}
-								onPress={() => this.navigate(item.route, item.data)}>
+								onPress={() => Actions[item.route]({data: item.data})}>
 								<View style={styles.menuItem}>
 									<Text style={styles.menuItemText}>{item.title}</Text>
 								</View>

@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
 import {
+	AsyncStorage,
 	View,
 	Image,
 	StatusBar,
 } from 'react-native';
+
+import { Actions } from "react-native-router-flux";
 //import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import variables from './../theme/variables.js';
@@ -19,6 +22,19 @@ export default class Splash extends Component {
 	constructor(props) {
 		super(props);
 	};
+
+	componentDidMount() {
+		setTimeout(() => {
+			AsyncStorage.getItem('access_token', (error, token) => {
+				console.log(error, token);
+				if(token){
+					Actions.slides();
+				}else{
+					Actions.login();
+				}
+			});
+		}, 2000)
+	}
 
 	render() {
 		return (

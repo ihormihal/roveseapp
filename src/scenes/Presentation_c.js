@@ -11,6 +11,7 @@ import {
 	ViewPagerAndroid,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import { Actions } from "react-native-router-flux";
 
 //import variables from './../theme/variables.js';
 import styles from './../theme/styles.js';
@@ -49,13 +50,6 @@ export default class Presentation_c extends Component {
 			tabOffset: 0,
 		};
 	};
-
-	navigate(routeName, routeData) {
-		this.props.navigator.push({
-			name: routeName,
-			data: routeData
-		});
-	}
 
 	onPageScroll = (e) => {
 		var offset = this.state.tabWidth*(e.nativeEvent.position + e.nativeEvent.offset);
@@ -99,7 +93,7 @@ export default class Presentation_c extends Component {
 						<View style={styles.headerLeft}>
 							<TouchableOpacity
 								style={styles.btn}
-								onPress={() => this.props.navigator.pop()}>
+								onPress={() => Actions.pop()}>
 								<Icon style={[styles.btnIcon, styles.textSM, styles.white]} size={20} name="arrow-back"/>
 								<Text style={[styles.textSM, styles.white]}>{t.btn.back}</Text>
 							</TouchableOpacity>
