@@ -53,7 +53,6 @@ export default class Statistics extends Component {
 		})
 		.then((response) => response.json())
 		.then((data) => {
-			//console.log(data);
 			if(data.status == "success"){
 				this.setState({
 					data: data.data
@@ -77,9 +76,11 @@ export default class Statistics extends Component {
 		var sellers = [];
 
 		for (var index = 0, item; item = this.state.data[index]; index++){
+
 			var monthly = item.balance_per_months.monthly;
 			for (var i = 0; i < monthly.length; i++) {
-				months_indexes[monthly[i].month] = parseInt(monthly[i].month);
+				let mindex = parseInt(monthly[i].month);
+				months_indexes[mindex] = parseInt(mindex);
 			}
 			var name = item.first_name+" "+item.last_name;
 
@@ -95,10 +96,21 @@ export default class Statistics extends Component {
 			var date = item.created_at;
 			try {
 				var dt = date.substring(0, 10).split('-');
-				date = dt[2]+' '+d.months[parseInt(dt[1])-1]+' '+dt[0];
+				date = dt[2]+' '+d.months[parseInt(dt[1])]+' '+dt[0];
 			} catch (error) {
-				//console.log(error)
+				console.log(error)
 			}
+
+			//костыль
+			if(item.program.BSD == "true") item.program.BSD = true;
+			if(item.program.BSD == "false") item.program.BSD = false;
+			if(item.program.F == "true") item.program.F = true;
+			if(item.program.F == "false") item.program.F = false;
+
+			if(item.program.BSD == "1") item.program.BSD = true;
+			if(item.program.BSD == "0") item.program.BSD = false;
+			if(item.program.F == "1") item.program.F = true;
+			if(item.program.F == "0") item.program.F = false;
 
 			let program = '-';
 			if(item.program){
@@ -112,7 +124,7 @@ export default class Statistics extends Component {
 			}
 
 			sellers.push({
-				id: item.id,
+				id: parseInt(item.id),
 				program: program,
 				name: name,
 				created_at: item.created_at,
@@ -123,20 +135,20 @@ export default class Statistics extends Component {
 		}
 
 		function compare(a, b) {
-		    if (a.created_at > b.created_at)
-		        return -1;
-		    if (a.created_at < b.created_at)
-		        return 1;
-		    return 0;
+	    if (a.created_at > b.created_at)
+	      return -1;
+	    if (a.created_at < b.created_at)
+	      return 1;
+	    return 0;
 		}
 
 		sellers.sort(compare);
 
-
 		var months = [];
-		for(var monthIndex in months_indexes){
-			months.push(months_indexes[monthIndex]);
+		for(let monthIndex in months_indexes){
+			months.push(parseInt(monthIndex));
 		}
+
 
 		this.setState({
 			sellersRows: dataset.cloneWithRows(sellers),
@@ -227,13 +239,11 @@ export default class Statistics extends Component {
 				<TouchableOpacity onPress={() => this.navigate('seller', {id: item.id})} style={[styles.td, {flex: 0.5}]}><Text>{item.name}</Text></TouchableOpacity>
 				<Text style={[styles.td, styles.tdb, {flex: 0.4, textAlign: 'center'}]}>{item.registered}</Text>
 				{this.state.months.map((number,index) => {
-					var month = item.monthly[index];
-					var total = month ? month.total : 0;
-					var checkboxStyle = month.status == 'paid' ? [styles.checkbox, styles.checkboxChecked] : [styles.checkbox];
-					return (<View key={index} style={[styles.td, styles.tdb, {flex: 0.25}]}>
-						<Text key={index}>{total}</Text>
-						<TouchableOpacity onPress={() => this._payMonthAction(item.id, month.month)} style={checkboxStyle}></TouchableOpacity>
-					</View>);
+					let m = item.monthly[index]; //object {month: "8", total: 50, status: , daily:}
+					let total = m ? m.total : 0;
+					let status = m ? m.total : 'not_paid';
+					var checkboxStyle = status === 'paid' ? [styles.checkbox, styles.checkboxChecked] : [styles.checkbox];
+					return (<View key={index} style={[styles.td, styles.tdb, {flex: 0.25}]}><Text>{total}</Text><TouchableOpacity onPress={() => this._payMonthAction(item.id, number)} style={checkboxStyle}></TouchableOpacity></View>);
 				})}
 				<Text style={[styles.td, styles.tdb, {flex: 0.25, textAlign: 'center'}]}>{item.total}</Text>
 			</View>

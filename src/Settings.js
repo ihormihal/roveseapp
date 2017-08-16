@@ -7,7 +7,7 @@ var serialize = function (obj, prefix) {
       }
       var k = prefix ? prefix + "[" + p + "]" : p, v = obj[p];
       str.push(typeof v == "object" ?
-        $rootScope.serialize(v, k) :
+        serialize(v, k) :
         encodeURIComponent(k) + "=" + encodeURIComponent(v));
     }
   }

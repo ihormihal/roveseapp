@@ -28,6 +28,7 @@ export default class Seller extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+			temp: '',
 			language: this.props.lang,
 			seller: {},
 			month: 0,
@@ -46,6 +47,7 @@ export default class Seller extends Component {
 	};
 
 	componentDidMount() {
+		console.log('componentDidMount');
 		AsyncStorage.getItem('access_token',(error, result) => {
 			this.setState({token: result});
 			this.fetch(result);
@@ -62,6 +64,8 @@ export default class Seller extends Component {
 		})
 		.then((response) => response.json())
 		.then((data) => {
+
+			//console.log(data);
 
 			if(data.status == "success"){
 

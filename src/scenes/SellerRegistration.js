@@ -53,8 +53,9 @@ export default class SellerRegistration extends Component {
 	}
 
 	setProgram(key){
-		var program = this.state.form.program;
-		program[key] = !program[key];
+		let program = this.state.form.program;
+		let value = program[key];
+		program[key] = !value;
 		this.setForm('program', program);
 	}
 
@@ -67,7 +68,7 @@ export default class SellerRegistration extends Component {
 	}
 
 	valid() {
-		if(this.state.form.name && this.state.form.surname && this.state.form.email && this.state.form.phone && this.state.form.tradePoint){
+		if(this.state.form.name && this.state.form.surname && this.state.form.email && this.state.form.phone && this.state.form.tradePoint && (this.state.form.program.BSD || this.state.form.program.F)){
 			if(!settings.valid.email(this.state.form.email)){
 				Alert.alert(t.error.error, t.error.email);
 				return false;
@@ -93,14 +94,15 @@ export default class SellerRegistration extends Component {
 			certificate: this.state.form.certificate,
 			program: this.state.form.program
 		};
+		//console.log(formData);
 		//console.log(settings.serialize(formData));
 		fetch(settings.domain+'/api/sellers', {
 			method: "POST",
 			headers: {
 				'Authorization': 'Bearer '+token,
-				'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
+				'Content-Type': 'application/json'
 			},
-			body: settings.serialize(formData)
+			body: JSON.stringify( formData )
 		})
 		.then((response) => response.json())
 		.then((data) => {
@@ -247,7 +249,7 @@ export default class SellerRegistration extends Component {
 							<Text style={styles.required}>*</Text>
 							<Picker
 								style={styles.picker}
-								selectedValue={this.state.form.certificate}
+								selectedValue={parseInt(this.state.form.certificate)}
 								onValueChange={(value) => this.setForm('certificate', value)}
 								mode="dropdown">
 								{d.certificates.map((item, index) => {

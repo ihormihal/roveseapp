@@ -31,6 +31,17 @@ export default class SellerEdit extends Component {
 		var form = this.props.data;
 		if(!form.program){
 			form.program = {BSD: false, F: false};
+		}else{
+			//костыль
+			if(form.program.BSD == "true") form.program.BSD = true;
+			if(form.program.BSD == "false") form.program.BSD = false;
+			if(form.program.F == "true") form.program.F = true;
+			if(form.program.F == "false") form.program.F = false;
+
+			if(form.program.BSD == "1") form.program.BSD = true;
+			if(form.program.BSD == "0") form.program.BSD = false;
+			if(form.program.F == "1") form.program.F = true;
+			if(form.program.F == "0") form.program.F = false;
 		}
 		this.state = {
 			language: this.props.lang,
@@ -60,8 +71,9 @@ export default class SellerEdit extends Component {
 	}
 
 	setProgram(key){
-		var program = this.state.form.program;
-		program[key] = !program[key];
+		let program = this.state.form.program;
+		let value = program[key];
+		program[key] = !value;
 		this.setForm('program', program);
 	}
 
@@ -74,7 +86,7 @@ export default class SellerEdit extends Component {
 	}
 
 	valid() {
-		if(this.state.form.name && this.state.form.surname && this.state.form.email && this.state.form.phone && this.state.form.tradePoint){
+		if(this.state.form.name && this.state.form.surname && this.state.form.email && this.state.form.phone && this.state.form.tradePoint && (this.state.form.program.BSD || this.state.form.program.F)){
 			if(!settings.valid.email(this.state.form.email)){
 				Alert.alert(t.error.error, t.error.email);
 				return false;
@@ -102,19 +114,20 @@ export default class SellerEdit extends Component {
 			certificate: this.state.form.certificate,
 			program: this.state.form.program,
 		};
+		//console.log(formData);
 		fetch(settings.domain+'/api/sellers/'+sellerID, {
 			method: "PATCH",
 			headers: {
 				'Authorization': 'Bearer '+token,
-				'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
+				'Content-Type': 'application/json'
 			},
-			body: settings.serialize(formData)
+			body: JSON.stringify( formData )//settings.serialize(formData)
 		})
 		.then((response) => response.json())
 		.then((data) => {
-			console.log(data);
+			//console.log(data);
 			if(data.status == "success"){
-				this.props.navigator.pop();
+				this.props.navigator.pop({refresh: true});
 			}else{
 				if(data.code && data.message){
 					Alert.alert(t.error.error, t.message.errorCode+': '+data.code+'\n'+t.message.errorDescription+': '+data.message);

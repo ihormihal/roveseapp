@@ -132,19 +132,6 @@ export default class Login extends Component {
 
 						<Text style={[styles.white, styles.textLG, styles.textCenter]}>{t.title.login.toUpperCase()}</Text>
 
-							<View style={[styles.textInput, styles.inputWhite, styles.mt2]}>
-								<TextInput
-									style={[ styles.textInputInput, styles.textCenter, styles.white ]}
-									underlineColorAndroid='transparent'
-									placeholderTextColor="#ffffff"
-									selectionColor={variables.colorPrimaryRGBA}
-									placeholder={t.form.email}
-									keyboardType="email-address"
-									onChangeText={(value) => { settings.domain = value; }}
-									value={this.state.domain}
-								/>
-							</View>
-
 						<View style={[styles.textInput, styles.inputWhite, styles.mt2]}>
 							<TextInput
 								style={[ styles.textInputInput, styles.textCenter, styles.white ]}
